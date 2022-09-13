@@ -60,6 +60,27 @@ export const themeDark = {
          fontSize: 16,
          color: pallete.white,
          fontFamily: 'Poppins-Regular',
+      },
+      caption: {
+         fontSize: 14,
+         color: pallete.white,
+      },
+      captionGreen: {
+         fontSize: 14,
+         color: pallete.green,
+      },
+      captionRed: {
+         fontSize: 14,
+         color: pallete.red,
+      },
+      textTimeline: {
+         fontSize: 10,
+         color: pallete.white,
+      },
+      textProfile: {
+         fontSize: 16,
+         color: pallete.white,
+         fontWeight: 600
       }
    },
    tabIcon: {
@@ -105,6 +126,21 @@ export const themeLight = {
          fontSize: 16,
          color: pallete.dark,
          fontFamily: 'Poppins-Regular',
+      },
+      caption: {
+         fontSize: 14,
+         color: pallete.dark,
+         fontFamily: 'Poppins-Regular'
+      },
+      captionGreen: {
+         fontSize: 14,
+         color: pallete.green,
+         fontFamily: 'Poppins-Regular'
+      },
+      captionRed: {
+         fontSize: 14,
+         color: pallete.red,
+         fontFamily: 'Poppins-Regular'
       }
    },
    tabIcon: {

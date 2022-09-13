@@ -4,7 +4,7 @@ import { Keyboard, StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { ButtonComponent } from "../../shared/components/Button";
 import { InputPassword, InputText } from "../../shared/components/Input";
-import { Text32, Title1 } from "../../shared/components/Label";
+import { Caption, CaptionColor, Text32, TextProfile, TextTimeline, Title1 } from "../../shared/components/Label";
 import { MainContainer } from "../../shared/components/MainContainer";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
 import { useAuth } from "../../shared/context/AuthContext";

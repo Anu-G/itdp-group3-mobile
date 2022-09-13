@@ -24,3 +24,39 @@ export const Text32 = ({ text, style = {} }) => {
       <Text style={[theme.state.style?.text?.text32, style]}>{text}</Text>
    )
 }
+
+export const Caption = ({ text, style= {} }) => {
+   const theme = useTheme();
+
+   return(
+      <Text style={[theme.state.style?.text?.caption, style]}>{text}</Text>
+   )
+}
+
+export const CaptionColor = ({ text, style= {}, openStatus= false }) => {
+   const theme = useTheme();
+
+   return(
+      <>
+         {openStatus 
+            ? <Text style={[theme.state.style?.text?.captionGreen, style]}>{text}</Text>
+            : <Text style={[theme.state.style?.text?.captionRed, style]}>{text}</Text>} 
+      </>
+   )
+}
+
+export const TextTimeline = ({text, style={}}) => {
+   const theme = useTheme();
+
+   return(
+      <Text style={[theme.state.style?.text?.textTimeline, style]}>{text}</Text>
+   )
+}
+
+export const TextProfile = ({text, style={}}) => {
+   const theme = useTheme();
+
+   return(
+      <Text style={[theme.state.style?.text?.textProfile, style]}>{text}</Text>
+   )
+}
