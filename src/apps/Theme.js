@@ -11,8 +11,11 @@ const pallete = {
 }
 
 const spacing = {
+   xxs:2,
    xs: 4,
    s: 8,
+   ssm:10,
+   sm: 12,
    m: 16,
    l: 24,
    xl: 32,
@@ -23,7 +26,8 @@ const radius = {
    s: 5,
    m: 10,
    l: 15,
-   xl: 20
+   xl: 20,
+   cl: 50,
 }
 
 export const themeDark = {
@@ -34,6 +38,10 @@ export const themeDark = {
       inputBorderInactive: pallete.lightBlue,
       searchPlaceholder: pallete.lightBlue,
       searchBackground: pallete.darkBlue,
+      navbarItem: pallete.lightBlue,
+      navbarBackground: pallete.darkBlue,
+      settingItemBorder: pallete.darkBlue,
+      settingItemIcon: pallete.lightBlue,
       whiteTrp: pallete.whiteTrp,
       tabBackground: pallete.darkBlue
    },
@@ -99,6 +107,16 @@ export const themeDark = {
          fontSize: 16,
          color: pallete.white,
          fontFamily: 'Poppins-SemiBold'
+      },
+      textSetting: {
+         fontSize: 12,
+         color: pallete.white,
+         fontFamily: 'Poppins-SemiBold'
+      },
+      textComment: {
+         fontSize: 12,
+         color: pallete.white,
+         fontFamily: 'Poppins-Regular'
       }
    },
    tabIcon: {
