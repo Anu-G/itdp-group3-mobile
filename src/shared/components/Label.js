@@ -60,3 +60,19 @@ export const TextProfile = ({text, style={}}) => {
       <Text style={[theme.state.style?.text?.textProfile, style]}>{text}</Text>
    )
 }
+
+export const TextSettingProfile = ({text, style={}}) => {
+   const theme = useTheme();
+
+   return(
+      <Text style={[theme.state.style?.text?.textSetting, style]}>{text}</Text>
+   )
+}
+
+export const TextComment = ({text, style={}}) => {
+   const theme = useTheme();
+
+   return(
+      <Text style={[theme.state.style?.text?.textComment, style]}>{text}</Text>
+   )
+}
