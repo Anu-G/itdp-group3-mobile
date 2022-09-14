@@ -22,7 +22,8 @@ const spacing = {
 const radius = {
    s: 5,
    m: 10,
-   l: 15
+   l: 15,
+   xl: 20
 }
 
 export const themeDark = {
@@ -30,6 +31,9 @@ export const themeDark = {
       background: pallete.dark,
       button: pallete.yellow,
       inputBorder: pallete.yellow,
+      inputBorderInactive: pallete.lightBlue,
+      searchPlaceholder: pallete.lightBlue,
+      searchBackground: pallete.darkBlue,
       whiteTrp: pallete.whiteTrp,
       tabBackground: pallete.darkBlue
    },
@@ -52,8 +56,18 @@ export const themeDark = {
          fontFamily: 'Poppins-Bold'
       },
       buttonText: {
-         fontSize: 18,
-         color: pallete.white,
+         fontSize: 8,
+         color: pallete.dark,
+         fontFamily: 'Poppins-Bold'
+      },
+      mediumButtonText: {
+         fontSize: 12,
+         color: pallete.dark,
+         fontFamily: 'Poppins-Medium',
+      },
+      bigButtonText: {
+         fontSize: 12,
+         color: pallete.dark,
          fontFamily: 'Poppins-Bold'
       },
       text32: {
@@ -64,23 +78,27 @@ export const themeDark = {
       caption: {
          fontSize: 14,
          color: pallete.white,
+         fontFamily: 'Poppins-Regular'
       },
       captionGreen: {
          fontSize: 14,
          color: pallete.green,
+         fontFamily: 'Poppins-Regular'
       },
       captionRed: {
          fontSize: 14,
          color: pallete.red,
+         fontFamily: 'Poppins-Regular'
       },
       textTimeline: {
          fontSize: 10,
          color: pallete.white,
+         fontFamily: 'Poppins-Regular'
       },
       textProfile: {
          fontSize: 16,
          color: pallete.white,
-         fontWeight: 600
+         fontFamily: 'Poppins-SemiBold'
       }
    },
    tabIcon: {

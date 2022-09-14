@@ -6,6 +6,7 @@ export const useAppFont = _ => {
       'Poppins-Thin': require('../../../assets/fonts/Poppins-Thin.otf'),
       'Poppins-Bold': require('../../../assets/fonts/Poppins-Bold.otf'),
       'Poppins-Medium': require('../../../assets/fonts/Poppins-Medium.otf'),
+      'Poppins-SemiBold': require('../../../assets/fonts/Poppins-SemiBold.otf')
    });
    return fontsLoaded;
 }

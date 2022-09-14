@@ -2,10 +2,13 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Keyboard, StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
-import { ButtonComponent } from "../../shared/components/Button";
-import { InputPassword, InputText } from "../../shared/components/Input";
-import { Caption, CaptionColor, Text32, TextProfile, TextTimeline, Title1 } from "../../shared/components/Label";
+import { ButtonBigComponent } from "../../shared/components/ButtonBig";
+import { InputTextActive } from "../../shared/components/Input";
+import { InputPassword } from "../../shared/components/InputPassword";
+import { InputSearchComponent } from "../../shared/components/InputSearch";
+import { Text32, Title1 } from "../../shared/components/Label";
 import { MainContainer } from "../../shared/components/MainContainer";
+import { NavbarComponent } from "../../shared/components/Navbar";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
 import { useAuth } from "../../shared/context/AuthContext";
 import { useTheme } from "../../shared/context/ThemeContext";
@@ -55,9 +58,11 @@ export const Login = _ => {
             <Title1 label={'TokTok Login'} />
          </View>
          <View style={styles.form}>
-            <InputText placeholder={'E-mail'} onChange={setEmail} />
+            <InputTextActive text={'E-mail'} placeholder={'E-mail'} onChange={setEmail} />
+            <InputSearchComponent placeholder={'Search'}/>
             <InputPassword placeholder={'Password'} onChange={setPassword} />
-            <ButtonComponent label={'Login'} onClick={doLogin} />
+            <ButtonBigComponent label={'Login'} onClick={doLogin} />
+            <NavbarComponent/>
          </View>
          <Text32 text={'Tips: use your account from BE Server or your BE localhost'} />
          {viewState.error !== null && !visible ? setVisible(true) : null}
