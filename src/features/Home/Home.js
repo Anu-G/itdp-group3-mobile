@@ -26,6 +26,7 @@ export const Home = _ => {
             <AnimatedLottieView style={{ width: 200, height: 200, alignItems: 'center' }} autoPlay source={require("../../../assets/animations/Happy.json")} />
             <Title1 label={`Hello, ${userName}!`} />
             <ButtonComponent label={'ADD POST'} onClick={() => navigation.navigate(ROUTE.ADD_POST)}/>
+            <ButtonComponent label={'ADD PRODUCT'} onClick={() => navigation.navigate(ROUTE.ADD_PRODUCT)}/>
          </View>
       </MainContainer>
    )

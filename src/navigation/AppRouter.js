@@ -5,6 +5,7 @@ import { Button, Image, Text, TouchableOpacity } from "react-native";
 import { AddPost } from "../features/AddPost/AddPost";
 import { Login } from "../features/Login/Login";
 import { MainPage } from "../features/MainPage/MainPage";
+import { SettingsAddProduct } from "../features/SettingsAddProduct/SettingsAddProduct";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 
@@ -29,7 +30,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
+      <Stack.Navigator initialRouteName={ROUTE.ADD_PRODUCT} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
@@ -40,6 +41,13 @@ export const AppRouter = _ => {
             headerTitleStyle: {color: "white"},
             headerStyle: {backgroundColor: "rgb(71,82,100)"}            
          })}/>
+         <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({navigation}) => ({
+            headerTitle: 'Add',
+            headerTitleAlign: "center",
+            headerTitleStyle: {color: "white"},
+            headerStyle: {backgroundColor: "rgb(71,82,100)"}            
+         })}/>
+
       </Stack.Navigator>
    )
 }
