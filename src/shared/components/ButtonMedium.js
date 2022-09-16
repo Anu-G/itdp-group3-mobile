@@ -19,10 +19,10 @@ const styling = (theme) => StyleSheet.create({
         backgroundColor: theme?.colors?.button,
         padding: theme?.spacing?.s,
         borderRadius: theme?.radius?.xl,
-        alignSelf: 'stretch',
-        flexDirection: 'row',
+        // alignSelf: 'stretch',
+        // flexDirection: 'row',
         justifyContent: 'center',
-        margin: theme?.spacing?.xl       
+        // margin: theme?.spacing?.xl       
     },
     mediumButtonText:theme?.text?.mediumButtonText
 })

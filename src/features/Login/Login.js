@@ -1,15 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { Keyboard, StyleSheet, View } from "react-native";
+import { Keyboard, Pressable, StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { ButtonBigComponent } from "../../shared/components/ButtonBig";
+import { ButtonMediumComponent } from "../../shared/components/ButtonMedium";
 import { CommentComponent } from "../../shared/components/Comment";
+import { InputTextNoError, InputTextOnly, InputTextPassword, InputTextWithError } from "../../shared/components/CustomTextInput/CustomTextInput";
 import { HeaderComponent } from "../../shared/components/Header";
 import { ImageProfile, ImageProfileOTHER } from "../../shared/components/ImageProfile";
 import { InputTextActive } from "../../shared/components/Input";
 import { InputPassword } from "../../shared/components/InputPassword";
 import { InputSearchComponent } from "../../shared/components/InputSearch";
-import { Text32, Title1 } from "../../shared/components/Label";
+import { AuthExtLabel, Text32, Title1 } from "../../shared/components/Label";
 import { MainContainer } from "../../shared/components/MainContainer";
 import { NavbarComponent } from "../../shared/components/Navbar";
 import { SettingItemComponent } from "../../shared/components/SettingItem";
@@ -62,11 +64,24 @@ export const Login = _ => {
             <Title1 label={'TokTok Login'} />
          </View>
          <View style={styles.form}>
-            {/* <InputTextActive text={'E-mail'} placeholder={'E-mail'} onChange={setEmail} />
-            <InputSearchComponent placeholder={'Search'}/>
-            <InputPassword placeholder={'Password'} onChange={setPassword} />
-            <ButtonBigComponent label={'Login'} onClick={doLogin} /> */}
-            <CommentComponent/>
+            <InputTextWithError 
+               text={'E-mail'} 
+               placeholder={'E-mail'} 
+               onChange={setEmail} 
+               value={email}
+               />
+
+            <InputTextPassword placeholder={'Password'} onChange={setPassword}/>
+
+            <View style={styles.buttonContainer}>
+               <ButtonMediumComponent label={'Login'} onClick={doLogin} />
+            </View>  
+
+            <View style={styles.addAuth}>
+               <Pressable>
+                  <AuthExtLabel text1={`Doesn't have an account?`} text2={'Sign Up'}/>
+               </Pressable>
+            </View>          
          </View>
          <Text32 text={'Tips: use your account from BE Server or your BE localhost'} />
          {viewState.error !== null && !visible ? setVisible(true) : null}
@@ -84,6 +99,16 @@ const styling = (theme) => StyleSheet.create({
    },
    form: {
       flex: 2,
+      // width: '100%',
       alignSelf: 'stretch',
+      margin: theme?.spacing?.m,
+      alignItems: 'center',
+      // justifyContent: 'center'
    },
+   buttonContainer : {
+      paddingTop: theme?.spacing?.xl,
+   },
+   addAuth: {
+      padding: theme?.spacing?.m,
+   }
 })

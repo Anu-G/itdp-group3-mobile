@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { Login } from "../features/Login/Login";
 import { MainPage } from "../features/MainPage/MainPage";
+import { SignUp } from "../features/SignUp/SignUp";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 
@@ -26,10 +27,11 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
+      <Stack.Navigator initialRouteName={ROUTE.SIGNUP} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
+            <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
          </Stack.Group>
       </Stack.Navigator>
    )
