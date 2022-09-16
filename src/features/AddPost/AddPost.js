@@ -1,14 +1,14 @@
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { store } from '../../apps/Storage';
+import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 import { MainContainer } from '../../shared/components/MainContainer';
+import { KEY } from '../../shared/constants/StoreConstants';
 import { useDep } from '../../shared/context/DependencyContext';
 import { useTheme } from '../../shared/context/ThemeContext';
 import { checkErr } from '../../utils/CommonUtils';
-import { store } from '../../apps/Storage'
-import { KEY } from '../../shared/constants/StoreConstants';
-import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 
 export const AddPost = ({navigation}) => {
     const theme = useTheme()
@@ -90,18 +90,13 @@ export const AddPost = ({navigation}) => {
         setLoading(true)
         try {
             const responseImage = await postImageService.doPostImage(pickedImagePath)
-            try {
-                const response = await postService.doPostData({
-                    account_ID: accountId,
-                    caption_post: caption,
-                    media_links: responseImage
-                })
-                if (response.status === 200) {
-                    console.log("success upload data");
-                }
-            } catch (err) {
-                console.log(err);
-                checkErr(err)
+            const response = await postService.doPostData({
+                account_ID: accountId,
+                caption_post: caption,
+                media_links: responseImage
+            })
+            if (response.status === 200) {
+                console.log("success upload data");
             }
         } catch (err) {
             console.log(err);

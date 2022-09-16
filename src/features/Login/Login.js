@@ -62,11 +62,11 @@ export const Login = _ => {
             <Title1 label={'TokTok Login'} />
          </View>
          <View style={styles.form}>
-            {/* <InputTextActive text={'E-mail'} placeholder={'E-mail'} onChange={setEmail} />
-            <InputSearchComponent placeholder={'Search'}/>
+            <InputTextActive style={{marginLeft: 40, marginRight:40}} placeholder={'E-mail'} onChange={setEmail} />
+            {/* <InputSearchComponent placeholder={'Search'}/> */}
             <InputPassword placeholder={'Password'} onChange={setPassword} />
-            <ButtonBigComponent label={'Login'} onClick={doLogin} /> */}
-            <CommentComponent/>
+            <ButtonBigComponent label={'Login'} onClick={doLogin} />
+            {/* <CommentComponent/> */}
          </View>
          <Text32 text={'Tips: use your account from BE Server or your BE localhost'} />
          {viewState.error !== null && !visible ? setVisible(true) : null}

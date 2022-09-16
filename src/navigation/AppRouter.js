@@ -30,7 +30,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.ADD_PRODUCT} >
+      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
