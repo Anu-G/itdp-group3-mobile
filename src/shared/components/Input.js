@@ -1,55 +1,87 @@
-import { Feather } from "@expo/vector-icons";
-import { useState } from "react";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { useTheme } from "../context/ThemeContext"
+import { CaptionColor, TextProfile } from "./Label";
 
-export const InputText = ({ value, onChange, placeholder, keyboard = 'default' }) => {
+export const InputTextActive = ({ text, value, onChange, placeholder, keyboard = 'default', isCorrect = false, style }) => {
    const theme = useTheme();
    const styles = styling(theme.state.style);
 
    return (
-      <TextInput style={styles.input} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.inputPass.color} />
+      <View style={style}>
+         <TextProfile text={text}/>
+         <TextInput style={[styles.input,styles.inputActive,styles.inputWithError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
+         { isCorrect 
+            ? <CaptionColor text={`${text} is valid`} style={styles.inputError} openStatus={isCorrect}/>
+            : <CaptionColor text={`${text} is invalid`} style={styles.inputError} openStatus={isCorrect}/>}
+      </View>
    );
 }
 
-export const InputPassword = ({ value, onChange, placeholder, keyboard = 'default' }) => {
+export const InputTextInactive = ({ text, value, onChange, placeholder, keyboard = 'default', isCorrect = false, style }) => {
    const theme = useTheme();
    const styles = styling(theme.state.style);
 
-   const [hide, setHide] = useState(true);
-   const [icon, setIcon] = useState('eye-off');
+   return (
+      <View style={style}>
+         <TextProfile text={text}/>
+         <TextInput style={[styles.input,styles.inputInactive,styles.inputWithError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
+         { isCorrect 
+            ? <CaptionColor text={`${text} is valid`} style={styles.inputError} openStatus={isCorrect}/>
+            : <CaptionColor text={`${text} is invalid`} style={styles.inputError} openStatus={isCorrect}/>}
+      </View>
+   );
+}
 
-   const changeIcon = _ => {
-      setHide(!hide);
-      setIcon(prevState => prevState === 'eye' ? 'eye-off' : 'eye');
-   }
+export const InputTextActiveNoError = ({ text, value, onChange, placeholder, keyboard = 'default', style }) => {
+   const theme = useTheme();
+   const styles = styling(theme.state.style);
 
    return (
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 16, marginHorizontal: 40, borderBottomWidth: 1, ...styles.container }}>
-         <TextInput style={styles.inputPass} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} secureTextEntry={hide} selectionColor={styles.inputPass.color} />
-         <Pressable onPress={changeIcon}>
-            <Feather name={icon} size={20} color={styles.inputPass.color} />
-         </Pressable>
+      <View style={style}>
+         <TextProfile text={text}/>
+         <TextInput style={[styles.input,styles.inputActive,styles.inputNoError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
       </View>
-   )
+   );
+}
+
+export const InputTextInactiveNoError = ({ text, value, onChange, placeholder, keyboard = 'default', style }) => {
+   const theme = useTheme();
+   const styles = styling(theme.state.style);
+
+   return (
+      <View style={style}>
+         <TextProfile text={text}/>
+         <TextInput style={[styles.input,styles.inputInactive,styles.inputNoError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
+      </View>
+   );
 }
 
 const styling = (theme) => StyleSheet.create({
-   input: {
+   inputContainer: {
+      marginHorizontal:theme?.spacing?.m
+   },
+   input:{
+      paddingHorizontal: theme?.spacing?.s,
       height: theme?.spacing?.xxl,
-      marginVertical: theme?.spacing?.m,
-      marginHorizontal: theme?.spacing?.xxl,
+      marginTop: theme?.spacing?.m,
       borderBottomWidth: 1,
-      borderBottomColor: theme?.colors?.inputBorder,
       ...theme?.text?.text32,
    },
-   container: {
-      height: theme?.spacing?.xxl,
+   inputActive: {
       borderBottomColor: theme?.colors?.inputBorder,
    },
-   inputPass: {
-      width: '90%',
-      ...theme?.text?.text32,
+   inputInactive: {
+      borderBottomColor: theme?.colors?.inputBorderInactive,
+   },
+   inputWithError: {
+      marginBottom: theme?.spacing?.xs,
+   },
+   inputNoError: {
+      marginBottom: theme?.spacing?.m,
+   },
+   inputError: {
+      marginBottom:theme?.spacing?.m,
+      alignSelf:'center'
    },
    placeholderColor: theme?.colors?.whiteTrp
 });

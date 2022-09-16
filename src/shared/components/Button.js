@@ -14,14 +14,15 @@ export const ButtonComponent = ({ label, onClick, style = {}, icon = null }) => 
 
 const styling = (theme) => StyleSheet.create({
    button: {
+      width:80,
+      height:24,
       alignItems: 'center',
       backgroundColor: theme?.colors?.button,
-      padding: theme?.spacing?.s,
-      borderRadius: theme?.radius?.m,
+      borderRadius: theme?.radius?.xl,
       alignSelf: 'stretch',
-      margin: theme?.spacing?.xxl,
       flexDirection: 'row',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      margin: theme?.spacing?.xl,
    },
    buttonText: theme?.text?.buttonText
 })
