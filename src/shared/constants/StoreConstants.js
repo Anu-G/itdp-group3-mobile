@@ -3,5 +3,7 @@ export const KEY = {
    ACCOUNT_ID: 'accountId',
    ROLE_ID: 'roleId',
    TOKEN: 'token',
-   EXPIRED: 'expiredAt'
+   EXPIRED: 'expiredAt',
+   EMAIL: 'email',
+   PASSWORD: 'password'
 }

@@ -1,10 +1,13 @@
+import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Keyboard, Pressable, StyleSheet, View } from "react-native";
 import { ButtonMediumComponent } from "../../shared/components/ButtonMedium";
 import { InputTextPassword, InputTextWithError } from "../../shared/components/CustomTextInput/CustomTextInput";
 import { AuthExtLabel, Title1 } from "../../shared/components/Label";
 import { MainContainer } from "../../shared/components/MainContainer";
 import { useTheme } from "../../shared/context/ThemeContext";
+import { ROUTE } from "../../shared/constants/NavigationConstants";
+import { authService } from "../../services/AuthService";
 
 export const SignUp = () => {
     const theme = useTheme();
@@ -20,6 +23,8 @@ export const SignUp = () => {
     const [errorpassword, seterrorPassword] = useState('');
     const [errorconPassword, seterrorConPassword] = useState('');
 
+    const [disable, setDisable] = useState(true)
+
     const checkEmail = (text) => {
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
@@ -27,7 +32,6 @@ export const SignUp = () => {
 
         const result = mail.toLowerCase().match(re);
 
-        console.log(mail,result)
 
         if (!result) {
             if(mail.length<1){
@@ -65,13 +69,51 @@ export const SignUp = () => {
         }
     }
 
+    const checkTrue = () => {
+        if(username === '' || email === '' || password === '' || conPassword === '') {
+             setDisable(true)
+        } else if (errorusername !== '' || erroremail !== '' || errorpassword !== '' || errorconPassword !== '') {
+            setDisable(true)
+        } else {setDisable(false)}
+    }
+
     useEffect(()=>{
         checkPassword()
     }, [password])
     
     useEffect(()=>{
         checkConfirmPassword()
-    },[conPassword])
+    },[conPassword, password])
+
+    useEffect(()=>{
+        checkTrue()
+    }, [email, username, password, conPassword])
+
+    //service
+    const navigation = useNavigation();
+
+    const handleSignUpClick = async ()=> {
+        Keyboard.dismiss();
+
+        try {
+            const response = await authService.doRegister({
+                user_name: username,
+                email: email,
+                password: password
+            });
+
+            if (response.status === 200) {
+                navigation.replace(ROUTE.MAIN)
+            }
+        }catch (e) {
+            throw(e)
+        }
+    }
+
+    const handleSignInClick = () => {
+        navigation.replace(ROUTE.LOGIN)
+    }
+    
 
     //handle CHange
     const handleEmailChange = (text) => {
@@ -79,6 +121,7 @@ export const SignUp = () => {
         checkEmail(text);
     }
 
+    
 
     return(
         <MainContainer>
@@ -115,15 +158,14 @@ export const SignUp = () => {
                     text="Confirm Password"
                     value={conPassword}
                     onChange={setConPassword}
-                    error={errorconPassword}
-                    placeholder='Confirm Password'/>
+                    error={errorconPassword}/>
 
             <View style={styles.buttonContainer}>
-               <ButtonMediumComponent label={'Login'}/>
+               <ButtonMediumComponent label={'Continue'} disable={disable} onClick={handleSignUpClick}/>
             </View>  
 
             <View style={styles.addAuth}>
-               <Pressable>
+               <Pressable onPress={handleSignInClick} >
                   <AuthExtLabel text1={`Have an account?`} text2={'Sign in'}/>
                </Pressable>
             </View>

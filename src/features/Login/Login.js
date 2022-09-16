@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Keyboard, Pressable, StyleSheet, View } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { ButtonBigComponent } from "../../shared/components/ButtonBig";
@@ -31,6 +31,11 @@ export const Login = _ => {
    const [password, setPassword] = useState('');
    const { viewState, setLoading, setError } = useViewState();
    const [visible, setVisible] = useState(false);
+   const [disable, setDisable] = useState(true)
+
+
+   const [erroremail, seterrorEmail] = useState('');
+   const [errorpassword, seterrorPassword] = useState('');
 
    const onDismissSnackBar = _ => {
       setVisible(false);
@@ -38,6 +43,58 @@ export const Login = _ => {
          setError(null);
       };
    };
+
+   const checkEmail = (text) => {
+      const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+      const mail = String(text)
+
+      const result = mail.toLowerCase().match(re);
+
+      if (!result) {
+          if(mail.length<1){
+              seterrorEmail('')
+
+          }
+          else {
+              seterrorEmail('E-mail is invalid!');
+
+          }
+      } else {
+         seterrorEmail('')
+      }
+  }
+
+   const checkPassword = () => {
+         if (password.length < 8 && password.length>0) {
+            seterrorPassword('Minimal 8 character')
+         } else if(password.length ===0){
+            seterrorPassword('')
+         } else {
+            seterrorPassword('')
+         }
+   }
+
+   const checkTrue = () => {
+      if( email.length == 0 || password.length == 0) {
+           setDisable(true)
+      } else if (erroremail !== '' && errorpassword !== '' ) {
+          setDisable(true)
+      } else if (erroremail === '' && errorpassword === '') {
+         setDisable(false)
+      } else {
+         setDisable(true)
+      }
+  }
+
+   useEffect(()=>{
+      checkPassword()
+   }, [password])
+
+   useEffect(()=>{
+      checkTrue()
+      console.log(disable)
+  })
 
    // service
    const navigation = useNavigation();
@@ -58,27 +115,46 @@ export const Login = _ => {
       }
    }
 
+   const handleSignUpClick = () => {
+      navigation.replace(ROUTE.SIGNUP)
+      
+   }
+
+   const handleEmailChange = (text) => {
+      setEmail(prevState => ({...prevState, text}));
+      checkEmail(text);
+   }
+
    return (
       <MainContainer>
          <View style={styles.header}>
             <Title1 label={'TokTok Login'} />
          </View>
          <View style={styles.form}>
-            <InputTextWithError 
-               text={'E-mail'} 
-               placeholder={'E-mail'} 
-               onChange={setEmail} 
+            <InputTextWithError
+               text={'Email'} 
+               placeholder='ex: johndoe@mail.com'
+               onChange={(text)=>{
+                  handleEmailChange(text)
+               }}
                value={email}
-               />
+               keyboard='email-address'
+               error={erroremail}/>
 
-            <InputTextPassword placeholder={'Password'} onChange={setPassword}/>
+            <InputTextPassword 
+               value={password}
+               onChange={(text)=>{
+                     setPassword(text)
+                     checkPassword()
+                 }}
+               error={errorpassword}/>
 
             <View style={styles.buttonContainer}>
-               <ButtonMediumComponent label={'Login'} onClick={doLogin} />
+               <ButtonMediumComponent label={'Login'} onClick={doLogin} disable={disable} />
             </View>  
 
             <View style={styles.addAuth}>
-               <Pressable>
+               <Pressable onPress={handleSignUpClick}>
                   <AuthExtLabel text1={`Doesn't have an account?`} text2={'Sign Up'}/>
                </Pressable>
             </View>          
