@@ -17,5 +17,16 @@ export const authService = ({ doPost }) => {
         }
     }
 
-    return { doLogin, doLogout }
+    const doRegister = async (newUser = {}) => {
+        try {
+            return await doPost({
+                url: '/auth/register',
+                data: newUser
+            })
+        } catch (e) {
+            throw e
+        }
+    }
+
+    return { doLogin, doLogout, doRegister}
 }

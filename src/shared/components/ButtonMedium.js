@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 
-export const ButtonMediumComponent = ({label,onClick,style={},icon=null}) => {
+export const ButtonMediumComponent = ({label,onClick,style={},icon=null, disable=false}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     return(
-        <TouchableOpacity style={[styles.mediumButton, style]} onPress={onClick}>
+        <TouchableOpacity style={!disable ? [styles.mediumButton, style] : [styles.mediumButton, style, styles.ondisable]} onPress={onClick} disabled={disable}>
             <Text style={styles.mediumButtonText} >{label}</Text>
         </TouchableOpacity>
     )
@@ -19,10 +19,13 @@ const styling = (theme) => StyleSheet.create({
         backgroundColor: theme?.colors?.button,
         padding: theme?.spacing?.s,
         borderRadius: theme?.radius?.xl,
-        alignSelf: 'stretch',
-        flexDirection: 'row',
+        // alignSelf: 'stretch',
+        // flexDirection: 'row',
         justifyContent: 'center',
-        margin: theme?.spacing?.xl       
+        // margin: theme?.spacing?.xl       
     },
-    mediumButtonText:theme?.text?.mediumButtonText
+    mediumButtonText:theme?.text?.mediumButtonText,
+    ondisable: {
+        opacity: 0.7
+    }
 })

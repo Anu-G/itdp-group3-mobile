@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 
 export const Title1 = ({ label, style = {} }) => {
@@ -38,9 +38,12 @@ export const CaptionColor = ({ text, style= {}, openStatus= false }) => {
 
    return(
       <>
+         <View style={{height:24}}>
          {openStatus 
             ? <Text style={[theme.state.style?.text?.captionGreen, style]}>{text}</Text>
             : <Text style={[theme.state.style?.text?.captionRed, style]}>{text}</Text>} 
+         </View>
+         
       </>
    )
 }
@@ -74,5 +77,15 @@ export const TextComment = ({text, style={}}) => {
 
    return(
       <Text style={[theme.state.style?.text?.textComment, style]}>{text}</Text>
+   )
+}
+
+export const AuthExtLabel = ({text1, text2, style={}}) => {
+   const theme = useTheme();
+   return(
+      <View style={{ alignItems: 'center'}}>
+         <Text style={[theme.state.style?.text?.textComment]}>{text1}</Text>
+         <Text style={[theme.state.style?.text?.text13regYellow]}>{text2}</Text>
+      </View>
    )
 }

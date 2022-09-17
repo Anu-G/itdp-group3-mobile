@@ -9,7 +9,13 @@ export const InputTextActive = ({ text, value, onChange, placeholder, keyboard =
    return (
       <View style={style}>
          <TextProfile text={text}/>
-         <TextInput style={[styles.input,styles.inputActive,styles.inputWithError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
+         <TextInput 
+            style={[styles.input,styles.inputActive,styles.inputWithError]} 
+            placeholder={placeholder} 
+            placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} 
+            onChangeText={onChange} 
+            value={value} 
+            keyboardType={keyboard}  />
          { isCorrect 
             ? <CaptionColor text={`${text} is valid`} style={styles.inputError} openStatus={isCorrect}/>
             : <CaptionColor text={`${text} is invalid`} style={styles.inputError} openStatus={isCorrect}/>}
@@ -24,7 +30,14 @@ export const InputTextInactive = ({ text, value, onChange, placeholder, keyboard
    return (
       <View style={style}>
          <TextProfile text={text}/>
-         <TextInput style={[styles.input,styles.inputInactive,styles.inputWithError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
+         <TextInput 
+            style={[styles.input,styles.inputInactive,styles.inputWithError]} 
+            placeholder={placeholder} 
+            placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} 
+            onChangeText={onChange} 
+            value={value} 
+            keyboardType={keyboard} 
+             />
          { isCorrect 
             ? <CaptionColor text={`${text} is valid`} style={styles.inputError} openStatus={isCorrect}/>
             : <CaptionColor text={`${text} is invalid`} style={styles.inputError} openStatus={isCorrect}/>}
@@ -58,13 +71,16 @@ export const InputTextInactiveNoError = ({ text, value, onChange, placeholder, k
 
 const styling = (theme) => StyleSheet.create({
    inputContainer: {
-      marginHorizontal:theme?.spacing?.m
+      marginHorizontal:theme?.spacing?.m,
+      width: '100%',
    },
    input:{
       paddingHorizontal: theme?.spacing?.s,
       height: theme?.spacing?.xxl,
-      marginTop: theme?.spacing?.m,
+      // marginTop: theme?.spacing?.m,
+      marginBottom: theme?.spacing?.m,
       borderBottomWidth: 1,
+      width: '100%',
       ...theme?.text?.text32,
    },
    inputActive: {
