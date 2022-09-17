@@ -5,4 +5,5 @@ export const ROUTE = {
    SETTING: 'setting',
    SIGNUP: 'signup',
    ADD_POST: 'add-post',
+   ADD_PRODUCT: 'add-product',
 }

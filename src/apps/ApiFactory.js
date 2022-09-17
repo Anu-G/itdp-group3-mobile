@@ -23,7 +23,7 @@ export const apiClientFactory = (client) => {
       }
    }
 
-   const doStoreFile = async({url, data}) => {
+   const doStoreFile = async ({ url, data }) => {
       try {
          const promiseFetch = []
          const promiseBlob = []
@@ -38,7 +38,7 @@ export const apiClientFactory = (client) => {
 
          const filename = `${uuid.v4().toString()}.${data.split(".").pop()}`
          const storageRef = firebase.storage().ref(`toktok-dev${url}`).child(filename)
-         var ref = storageRef.put(await blob).then(() => getDownloadURL(storageRef).then((downloadURL) => imgUrl=downloadURL))
+         var ref = storageRef.put(await blob).then(() => getDownloadURL(storageRef).then((downloadURL) => imgUrl = downloadURL))
          promises.push(ref)
 
          await Promise.all(promiseFetch)
@@ -52,14 +52,14 @@ export const apiClientFactory = (client) => {
       }
    }
 
-   const doStoreMultipleFiles = async({url, data}) => {
+   const doStoreMultipleFiles = async ({ url, data }) => {
       try {
          const promiseFetch = []
          const promiseBlob = []
          const promises = []
          const links = []
 
-         data.map(async(image) => {
+         data.map(async (image) => {
             try {
                const response = fetch(image)
                promiseFetch.push(response)
@@ -75,7 +75,6 @@ export const apiClientFactory = (client) => {
                promiseFetch.pop()
                promiseBlob.pop()
             } catch (err) {
-               console.log(err);
                checkErr(err)
             }
          })
@@ -86,7 +85,6 @@ export const apiClientFactory = (client) => {
          return links
 
       } catch (err) {
-         console.log(err);
          throw err
       }
    }
