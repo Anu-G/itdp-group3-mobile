@@ -3,5 +3,6 @@ export const ROUTE = {
    MAIN: 'main',
    HOME: 'home',
    SETTING: 'setting',
-   SIGNUP: 'signup'
+   SIGNUP: 'signup',
+   ADD_POST: 'add-post',
 }
