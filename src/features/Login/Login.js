@@ -52,49 +52,48 @@ export const Login = _ => {
       const result = mail.toLowerCase().match(re);
 
       if (!result) {
-          if(mail.length<1){
-              seterrorEmail('')
+         if (mail.length < 1) {
+            seterrorEmail('')
 
-          }
-          else {
-              seterrorEmail('E-mail is invalid!');
+         }
+         else {
+            seterrorEmail('E-mail is invalid!');
 
-          }
+         }
       } else {
          seterrorEmail('')
       }
-  }
+   }
 
    const checkPassword = () => {
-         if (password.length < 8 && password.length>0) {
-            seterrorPassword('Minimal 8 character')
-         } else if(password.length ===0){
-            seterrorPassword('')
-         } else {
-            seterrorPassword('')
-         }
+      if (password.length < 8 && password.length > 0) {
+         seterrorPassword('Minimal 8 character')
+      } else if (password.length === 0) {
+         seterrorPassword('')
+      } else {
+         seterrorPassword('')
+      }
    }
 
    const checkTrue = () => {
-      if( email.length == 0 || password.length == 0) {
-           setDisable(true)
-      } else if (erroremail !== '' && errorpassword !== '' ) {
-          setDisable(true)
+      if (email.length == 0 || password.length == 0) {
+         setDisable(true)
+      } else if (erroremail !== '' && errorpassword !== '') {
+         setDisable(true)
       } else if (erroremail === '' && errorpassword === '') {
          setDisable(false)
       } else {
          setDisable(true)
       }
-  }
+   }
 
-   useEffect(()=>{
+   useEffect(() => {
       checkPassword()
    }, [password])
 
-   useEffect(()=>{
+   useEffect(() => {
       checkTrue()
-      console.log(disable)
-  })
+   })
 
    // service
    const navigation = useNavigation();
@@ -103,10 +102,10 @@ export const Login = _ => {
    const doLogin = async _ => {
       Keyboard.dismiss();
       try {
-         if (email === '' && password === '') {
+         if (email.text === '' && password === '') {
             throw new Error('Please input your user E-mail and password');
          } else {
-            if (await onLogin({ email: email, password: password })) {
+            if (await onLogin({ email: email.text, password: password })) {
                navigation.replace(ROUTE.MAIN)
             }
          }
@@ -117,11 +116,11 @@ export const Login = _ => {
 
    const handleSignUpClick = () => {
       navigation.replace(ROUTE.SIGNUP)
-      
+
    }
 
    const handleEmailChange = (text) => {
-      setEmail(prevState => ({...prevState, text}));
+      setEmail(prevState => ({ ...prevState, text }));
       checkEmail(text);
    }
 
@@ -132,32 +131,32 @@ export const Login = _ => {
          </View>
          <View style={styles.form}>
             <InputTextWithError
-               text={'Email'} 
+               text={'Email'}
                placeholder='ex: johndoe@mail.com'
-               onChange={(text)=>{
+               onChange={(text) => {
                   handleEmailChange(text)
                }}
                value={email}
                keyboard='email-address'
-               error={erroremail}/>
+               error={erroremail} />
 
-            <InputTextPassword 
+            <InputTextPassword
                value={password}
-               onChange={(text)=>{
-                     setPassword(text)
-                     checkPassword()
-                 }}
-               error={errorpassword}/>
+               onChange={(text) => {
+                  setPassword(text)
+                  checkPassword()
+               }}
+               error={errorpassword} />
 
             <View style={styles.buttonContainer}>
                <ButtonMediumComponent label={'Login'} onClick={doLogin} disable={disable} />
-            </View>  
+            </View>
 
             <View style={styles.addAuth}>
                <Pressable onPress={handleSignUpClick}>
-                  <AuthExtLabel text1={`Doesn't have an account?`} text2={'Sign Up'}/>
+                  <AuthExtLabel text1={`Doesn't have an account?`} text2={'Sign Up'} />
                </Pressable>
-            </View>          
+            </View>
          </View>
          <Text32 text={'Tips: use your account from BE Server or your BE localhost'} />
          {viewState.error !== null && !visible ? setVisible(true) : null}
@@ -181,7 +180,7 @@ const styling = (theme) => StyleSheet.create({
       alignItems: 'center',
       // justifyContent: 'center'
    },
-   buttonContainer : {
+   buttonContainer: {
       paddingTop: theme?.spacing?.xl,
    },
    addAuth: {
