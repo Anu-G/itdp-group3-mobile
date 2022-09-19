@@ -89,3 +89,10 @@ export const AuthExtLabel = ({text1, text2, style={}}) => {
       </View>
    )
 }
+
+export const Text13SemiBoldYellow = ({text, style={}}) => {
+   const theme = useTheme()
+   return(
+      <Text style={[theme.state.style?.text?.text13regYellow, style]}>{text}</Text>
+   )
+}
