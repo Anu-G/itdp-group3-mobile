@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Snackbar } from "react-native-paper";
-import { store } from "../../apps/Storage";
+import { storage } from "../../apps/Storage";
 import { ButtonComponent } from "../../shared/components/Button";
 import { DARKMODE, LIGHTMODE } from "../../shared/constants/ActionConstant";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
@@ -40,7 +40,7 @@ export const Setting = _ => {
 
    const doLogout = async _ => {
       try {
-         if (await store.getData(KEY.EXPIRED) * 1000 >= Date.now()) {
+         if (await storage.getData(KEY.EXPIRED) * 1000 >= Date.now()) {
             if (await onLogout()) {
                navigation.replace(ROUTE.LOGIN);
             };

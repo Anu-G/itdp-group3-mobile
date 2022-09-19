@@ -2,7 +2,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { store } from '../../apps/Storage';
+import { useSelector } from 'react-redux';
+import { storage } from '../../apps/Storage';
 import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 import { MainContainer } from '../../shared/components/MainContainer';
 import { KEY } from '../../shared/constants/StoreConstants';
@@ -19,6 +20,7 @@ export const AddPost = ({ navigation }) => {
     const [caption, setCaption] = useState('')
     const [pickedImagePath, setPickedImagePath] = useState([])
     const [loading, setLoading] = useState(false)
+    const user = useSelector((state) => state.auth);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -33,7 +35,7 @@ export const AddPost = ({ navigation }) => {
 
     const getProfile = async () => {
         try {
-            let id = await store.getData(KEY.ACCOUNT_ID)
+            let id = user.accountId
             setAccountId(id)
 
             let response = await profileService.doGetBusinessProfile({
@@ -75,7 +77,7 @@ export const AddPost = ({ navigation }) => {
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 aspect: [1, 1],
                 quality: 1
-            })
+            });
 
             if (!result.cancelled) {
                 setPickedImagePath([])

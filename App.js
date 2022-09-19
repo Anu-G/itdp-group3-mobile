@@ -12,6 +12,8 @@ import { ThemeProvider, useTheme } from "./src/shared/context/ThemeContext";
 import { useAppFont } from "./src/shared/hooks/AppFont";
 import Constants from 'expo-constants';
 import { AuthProvider } from "./src/shared/context/AuthContext";
+import { Provider } from "react-redux";
+import { store } from "./src/apps/Store";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -47,13 +49,15 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <DependencyProvider services={services}>
-        <SafeAreaProvider>
-          <ThemeProvider>
-            <Navigator />
-          </ThemeProvider>
-        </SafeAreaProvider>
-      </DependencyProvider>
+      <Provider store={store}>
+        <DependencyProvider services={services}>
+          <SafeAreaProvider>
+            <ThemeProvider>
+              <Navigator />
+            </ThemeProvider>
+          </SafeAreaProvider>
+        </DependencyProvider>
+      </Provider>
     </View>
   );
 }

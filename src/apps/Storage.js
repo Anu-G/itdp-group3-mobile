@@ -34,4 +34,4 @@ export const Storage = () => {
    }
 }
 
-export const store = Storage();
+export const storage = Storage();
