@@ -7,7 +7,7 @@ import { AuthExtLabel, Title1 } from "../../shared/components/Label";
 import { MainContainer } from "../../shared/components/MainContainer";
 import { useTheme } from "../../shared/context/ThemeContext";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
-import { authService } from "../../services/AuthService";
+import { useDep } from '../../shared/context/DependencyContext'
 
 export const SignUp = () => {
     const theme = useTheme();
@@ -87,10 +87,11 @@ export const SignUp = () => {
 
     useEffect(()=>{
         checkTrue()
-    }, [email, username, password, conPassword])
+    }, [email, username, password, conPassword, errorusername, erroremail, errorpassword, errorconPassword])
 
     //service
     const navigation = useNavigation();
+    const { authService } = useDep()
 
     const handleSignUpClick = async ()=> {
         Keyboard.dismiss();
@@ -117,7 +118,7 @@ export const SignUp = () => {
 
     //handle CHange
     const handleEmailChange = (text) => {
-        setEmail(prevState => ({...prevState, text}));
+        setEmail(text);
         checkEmail(text);
     }
 
