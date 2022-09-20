@@ -72,7 +72,7 @@ export const themeDark = {
       mediumButtonText: {
          fontSize: 12,
          color: pallete.dark,
-         fontFamily: 'Poppins-Medium',
+         fontFamily: 'Poppins-SemiBold',
       },
       bigButtonText: {
          fontSize: 12,

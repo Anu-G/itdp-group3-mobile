@@ -2,7 +2,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { Login } from "../features/Login/Login";
 import { MainPage } from "../features/MainPage/MainPage";
-import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileNonBusiness";
+import { SettingsLink } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsLink/SettingsLink";
+import { SettingsOpenHour } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsOpenHour/SettingsOpenHour";
+import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
 import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
 import { SignUp } from "../features/SignUp/SignUp";
 import { ROUTE } from "../shared/constants/NavigationConstants";
@@ -29,13 +31,15 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.SETTINGS_BUSINESS} >
+      <Stack.Navigator initialRouteName={ROUTE.SETTINGS_LINKS} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness}/>
             <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness}/>
+            <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour}/>
+            <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} />
          </Stack.Group>
       </Stack.Navigator>
    )

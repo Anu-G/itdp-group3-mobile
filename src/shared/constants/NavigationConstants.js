@@ -5,5 +5,7 @@ export const ROUTE = {
    SETTING: 'setting',
    SIGNUP: 'signup',
    SETTINGS_NON_BUSINESS : 'settingNonBusiness',
-   SETTINGS_BUSINESS : 'settingBusiness'
+   SETTINGS_BUSINESS : 'settingBusiness',
+   SETTINGS_OPEN_HOUR : 'settingOpenHour',
+   SETTINGS_LINKS : 'settingsLinks',
 }
