@@ -104,7 +104,7 @@ export const SignUp = () => {
             });
 
             if (response.status === 200) {
-                navigation.replace(ROUTE.MAIN)
+                navigation.replace(ROUTE.SETTINGS_NON_BUSINESS)
             }
         }catch (e) {
             throw(e)

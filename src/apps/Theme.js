@@ -45,6 +45,7 @@ export const themeDark = {
       whiteTrp: pallete.whiteTrp,
       tabBackground: pallete.darkBlue
    },
+   pallete: {...pallete},
    spacing: { ...spacing },
    radius: { ...radius },
    text: {
@@ -122,7 +123,7 @@ export const themeDark = {
          fontSize: 13,
          color: pallete.yellow,
          fontFamily: 'Poppins-SemiBold'
-      }
+      },
    },
    tabIcon: {
       size: 28,

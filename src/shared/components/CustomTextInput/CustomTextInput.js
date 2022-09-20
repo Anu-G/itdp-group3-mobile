@@ -16,6 +16,7 @@ export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyb
             placeholder={placeholder} 
             value={value} 
             keyboard={keyboard}/>
+            <View style={{height: 24}}/>
        </View>
     );
  }
