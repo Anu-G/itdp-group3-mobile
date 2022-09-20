@@ -5,7 +5,7 @@ import { useTheme } from "../../../../shared/context/ThemeContext"
 
 export const SettingsLink = () => {
     const theme = useTheme();
-    const styles = styling(theme)
+    const styles = styling(theme.state.style)
 
     const dummyLink = [
         {

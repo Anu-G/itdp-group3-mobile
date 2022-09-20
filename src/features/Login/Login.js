@@ -92,7 +92,6 @@ export const Login = _ => {
 
    useEffect(()=>{
       checkTrue()
-      console.log(disable)
   })
 
    // service

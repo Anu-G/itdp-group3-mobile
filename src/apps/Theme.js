@@ -124,6 +124,11 @@ export const themeDark = {
          color: pallete.yellow,
          fontFamily: 'Poppins-SemiBold'
       },
+      mainTitle: {
+         fontSize: 36,
+         color: pallete.white,
+         fontFamily: 'Poppins-SemiBold'
+      }
    },
    tabIcon: {
       size: 28,

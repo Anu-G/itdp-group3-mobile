@@ -8,4 +8,5 @@ export const ROUTE = {
    SETTINGS_BUSINESS : 'settingBusiness',
    SETTINGS_OPEN_HOUR : 'settingOpenHour',
    SETTINGS_LINKS : 'settingsLinks',
+   WELCOME_PAGE: 'welcomePage',
 }

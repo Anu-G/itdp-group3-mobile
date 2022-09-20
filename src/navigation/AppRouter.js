@@ -7,6 +7,7 @@ import { SettingsOpenHour } from "../features/SettingsProfile/SettingsProfileBus
 import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
 import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
 import { SignUp } from "../features/SignUp/SignUp";
+import { WelcomePage } from "../features/WelcomePage/WelcomePage";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 
@@ -31,7 +32,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.SETTINGS_LINKS} >
+      <Stack.Navigator initialRouteName={ROUTE.WELCOME_PAGE} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
@@ -40,6 +41,7 @@ export const AppRouter = _ => {
             <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness}/>
             <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour}/>
             <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} />
+            <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
          </Stack.Group>
       </Stack.Navigator>
    )
