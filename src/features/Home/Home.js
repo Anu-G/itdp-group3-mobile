@@ -17,12 +17,14 @@ export const Home = _ => {
 
    return (
       <MainContainer>
-         <View style={{ paddingTop: 100 }}>
-            <AnimatedLottieView style={{ width: 200, height: 200, alignItems: 'center' }} autoPlay source={require("../../../assets/animations/Happy.json")} />
-            <Title1 label={`Hello, ${user.userName}!`} />
-            <ButtonComponent label={'ADD POST'} onClick={() => navigation.navigate(ROUTE.ADD_POST)} />
-            <ButtonComponent label={'ADD PRODUCT'} onClick={() => navigation.navigate(ROUTE.ADD_PRODUCT)} />
-         </View>
-      </MainContainer>
+      <View style={{ paddingTop: 100, flex:1, flexDirection:'column', flexWrap:'wrap' }}>
+         <AnimatedLottieView style={{ width: 200, height: 200, alignItems: 'center' }} autoPlay source={require("../../../assets/animations/Happy.json")} />
+         <Title1 label={`Hello, ${user.userName}!`} />
+         <ButtonComponent label={'ADD POST'} onClick={() => navigation.navigate(ROUTE.ADD_POST)} />
+         <ButtonComponent label={'ADD PRODUCT'} onClick={() => navigation.navigate(ROUTE.ADD_PRODUCT)} />
+         <ButtonComponent label={'NON BUSINESS PROFILE'} onClick={() => navigation.navigate(ROUTE.NON_BUSINESS_PROFILE)}/>
+         <ButtonComponent label={'BUSINESS PROFILE'} onClick={() => navigation.navigate(ROUTE.BUSINESS_PROFILE)}/>
+      </View>
+   </MainContainer>
    )
 }
