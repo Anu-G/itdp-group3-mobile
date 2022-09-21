@@ -51,6 +51,19 @@ export const ImageWithDeleteSign = ({style={}, handleClick, source='https://reac
     )
 }
 
+export const AvatarSmall = ({style={}, accId, handleClick, source='https://reactjs.org/logo-og.png'}) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+
+    return(
+        <View style={[styles.avatarCtn, styles.small]}>
+            <TouchableOpacity onPress={() => handleClick(accId)}>
+                <Image source={{uri: source}} style={styles.avatarProfile}/>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
 const styling = (theme) => StyleSheet.create({
     imageProfile:{
         width:100,
@@ -60,6 +73,25 @@ const styling = (theme) => StyleSheet.create({
     imageProfileOTHER:{
         width:120,
         height:120,
+    },
+    avatarCtn: {
+        backgroundColor: '#FE5454',
+        height: 10,
+        width: 10,
+        borderRadius: 30,
+        marginTop: 0,
+        marginRight: 8,
+        marginBottom: 0,
+        marginLeft: 0,
+    },
+    avatarProfile: {
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+    },
+    small : {
+        height: 40,
+        width: 40,
     },
     containerSquare: {
         width:90,

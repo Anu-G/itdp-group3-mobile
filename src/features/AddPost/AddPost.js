@@ -1,10 +1,13 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { store } from '../../apps/Storage';
 import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
+import { TextTimeline } from '../../shared/components/Label';
 import { MainContainer } from '../../shared/components/MainContainer';
+import { ROUTE } from '../../shared/constants/NavigationConstants';
 import { KEY } from '../../shared/constants/StoreConstants';
 import { useDep } from '../../shared/context/DependencyContext';
 import { useTheme } from '../../shared/context/ThemeContext';
@@ -13,12 +16,15 @@ import { checkErr } from '../../utils/CommonUtils';
 export const AddPost = ({ navigation }) => {
     const theme = useTheme()
     const styles = styling(theme)
+    const navigate = useNavigation()
     const { profileService, postService, postImageService } = useDep()
     const [accountId, setAccountId] = useState()
     const [profileImage, setProfileImage] = useState('')
     const [caption, setCaption] = useState('')
     const [pickedImagePath, setPickedImagePath] = useState([])
     const [loading, setLoading] = useState(false)
+    const [charLength, setCharLength] = useState(0)
+    const maxLength = 280
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -45,12 +51,16 @@ export const AddPost = ({ navigation }) => {
         }
     }
 
+    const onChangeCaption = (e) => {
+        setCaption(e)
+        setCharLength(e.length)
+    }
+
     const showImagePicker = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsMultipleSelection: true,
-                selectionLimit: 4,
                 aspect: [1, 1],
                 quality: 1,
             });
@@ -91,13 +101,16 @@ export const AddPost = ({ navigation }) => {
         try {
             const responseImage = await postImageService.doPostImage(pickedImagePath)
             const response = await postService.doPostData({
-                account_ID: accountId,
+                account_ID: `${accountId}`,
                 caption_post: caption,
                 media_links: responseImage
             })
             if (response.status === 200) {
                 console.log("success upload data");
             }
+
+            navigate.navigate(ROUTE.HOME)
+            
         } catch (err) {
             checkErr(err)
         } finally {
@@ -112,7 +125,10 @@ export const AddPost = ({ navigation }) => {
                     {profileImage !== '' && <Image source={{ uri: profileImage }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
                 </View>
                 <View style={styles.rightContainer}>
-                    <TextInput onChangeText={setCaption} placeholder='Add some post...' placeholderTextColor={"#849EB9"} multiline={true} textAlignVertical={'top'} style={styles.textArea} />
+                    <TextInput onChangeText={text => onChangeCaption(text)} placeholder='Add some post...' placeholderTextColor={"#849EB9"} multiline={true} maxLength={280} textAlignVertical={'top'} style={styles.textArea} />
+                    <View style={styles.charLength}>
+                        <TextTimeline text={`${charLength}/${maxLength}`} style={{color: '#849EB9'}}/>
+                    </View>
                     <ImageHorizontalScroll images={pickedImagePath} />
                 </View>
             </View>
@@ -144,7 +160,6 @@ const styling = (theme) => StyleSheet.create({
         maxHeight: '80%',
         fontSize: 16,
         fontFamily: 'Poppins-Regular',
-        marginBottom: 4
     },
     leftContainer: {
         flex: 1,
@@ -152,5 +167,11 @@ const styling = (theme) => StyleSheet.create({
     rightContainer: {
         flex: 5,
         marginTop: 4
-    }
+    },
+    charLength: {
+        alignSelf: 'flex-end',
+        color: '#849EB9',
+        cursor: 'default',
+        marginBottom: 4
+    },
 })

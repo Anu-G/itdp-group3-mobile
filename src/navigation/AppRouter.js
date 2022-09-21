@@ -1,12 +1,11 @@
-import { FontAwesome } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
-import { Button, Image, Text, TouchableOpacity } from "react-native";
 import { AddPost } from "../features/AddPost/AddPost";
 import { Login } from "../features/Login/Login";
 import { MainPage } from "../features/MainPage/MainPage";
-import { SignUp } from "../features/SignUp/SignUp";
 import { SettingsAddProduct } from "../features/SettingsAddProduct/SettingsAddProduct";
+import { SignUp } from "../features/SignUp/SignUp";
+import { TimelineDetailPage } from "../features/TimelineDetailPage/TimelineDetailPage";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 
@@ -31,7 +30,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.SIGNUP} >
+      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
@@ -49,7 +48,12 @@ export const AppRouter = _ => {
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
-
+         <Stack.Screen name={ROUTE.DETAIL_TIMELINE} component={TimelineDetailPage} options={({ navigation, route }) => ({
+            headerTitle: 'Post',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
       </Stack.Navigator>
    )
 }

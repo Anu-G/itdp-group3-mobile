@@ -15,7 +15,8 @@ export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyb
             onChange={onChange} 
             placeholder={placeholder} 
             value={value} 
-            keyboard={keyboard}/>
+            keyboard={keyboard}
+            style={style}/>
        </View>
     );
  }
@@ -78,7 +79,7 @@ export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyb
     
  }
 
- export const InputTextOnly = ({value, onChange, placeholder, keyboard = 'default', secureText = false }) => {
+ export const InputTextOnly = ({value, onChange, placeholder, keyboard = 'default', secureText = false, style }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     const [inputStyle, setInputStyle] = useState([styles.input, styles.inputInactive]);
@@ -94,7 +95,7 @@ export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyb
     return (
         <View style={styles.inputContainer}>
            <TextInput 
-             style={inputStyle} 
+             style={[inputStyle, style]} 
              placeholder={placeholder} 
              placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} 
              onChangeText={onChange} 

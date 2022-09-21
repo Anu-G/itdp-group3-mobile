@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import { Home } from "../features/Home/Home";
 import { Setting } from "../features/Setting/Setting";
+import { TimelinePage } from "../features/TimelinePage/TimelinePage";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useTheme } from "../shared/context/ThemeContext";
 
@@ -15,7 +16,7 @@ export const TabRouter = _ => {
       <Tab.Navigator screenOptions={({ route }) => ({
          tabBarIcon: ({ focused, color, size }) => {
             switch (route.name) {
-               case ROUTE.HOME:
+               case ROUTE.TIMELINE:
                   return <Entypo name="home" size={style.tabIcon.size} color={color} />
                case ROUTE.SETTING:
                   return <FontAwesome name="gear" size={style.tabIcon.size} color={color} />
@@ -29,7 +30,7 @@ export const TabRouter = _ => {
          tabBarLabel: () => null
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
-            <Tab.Screen name={ROUTE.HOME} component={Home} />
+            <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
             <Tab.Screen name={ROUTE.SETTING} component={Setting} />
          </Tab.Group>
       </Tab.Navigator>
