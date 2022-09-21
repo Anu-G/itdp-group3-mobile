@@ -22,6 +22,7 @@ export const Home = _ => {
          <Title1 label={`Hello, ${user.userName}!`} />
          <ButtonComponent label={'ADD POST'} onClick={() => navigation.navigate(ROUTE.ADD_POST)} />
          <ButtonComponent label={'ADD PRODUCT'} onClick={() => navigation.navigate(ROUTE.ADD_PRODUCT)} />
+         <ButtonComponent label={'ADD FAQ'} onClick={() => navigation.navigate(ROUTE.ADD_FAQ)} />
          <ButtonComponent label={'NON BUSINESS PROFILE'} onClick={() => navigation.navigate(ROUTE.NON_BUSINESS_PROFILE)}/>
          <ButtonComponent label={'BUSINESS PROFILE'} onClick={() => navigation.navigate(ROUTE.BUSINESS_PROFILE)}/>
       </View>
