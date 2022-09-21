@@ -9,4 +9,5 @@ export const ROUTE = {
    SETTINGS_OPEN_HOUR : 'settingOpenHour',
    SETTINGS_LINKS : 'settingsLinks',
    WELCOME_PAGE: 'welcomePage',
+   ADD_LINK: 'addLink',
 }

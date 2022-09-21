@@ -30,7 +30,8 @@ export const WelcomePage = () => {
 
             <View style={styles.buttonBottom}>
                 <ButtonBigComponent 
-                    label={'Get Started'}  />
+                    label={'Get Started'} 
+                    onClick={handleGetStartedClick} />
                 <View style={styles.addAuth}>
                 <Pressable onPress={handleSignInClick} >
                   <AuthExtLabel text1={`Have an account?`} text2={'Sign in'}/>
