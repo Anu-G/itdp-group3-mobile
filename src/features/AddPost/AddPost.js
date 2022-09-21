@@ -109,7 +109,9 @@ export const AddPost = ({ navigation }) => {
                 console.log("success upload data");
             }
 
-            navigate.navigate(ROUTE.HOME)
+            navigate.navigate(ROUTE.MAIN, {
+                refresh: true
+            })
             
         } catch (err) {
             checkErr(err)

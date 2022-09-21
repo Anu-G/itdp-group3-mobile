@@ -27,7 +27,7 @@ export const TimelineDetailPage = ({navigation}) => {
 
     useEffect(() => {
         getTimeline()
-    }, [refresh, route.params])
+    }, [refresh, route.params?.feed_id])
 
     // service
     const { timelineService } = useDep()
@@ -35,12 +35,12 @@ export const TimelineDetailPage = ({navigation}) => {
     const getTimeline = async () => {
         try {            
             const response = await timelineService.doGetDetailTimeline({
+                feed_id: `${route.params.feed_id}`,
                 page: 1,
                 page_lim: 200,
-                feed_id: `${route.params.feed_id}`
             })
             if (response.data.data !== null) {
-                setTimelines(response.data.data)
+                setTimelines(prevState => [response.data.data])
             }
 
             const accId = await store.getData(KEY.ACCOUNT_ID)

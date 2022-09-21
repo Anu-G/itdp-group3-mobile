@@ -12,7 +12,7 @@ export const ImageViewTimeline = ({item, index}) => {
                 item.toUpperCase().includes(".WMV") || item.toUpperCase().includes(".FLV") ||
                 item.toUpperCase().includes(".AVI") || item.toUpperCase().includes(".WebM") ||
                 item.toUpperCase().includes(".AVCHD") || item.toUpperCase().includes(".MKV") ?
-                <Video source={{uri: item}} style={{width: 376, height: 218, borderRadius: 10}} useNativeControls resizeMode={'contain'}/>
+                <Video source={{uri: item}} style={{width: 376, height: 218, borderRadius: 10}} useNativeControls={true} resizeMode={'contain'}/>
                 :
                 <Image source={{uri: item}} style={{width: 376, height: 218, borderRadius: 10}} resizeMode={'contain'}/>
             }

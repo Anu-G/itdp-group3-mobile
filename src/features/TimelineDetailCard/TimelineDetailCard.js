@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
 import { AvatarSmall } from '../../shared/components/ImageProfile'
-import { ImageViewTimelineMany } from '../../shared/components/ImageViewTimeline'
+import { ImageViewTimeline, ImageViewTimelineMany } from '../../shared/components/ImageViewTimeline'
 import { Caption } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
@@ -98,7 +98,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
 
                 <View>
                     {links.length === 1 ? 
-                        <Image source={{uri: links[0]}} style={{width: 376, height: 218, borderRadius: 10}}/>
+                        <ImageViewTimeline item={links[0]} index={0}/>
                      :
                         <ImageViewTimelineMany data={links}/>
                     }

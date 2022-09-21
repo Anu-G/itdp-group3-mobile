@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { useDep } from '../../shared/context/DependencyContext'
 import { checkErr } from '../../utils/CommonUtils'
@@ -15,6 +15,7 @@ export const TimelinePage = () => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
 
+    const route = useRoute()
     const navigate = useNavigation()
     const [timelines, setTimelines] = useState([])
     const [accountId, setAccountId] = useState()
@@ -22,7 +23,7 @@ export const TimelinePage = () => {
 
     useEffect(() => {
         getTimeline()
-    }, [refresh])
+    }, [refresh, route.params?.refresh])
 
     // service
     const { timelineService } = useDep()

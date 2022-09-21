@@ -13,7 +13,7 @@ const TimelineService = ({ doPost, doDelete }) => {
    const doGetDetailTimeline = async (user) => {
       try {
          return await doPost({
-            url: '/feed/detail-timeline',
+            url: '/feed/id',
             data: user
          });
       } catch (err) {
