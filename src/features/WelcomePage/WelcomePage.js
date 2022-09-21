@@ -17,7 +17,7 @@ export const WelcomePage = () => {
     }
 
     const handleGetStartedClick = () =>{
-        navigation.replace(ROUTE.SIGNUP)
+        navigation.navigate(ROUTE.SETTINGS_BUSINESS)
     }
 
     return(

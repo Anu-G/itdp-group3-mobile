@@ -1,7 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { useLayoutEffect, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { pallete } from "../../../apps/Theme";
 import { CustomPicker } from "../../../shared/components/CustomPicker/CustomPicker";
 import { CustomSwitch } from "../../../shared/components/CustomSwitch/CustomSwitch";
@@ -12,7 +12,7 @@ import { MainContainer } from "../../../shared/components/MainContainer";
 import { ROUTE } from "../../../shared/constants/NavigationConstants";
 import { useTheme } from "../../../shared/context/ThemeContext"
 
-export const SettingsProfileBusiness = () => {
+export const SettingsProfileBusiness = ({navigation}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
 
@@ -72,9 +72,29 @@ export const SettingsProfileBusiness = () => {
             active: false,
         },
     ]
+
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+           headerLeft: () => (
+            <TouchableOpacity style={{margin: 16}} onPress={()=>navigation.goBack()}>
+                <Text style={{color: '#f4f4f4', fontSize: 16}}>Cancel</Text>
+            </TouchableOpacity>
+           
+           ),
+           headerRight: () => (
+            // <View style={{margin: 16}}>
+                <TouchableOpacity style={{padding: 16}} ><Text style={{color: "#FED154", fontSize: 16, fontFamily:'Poppins-Medium'}}>Send</Text></TouchableOpacity>
+            // </View>
+           )
+        })
+     })
     // const [openingHour, setOpeningHour] = useState(dummyOpeningHour);
 
-    const navigation = useNavigation();
+    // const navigation = useNavigation();
+    // const handleToOpenHourSettingsClick = () => {
+    //     navigation.navigate(ROUTE.SETTINGS_OPEN_HOUR)
+    // }
+
     const handleToOpenHourSettingsClick = () => {
         navigation.navigate(ROUTE.SETTINGS_OPEN_HOUR)
     }
