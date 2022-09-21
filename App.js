@@ -38,9 +38,11 @@ export default function App() {
   }, [fonts]);
 
   const onLayoutRootView = useCallback(async _ => {
-    if (appIsReady) {
-      await hideAsync();
-    }
+    setTimeout(async _ => {
+      if (appIsReady) {
+        await hideAsync();
+      }
+    }, 3000)
   }, [appIsReady]);
 
   if (!appIsReady) {

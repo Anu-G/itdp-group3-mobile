@@ -1,12 +1,10 @@
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { storage } from '../../apps/Storage';
 import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 import { MainContainer } from '../../shared/components/MainContainer';
-import { KEY } from '../../shared/constants/StoreConstants';
 import { useDep } from '../../shared/context/DependencyContext';
 import { useTheme } from '../../shared/context/ThemeContext';
 import { checkErr } from '../../utils/CommonUtils';
@@ -14,12 +12,11 @@ import { checkErr } from '../../utils/CommonUtils';
 export const AddPost = ({ navigation }) => {
     const theme = useTheme()
     const styles = styling(theme)
-    const { profileService, postService, postImageService } = useDep()
-    const [accountId, setAccountId] = useState()
-    const [profileImage, setProfileImage] = useState('')
+    const { postService, postImageService } = useDep()
     const [caption, setCaption] = useState('')
     const [pickedImagePath, setPickedImagePath] = useState([])
     const [loading, setLoading] = useState(false)
+    const profile = useSelector((state) => state.profile);
     const user = useSelector((state) => state.auth);
 
     useLayoutEffect(() => {
@@ -27,25 +24,7 @@ export const AddPost = ({ navigation }) => {
             headerBackImage: () => <Text style={{ color: "#F4F4F4", fontSize: 16 }}>Cancel</Text>,
             headerRight: () => (<TouchableOpacity style={{ margin: 16 }} onPress={saveResponse} disabled={loading}><Text style={{ color: "#FED154", fontSize: 16 }}>Send</Text></TouchableOpacity>)
         })
-    }, [navigation, accountId, caption, pickedImagePath])
-
-    useEffect(() => {
-        getProfile()
-    }, [])
-
-    const getProfile = async () => {
-        try {
-            let id = user.accountId
-            setAccountId(id)
-
-            let response = await profileService.doGetBusinessProfile({
-                account_id: `${id}`
-            })
-            setProfileImage(response.data.data.business_profile.profile_image)
-        } catch (err) {
-            checkErr(err)
-        }
-    }
+    }, [navigation, caption, pickedImagePath])
 
     const showImagePicker = async () => {
         try {
@@ -93,7 +72,7 @@ export const AddPost = ({ navigation }) => {
         try {
             const responseImage = await postImageService.doPostImage(pickedImagePath)
             const response = await postService.doPostData({
-                account_ID: accountId,
+                account_ID: user.accountId,
                 caption_post: caption,
                 media_links: responseImage
             })
@@ -111,7 +90,7 @@ export const AddPost = ({ navigation }) => {
         <MainContainer>
             <View style={styles.upContainer}>
                 <View style={styles.leftContainer}>
-                    {profileImage !== '' && <Image source={{ uri: profileImage }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
+                    {profile.profileImage !== '' && <Image source={{ uri: profile.profileImage }} style={{ width: 50, height: 50, borderRadius: 25 }} />}
                 </View>
                 <View style={styles.rightContainer}>
                     <TextInput onChangeText={setCaption} placeholder='Add some post...' placeholderTextColor={"#849EB9"} multiline={true} textAlignVertical={'top'} style={styles.textArea} />

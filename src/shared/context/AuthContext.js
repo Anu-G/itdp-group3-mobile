@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { storage } from "../../apps/Storage";
 import { login, logout } from "../../features/Login/Slice/AuthSlice";
+import { removeProfile } from "../../features/Profile/Slice/ProfileSlice";
 import { KEY } from "../constants/StoreConstants";
 import { useDep } from "./DependencyContext";
 
@@ -53,6 +54,7 @@ export const AuthProvider = ({ children }) => {
             await storage.deleteData(KEY.EXPIRED);
 
             dispatch(logout());
+            dispatch(removeProfile());
             return true;
          }
       } catch (e) {

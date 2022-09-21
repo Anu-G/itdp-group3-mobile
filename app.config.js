@@ -12,7 +12,7 @@ export default
       splash: {
         image: "./assets/images/TokTokSplash.png",
         resizeMode: "contain",
-        backgroundColor: "#ffffff"
+        backgroundColor: "#FED154"
       },
       updates: {
         fallbackToCacheTimeout: 0

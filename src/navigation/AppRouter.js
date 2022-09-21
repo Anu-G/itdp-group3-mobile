@@ -25,6 +25,7 @@ export const AppRouter = _ => {
             if (resp) {
                setInitialRoute(ROUTE.MAIN);
             } else {
+               // welcome route
                setInitialRoute(ROUTE.LOGIN);
             }
          } catch (e) {
@@ -35,7 +36,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.MAIN} >
+      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />

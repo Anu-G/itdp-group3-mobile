@@ -2,7 +2,7 @@ export const ROUTE = {
    LOGIN: 'login',
    MAIN: 'main',
    HOME: 'home',
-   SETTING: 'setting',
+   SEARCH: 'search',
    SIGNUP: 'signup',
    ADD_POST: 'add-post',
    ADD_PRODUCT: 'add-product',
@@ -10,4 +10,5 @@ export const ROUTE = {
    SETTINGS_BUSINESS: 'settingBusiness',
    NON_BUSINESS_PROFILE: 'non business profile',
    BUSINESS_PROFILE: 'business profile',
+   NOTIFICATION: 'notification',
 }
