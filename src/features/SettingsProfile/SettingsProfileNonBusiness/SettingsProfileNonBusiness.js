@@ -38,6 +38,7 @@ export const SettingsProfileNonBusiness = () => {
                         onChange={setBio}
                         value={bio}
                          />
+
                 </View>
             
         </MainContainer>

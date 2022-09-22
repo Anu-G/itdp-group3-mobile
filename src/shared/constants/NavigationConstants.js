@@ -11,4 +11,7 @@ export const ROUTE = {
    NON_BUSINESS_PROFILE: 'non business profile',
    BUSINESS_PROFILE: 'business profile',
    NOTIFICATION: 'notification',
+   SETTINGS_OPEN_HOUR: 'settingOpenHour',
+   SETTINGS_LINKS: 'settingsLinks',
+   WELCOME_PAGE: 'welcomePage',
 }

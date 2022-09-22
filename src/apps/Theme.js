@@ -72,7 +72,7 @@ export const themeDark = {
       mediumButtonText: {
          fontSize: 12,
          color: pallete.dark,
-         fontFamily: 'Poppins-Medium',
+         fontFamily: 'Poppins-SemiBold',
       },
       bigButtonText: {
          fontSize: 12,
@@ -124,6 +124,11 @@ export const themeDark = {
          color: pallete.yellow,
          fontFamily: 'Poppins-SemiBold'
       },
+      mainTitle: {
+         fontSize: 36,
+         color: pallete.white,
+         fontFamily: 'Poppins-SemiBold'
+      }
    },
    tabIcon: {
       size: 28,

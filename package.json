@@ -11,9 +11,11 @@
   "dependencies": {
     "@expo/config-plugins": "^5.0.0",
     "@expo/vector-icons": "^13.0.0",
-    "@expo/webpack-config": "^0.17.0",
+    "@expo/webpack-config": "^0.16.19",
     "@fortawesome/react-native-fontawesome": "^0.3.0",
-    "@react-native-firebase/app": "^15.4.0",
+    "@react-native-firebase/app": "~15.4.0",
+    "@react-native-community/datetimepicker": "6.2.0",
+    "@react-native-picker/picker": "2.4.2",
     "@react-navigation/bottom-tabs": "6.3.3",
     "@react-navigation/native": "6.0.12",
     "@react-navigation/stack": "6.2.3",

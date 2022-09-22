@@ -1,14 +1,15 @@
-import { FontAwesome } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
-import { Button, Image, Text, TouchableOpacity } from "react-native";
 import { AddPost } from "../features/AddPost/AddPost";
 import { Login } from "../features/Login/Login";
 import { MainPage } from "../features/MainPage/MainPage";
-import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileNonBusiness";
+import { SettingsLink } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsLink/SettingsLink";
+import { SettingsOpenHour } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsOpenHour/SettingsOpenHour";
+import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
 import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
 import { SignUp } from "../features/SignUp/SignUp";
 import { SettingsAddProduct } from "../features/SettingsAddProduct/SettingsAddProduct";
+import { WelcomePage } from "../features/WelcomePage/WelcomePage";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
@@ -25,25 +26,27 @@ export const AppRouter = _ => {
             if (resp) {
                setInitialRoute(ROUTE.MAIN);
             } else {
-               // welcome route
-               setInitialRoute(ROUTE.LOGIN);
+               setInitialRoute(ROUTE.WELCOME_PAGE);
             }
          } catch (e) {
-            setInitialRoute(ROUTE.LOGIN);
+            setInitialRoute(ROUTE.WELCOME_PAGE);
          }
       }
       onValidToken();
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
+      <Stack.Navigator initialRouteName={initialRoute} >
          <Stack.Group screenOptions={{ headerShown: false }} >
-            <Stack.Screen name={ROUTE.LOGIN} component={Login} />
-            <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
+            <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} />
+            <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} />
-         </Stack.Group>
+            <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} />
+            <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} />
+            <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
+         </Stack.Group >
          <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
             headerTitle: 'Add Post',
             headerTitleAlign: "center",
@@ -71,6 +74,6 @@ export const AppRouter = _ => {
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
 
-      </Stack.Navigator>
+      </Stack.Navigator >
    )
 }
