@@ -86,14 +86,11 @@ export const InputTextActiveSmallSize = ({ text, value, onChange, placeholder, k
 
 const styling = (theme) => StyleSheet.create({
    inputContainer: {
-      marginHorizontal:theme?.spacing?.m,
       width: '100%',
    },
    input:{
       paddingHorizontal: theme?.spacing?.s,
       height: theme?.spacing?.xxl,
-      // marginTop: theme?.spacing?.m,
-      marginBottom: theme?.spacing?.m,
       borderBottomWidth: 1,
       width: '100%',
       ...theme?.text?.text32,
