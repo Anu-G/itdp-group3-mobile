@@ -1,8 +1,12 @@
+import { FontAwesome } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
+import { View } from "react-native";
 import { AddPost } from "../features/AddPost/AddPost";
+import { useTheme } from "react-native-paper";
 import { Login } from "../features/Login/Login";
 import { MainPage } from "../features/MainPage/MainPage";
+import { AddLink } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsLink/AddLink/AddLink";
 import { SettingsLink } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsLink/SettingsLink";
 import { SettingsOpenHour } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsOpenHour/SettingsOpenHour";
 import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
@@ -10,6 +14,7 @@ import { SettingsProfileNonBusiness } from "../features/SettingsProfile/Settings
 import { SignUp } from "../features/SignUp/SignUp";
 import { SettingsAddProduct } from "../features/SettingsAddProduct/SettingsAddProduct";
 import { WelcomePage } from "../features/WelcomePage/WelcomePage";
+import { CaptionColor } from "../shared/components/Label";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
@@ -18,8 +23,11 @@ import { SettingsAddFAQ } from "../features/SettingsAddFAQ/SettingsAddFAQ";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
+   const theme = useTheme()
    const { isTokenExist } = useAuth();
    const [initialRoute, setInitialRoute] = useState(null);
+
+
    useEffect(() => {
       const onValidToken = async () => {
          try {
@@ -48,6 +56,7 @@ export const AppRouter = _ => {
             <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
          </Stack.Group >
+
          <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
             headerTitle: 'Add Post',
             headerTitleAlign: "center",
@@ -60,7 +69,7 @@ export const AppRouter = _ => {
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
-         <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({navigation}) => ({
+         <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
             headerTitle: 'Add',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
@@ -78,7 +87,29 @@ export const AppRouter = _ => {
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
+         <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({
+            headerTitle: 'Edit Profile',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+         })} />
+         <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} options={({ navigation }) => ({
+            headerTitle: 'Edit Profile',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+         })} />
 
+         <Stack.Group screenOptions={{ presentation: "modal", }}>
+            <Stack.Screen name={ROUTE.ADD_LINK} component={AddLink}
+               options={{
+                  headerTitle: 'Add Link',
+                  headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
+                  headerTintColor: '#f4f4f4',
+                  headerRight: () => <View>
+                     <CaptionColor text={'Save'} style={theme?.pallete?.lightBlue} />
+                  </View>
+               }}
+            />
+         </Stack.Group>
       </Stack.Navigator >
    )
 }
