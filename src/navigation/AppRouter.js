@@ -49,9 +49,7 @@ export const AppRouter = _ => {
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
-            <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} />
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
-            <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} />
             <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} />
             <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />

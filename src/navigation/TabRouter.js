@@ -12,6 +12,7 @@ import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useDep } from "../shared/context/DependencyContext";
 import { useTheme } from "../shared/context/ThemeContext";
 import { checkErr } from "../utils/CommonUtils";
+import { TimelinePage } from "../features/TimelinePage/TimelinePage";
 
 const Tab = createBottomTabNavigator();
 export const TabRouter = _ => {
@@ -57,17 +58,11 @@ export const TabRouter = _ => {
                         <Entypo name="home" size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
                      </View>
                   )
-               case ROUTE.ADD_POST:
+               case ROUTE.TIMELINE:
 
                   return (
                      <View style={style.iconCtn}>
                         <Foundation name='magnifying-glass' size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
-                     </View>
-                  )
-               case ROUTE.SETTING:
-                  return (
-                     <View style={style.iconCtn}>
-                        <Octicons name="bell-fill" size={style.tabIcon.size - 4} color={color} style={focused ? style.textShadow : ''} />
                      </View>
                   )
                case ROUTE.BUSINESS_PROFILE:
@@ -87,8 +82,8 @@ export const TabRouter = _ => {
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.HOME} component={Home} />
+            <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
             <Tab.Screen name={ROUTE.ADD_POST} component={AddPost} />
-            <Tab.Screen name={ROUTE.SETTING} component={Setting} />
             <Tab.Screen name={ROUTE.BUSINESS_PROFILE} component={BusinessProfile} />
          </Tab.Group>
       </Tab.Navigator>
