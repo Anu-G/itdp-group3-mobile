@@ -1,10 +1,10 @@
 import { Picker } from "@react-native-picker/picker"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { useTheme } from "../../context/ThemeContext"
 import { TextProfile } from "../Label"
 
-export const CustomPicker = ({label='Options', }) => {
+export const CustomPicker = ({label='Options', data, init, handleChange}) => {
 
     const theme = useTheme();
     const styles = styling(theme.state.style);
@@ -26,6 +26,10 @@ export const CustomPicker = ({label='Options', }) => {
         },
     ]
 
+    useEffect(() => {
+        setSelected(init)
+    }, [init])
+
     return(
         <View style={styles.outer}>
             <TextProfile text={label}/>
@@ -33,13 +37,13 @@ export const CustomPicker = ({label='Options', }) => {
                 <Picker 
                     selectedValue={selected}
                     onValueChange={(value, index) => {
-                        setSelected(value)
+                        handleChange(value)
                     }}
                     style={styles.picker}
                     dropdownIconColor={'#F4F4F4'}>
-                    {itemTest.map((item)=>{
+                    {data.map((item, i)=>{
                         return(
-                            <Picker.Item label={item.item} value={item.value}/>
+                            <Picker.Item label={item.category_names} value={item.category_id} key={i}/>
                         )
                     })}
                 </Picker>

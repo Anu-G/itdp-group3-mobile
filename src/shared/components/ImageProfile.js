@@ -24,7 +24,14 @@ export const SettingsImageProfile = ({style={}, source=require('../../../assets/
     const styles = styling(theme.state.style);
 
     return(
-        <Image source={source} style={styles.imageProfileSettings}/>
+        <>
+        {source.includes("https://") === true || source.includes("file://") == true ? 
+            <Image source={{uri : source}} style={styles.imageProfileSettings}/>
+            :
+            <Image source={source} style={styles.imageProfileSettings}/>
+        }
+
+        </>
     )
 }
 

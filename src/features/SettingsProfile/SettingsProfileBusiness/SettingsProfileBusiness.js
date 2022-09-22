@@ -1,77 +1,42 @@
 import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useLayoutEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { pallete } from "../../../apps/Theme";
+import { useRoute } from "@react-navigation/native";
+import * as ImagePicker from 'expo-image-picker';
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { store } from '../../../apps/Storage';
 import { CustomPicker } from "../../../shared/components/CustomPicker/CustomPicker";
-import { CustomSwitch } from "../../../shared/components/CustomSwitch/CustomSwitch";
 import { InputTextNoError } from "../../../shared/components/CustomTextInput/CustomTextInput";
 import { SettingsImageProfile } from "../../../shared/components/ImageProfile";
-import {  Caption, Text13SemiBoldYellow, Text32, TextProfile } from "../../../shared/components/Label";
+import { Caption, Text13SemiBoldYellow, Text32, TextProfile } from "../../../shared/components/Label";
 import { MainContainer } from "../../../shared/components/MainContainer";
 import { ROUTE } from "../../../shared/constants/NavigationConstants";
-import { useTheme } from "../../../shared/context/ThemeContext"
+import { KEY } from "../../../shared/constants/StoreConstants";
+import { useDep } from "../../../shared/context/DependencyContext";
+import { useTheme } from "../../../shared/context/ThemeContext";
+import { checkErr } from '../../../utils/CommonUtils';
 
 export const SettingsProfileBusiness = ({navigation}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
+    const route = useRoute()
 
+    const [accountId, setAccountId] = useState()
     const [name, setName] = useState('');
     const [bio, setBio] = useState('');
     const [address, setAddress] = useState('');
     const [gmaps, setGmaps] = useState('');
+    const [categoryName, setCategoryName] = useState('')
+    const [categoryId, setCategoryId] = useState()
+    const [profileImage, setProfileImage] = useState('')
+    const [businessLinks, setBusinessLinks] = useState([])
 
-    const dummyOpeningHour = [
-        {
-            id:0,
-            day: 'Monday',
-            openTime: '08.00',
-            closeTime: '22.00',
-            active: true,
-        },
-        {
-            id:1,
-            day: 'Tuesday',
-            openTime: '09.00',
-            closeTime: '21.00',
-            active: true,
-        },
-        {
-            id:2,
-            day: 'Wednesday',
-            openTime: '09.00',
-            closeTime: '21.00',
-            active: false,
-        },
-        {
-            id:3,
-            day: 'Thursday',
-            openTime: '09.00',
-            closeTime: '21.00',
-            active: false,
-        },
-        {
-            id:4,
-            day: 'Friday',
-            openTime: '09.00',
-            closeTime: '21.00',
-            active: true,
-        },
-        {
-            id:5,
-            day: 'Saturday',
-            openTime: '09.00',
-            closeTime: '21.00',
-            active: false,
-        },
-        {
-            id:6,
-            day: 'Sunday',
-            openTime: '09.00',
-            closeTime: '21.00',
-            active: false,
-        },
-    ]
+    // format untuk tampilan settingsBusinessProfile
+    const [businessHoursView, setBusinessHoursView] = useState([])
+    // format untuk tampilan settingsOpenHour dan yang disubmit ke backend
+    const [businessHoursSubmit, setBusinessHoursSubmit] = useState([])
+
+    const [allCategories, setAllCategories] = useState([])
+    const [existing, setExisting] = useState(false)
 
     useLayoutEffect(()=>{
         navigation.setOptions({
@@ -83,29 +48,152 @@ export const SettingsProfileBusiness = ({navigation}) => {
            ),
            headerRight: () => (
             // <View style={{margin: 16}}>
-                <TouchableOpacity style={{padding: 16}} ><Text style={{color: "#FED154", fontSize: 16, fontFamily:'Poppins-Medium'}}>Send</Text></TouchableOpacity>
+                <TouchableOpacity style={{padding: 16}} onPress={saveResponse}><Text style={{color: "#FED154", fontSize: 16, fontFamily:'Poppins-Medium'}}>Send</Text></TouchableOpacity>
             // </View>
            )
         })
-     })
-    // const [openingHour, setOpeningHour] = useState(dummyOpeningHour);
+    })
 
-    // const navigation = useNavigation();
-    // const handleToOpenHourSettingsClick = () => {
-    //     navigation.navigate(ROUTE.SETTINGS_OPEN_HOUR)
-    // }
+    useEffect(() => {
+        getProfileAndCategories()
+    }, [])
+
+    useEffect(() => {
+        if (route.params?.openHour) {
+            let object = []
+            for (let i = 0; i < route.params?.openHour.length; i++) {
+                object.push({
+                    day: `${route.params?.openHour[i].id}`,
+                    open_hour: route.params?.openHour[i].openTime,
+                    close_hour: route.params?.openHour[i].closeTime
+                })
+            }
+
+            setBusinessHoursSubmit(object)
+            setBusinessHoursView(route.params.openHour)                
+        }
+    }, [route.params?.openHour])
+
+    const showImagePicker = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+
+            if (!result.cancelled) {
+                setProfileImage(result.uri)
+            }
+        } catch (err) {
+            console.log(err);
+            checkErr(err)
+        }
+    }
+
+    // service
+    const {profileService, profileImageService, categoryService} = useDep()
+
+    const getProfileAndCategories = async () => {
+        try {
+            const accId = await store.getData(KEY.ACCOUNT_ID)
+            setAccountId(accId)
+
+            const responseCategories = await categoryService.doGetCategories()
+            if (responseCategories.status ===  200) {
+                setAllCategories(responseCategories.data.data)
+            }
+
+            const response = await profileService.doGetBusinessProfile({
+                account_id: `${accId}`
+            })
+
+            let data = response.data.data
+            if (data.business_profile.display_name != "") {
+                setExisting(true)
+ 
+                setProfileImage(data.business_profile.profile_image)
+                setName(data.business_profile.display_name)
+                setBio(data.business_profile.profile_bio)
+                setAddress(data.business_profile.address)
+                setGmaps(data.business_profile.gmaps_link)
+                setCategoryId(data.business_profile.category_id)
+                setCategoryName(data.category_name)
+
+                setBusinessHoursSubmit(data.business_profile.business_hours)
+
+                let newBusinessHours = adjustTime(data.business_profile.business_hours)
+                setBusinessHoursView(newBusinessHours)
+             }
+        } catch (err) {
+            console.log(err);
+            checkErr(err)
+        }
+    }
 
     const handleToOpenHourSettingsClick = () => {
-        navigation.navigate(ROUTE.SETTINGS_OPEN_HOUR)
+        navigation.navigate(ROUTE.SETTINGS_OPEN_HOUR, {
+            data: adjustTime(businessHoursSubmit)
+        })
+    }
+
+    const handleChangeCategory = (value) => {
+        setCategoryId(value)
+    }
+
+    const saveResponse = async () => {
+        try {
+            let responseImage = ''
+            if (profileImage.includes("https://") === false) {
+                responseImage = await profileImageService.addBusinessProfileImage(profileImage)
+            } else {
+                responseImage = profileImage
+            }
+            if (existing) {
+                const response = await profileService.updateBusinessProfile({
+                    account_id: `${accountId}`,
+                    category_id: `${categoryId}`,
+                    address: address,
+                    profile_image: responseImage,
+                    profile_bio: bio,
+                    gmaps_link: gmaps,
+                    display_name: name,
+                    business_hours: businessHoursSubmit,
+                    business_links: businessLinks
+                })
+                if (response.status === 200) {
+                    navigation.navigate(ROUTE.MAIN)
+                }
+            } else {
+                const response = await profileService.addBusinessProfile({
+                    account_id: `${accountId}`,
+                    category_id: `${categoryId}`,
+                    address: address,
+                    profile_image: responseImage,
+                    profile_bio: bio,
+                    gmaps_link: gmaps,
+                    display_name: name,
+                    business_hours: businessHoursSubmit,
+                    business_links: businessLink
+                })
+                if (response.status === 200) {
+                    navigation.navigate(ROUTE.MAIN)
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            checkErr(err)
+        }
     }
 
     return(
         <MainContainer>
             <ScrollView style={{width: '100%'}}>
                 <View style={styles.changeProfileCtn}>
-                    <SettingsImageProfile />
+                    <SettingsImageProfile source={profileImage}/>
 
-                    <Pressable>
+                    <Pressable onPress={showImagePicker}>
                         <Text13SemiBoldYellow text={'Change Profile Picture'}/>
                     </Pressable>
                 </View>
@@ -126,7 +214,7 @@ export const SettingsProfileBusiness = ({navigation}) => {
 
                     
                     <View style={styles.container}>
-                        <CustomPicker label="Category"/>
+                        <CustomPicker label="Category" data={allCategories} init={categoryName} handleChange={handleChangeCategory}/>
                     </View>
 
                     <InputTextNoError
@@ -147,12 +235,12 @@ export const SettingsProfileBusiness = ({navigation}) => {
                             monday: 10.00-22.00
                             Tuesday: 14.00-22.00 */}
                         
-                        {dummyOpeningHour.map(dummy => {
+                        {businessHoursView.map((dummy,i) => {
                             if (dummy.active==true) {
                                 return (
-                                    <>
+                                    <View key={i}>
                                     <Caption text={`${dummy.day} \t\t ${dummy.openTime} - ${dummy.closeTime}`} style={{paddingHorizontal: 8}}/>
-                                    </>
+                                    </View>
                                 )
                             }
                         })}
@@ -232,5 +320,126 @@ const styling = (theme) => StyleSheet.create({
         alignItems: "center",
         ...theme?.text?.text32,
     }
-
 })
+
+
+const adjustTime = (data) => {
+    // digunakan untuk menyesuaikan waktu dengan isActive true dan false
+    let temporary = Array.from({ length: 7 }, (v, i) => ({
+        id: 0, 
+        day: '',
+        openTime: '',
+        closeTime: '',
+        active: false
+    }))
+
+    for (let i = 0; i < 7; i++) {
+        if (i == 0) {
+            let index = data.findIndex((item) => item.day == i)
+            if (index !== -1 ) {
+                temporary[i].id = i
+                temporary[i].day = 'Monday'
+                temporary[i].openTime = data[index].open_hour
+                temporary[i].closeTime = data[index].close_hour
+                temporary[i].active = true                    
+            } else {
+                temporary[i].id = i
+                temporary[i].day = 'Monday'
+                temporary[i].openTime = "08.00"
+                temporary[i].closeTime = "21.00"
+                temporary[i].active = false   
+            }
+        } else if (i == 1) {
+            let index = data.findIndex((item) => item.day == i)
+            if (index !== -1 ) {
+                temporary[i].id = i
+                temporary[i].day = 'Tuesday'
+                temporary[i].openTime = data[index].open_hour
+                temporary[i].closeTime = data[index].close_hour
+                temporary[i].active = true                    
+            } else {
+                temporary[i].id = i
+                temporary[i].day = 'Tuesday'
+                temporary[i].openTime = "08.00"
+                temporary[i].closeTime = "21.00"
+                temporary[i].active = false   
+            }
+        } else if (i == 2) {
+            let index = data.findIndex((item) => item.day == i)
+            if (index !== -1 ) {
+                temporary[i].id = i
+                temporary[i].day = 'Wednesday'
+                temporary[i].openTime = data[index].open_hour
+                temporary[i].closeTime = data[index].close_hour
+                temporary[i].active = true                    
+            } else {
+                temporary[i].id = i
+                temporary[i].day = 'Wednesday'
+                temporary[i].openTime = "08.00"
+                temporary[i].closeTime = "21.00"
+                temporary[i].active = false   
+            }
+        } else if (i == 3) {
+            let index = data.findIndex((item) => item.day == i)
+            if (index !== -1 ) {
+                temporary[i].id = i
+                temporary[i].day = 'Thursday'
+                temporary[i].openTime = data[index].open_hour
+                temporary[i].closeTime = data[index].close_hour
+                temporary[i].active = true                    
+            } else {
+                temporary[i].id = i
+                temporary[i].day = 'Thursday'
+                temporary[i].openTime = "08.00"
+                temporary[i].closeTime = "21.00"
+                temporary[i].active = false   
+            }
+        } else if (i == 4) {
+            let index = data.findIndex((item) => item.day == i)
+            if (index !== -1 ) {
+                temporary[i].id = i
+                temporary[i].day = 'Friday'
+                temporary[i].openTime = data[index].open_hour
+                temporary[i].closeTime = data[index].close_hour
+                temporary[i].active = true                    
+            } else {
+                temporary[i].id = i
+                temporary[i].day = 'Friday'
+                temporary[i].openTime = "08.00"
+                temporary[i].closeTime = "21.00"
+                temporary[i].active = false   
+            }
+        } else if (i == 5) {
+            let index = data.findIndex((item) => item.day == i)
+            if (index !== -1 ) {
+                temporary[i].id = i
+                temporary[i].day = 'Saturday'
+                temporary[i].openTime = data[index].open_hour
+                temporary[i].closeTime = data[index].close_hour
+                temporary[i].active = true                    
+            } else {
+                temporary[i].id = i
+                temporary[i].day = 'Saturday'
+                temporary[i].openTime = "08.00"
+                temporary[i].closeTime = "21.00"
+                temporary[i].active = false   
+            }
+        } else if (i == 6) {
+            let index = data.findIndex((item) => item.day == i)
+            if (index !== -1 ) {
+                temporary[i].id = i
+                temporary[i].day = 'Sunday'
+                temporary[i].openTime = data[index].open_hour
+                temporary[i].closeTime = data[index].close_hour
+                temporary[i].active = true                    
+            } else {
+                temporary[i].id = i
+                temporary[i].day = 'Sunday'
+                temporary[i].openTime = "08.00"
+                temporary[i].closeTime = "21.00"
+                temporary[i].active = false   
+            }
+        }
+    }
+    return temporary
+}

@@ -104,7 +104,7 @@ export const Login = _ => {
          if (email === '' && password === '') {
             throw new Error('Please input your user E-mail and password');
          } else {
-            if (await onLogin({ email: email, password: password })) {
+            if (await onLogin({ email: email.text, password: password })) {
                navigation.replace(ROUTE.MAIN)
             }
          }
