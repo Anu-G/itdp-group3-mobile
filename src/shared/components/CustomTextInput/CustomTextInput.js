@@ -1,85 +1,85 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, View, TextInput, Text, Dimensions } from "react-native";
+import { Pressable, StyleSheet, View, TextInput, Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useTheme } from "../../context/ThemeContext";
 import { CaptionColor, TextProfile } from "../Label";
 
-export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyboard = 'default', style }) => {
+export const InputTextNoError = ({ text, value, onChange, placeholder = text, keyboard = 'default', style }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
- 
-    return (
-       <View style={styles.inputContainer}>
-          <TextProfile text={text}/>
-          <InputTextOnly
-            onChange={onChange} 
-            placeholder={placeholder} 
-            value={value} 
-            keyboard={keyboard}/>
-            <View style={{height: 24}}/>
-       </View>
-    );
- }
-
- export const InputTextWithError = ({ text, value, onChange, placeholder=text, keyboard = 'default', style, error = ''}) => {
-    const theme = useTheme();
-    const styles = styling(theme.state.style);
-   
 
     return (
         <View style={styles.inputContainer}>
-           <TextProfile text={text}/>
-           <InputTextOnly
-            onChange={onChange} 
-            placeholder={placeholder} 
-            value={value} 
-            keyboard={keyboard}/>
-           { error.length==0 
-              ? <View style={{height: 24}}/>
-              : <CaptionColor text={`${error}`} style={styles.inputError} openStatus={false}/>}
+            <TextProfile text={text} />
+            <InputTextOnly
+                onChange={onChange}
+                placeholder={placeholder}
+                value={value}
+                keyboard={keyboard} />
+            <View style={[style, { height: 24 }]} />
         </View>
-     );
- }
+    );
+}
 
- export const InputTextPassword = ({ text='Password',value, onChange, placeholder=text, error = 'error'}) =>{
+export const InputTextWithError = ({ text, value, onChange, placeholder = text, keyboard = 'default', style, error = '' }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
- 
+
+
+    return (
+        <View style={styles.inputContainer}>
+            <TextProfile text={text} />
+            <InputTextOnly
+                onChange={onChange}
+                placeholder={placeholder}
+                value={value}
+                keyboard={keyboard} />
+            {error.length == 0
+                ? <View style={{ height: 24 }} />
+                : <CaptionColor text={`${error}`} style={styles.inputError} openStatus={false} />}
+        </View>
+    );
+}
+
+export const InputTextPassword = ({ text = 'Password', value, onChange, placeholder = text, error = 'error' }) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+
     const [hide, setHide] = useState(true);
     const [icon, setIcon] = useState('eye-off');
- 
+
     const changeIcon = _ => {
-       setHide(!hide);
-       setIcon(prevState => prevState === 'eye' ? 'eye-off' : 'eye');
+        setHide(!hide);
+        setIcon(prevState => prevState === 'eye' ? 'eye-off' : 'eye');
     }
 
-    return(
+    return (
         <View style={styles.inputContainer}>
-        <TextProfile text={text}/>
+            <TextProfile text={text} />
             <View style={styles.passwordContainer}>
-                <InputTextOnly 
+                <InputTextOnly
                     onChange={onChange}
                     placeholder={placeholder}
                     value={value}
                     secureText={hide}>
-                </InputTextOnly> 
+                </InputTextOnly>
                 <View style={styles.iconContainer}>
                     <Pressable onPress={changeIcon}>
                         <Feather name={icon} size={20} color={styles.inputPass.color} />
-                </Pressable>
+                    </Pressable>
                 </View>
-                
+
             </View>
 
-            { error.length==0 
-                ? <View style={{height: 24}}/>
-                : <CaptionColor text={`${error}`} style={styles.inputError} openStatus={false}/>}
+            {error.length == 0
+                ? <View style={{ height: 24 }} />
+                : <CaptionColor text={`${error}`} style={styles.inputError} openStatus={false} />}
         </View>
     )
-    
- }
 
- export const InputTextOnly = ({value, onChange, placeholder, keyboard = 'default', secureText = false }) => {
+}
+
+export const InputTextOnly = ({ value, onChange, placeholder, keyboard = 'default', secureText = false, style }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     const [inputStyle, setInputStyle] = useState([styles.input, styles.inputInactive]);
@@ -94,31 +94,31 @@ export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyb
 
     return (
         <View style={styles.inputContainer}>
-           <TextInput 
-             style={inputStyle} 
-             placeholder={placeholder} 
-             placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} 
-             onChangeText={onChange} 
-             value={value} 
-             keyboardType={keyboard} 
-             onFocus = {onFocus}
-             onBlur = {onBlur}
-             secureTextEntry= {secureText}
-             />
+            <TextInput
+                style={[inputStyle, style]}
+                placeholder={placeholder}
+                placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null}
+                onChangeText={onChange}
+                value={value}
+                keyboardType={keyboard}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                secureTextEntry={secureText}
+            />
         </View>
-     );
+    );
 
- }
+}
 
- const styling = (theme) => StyleSheet.create({
+const styling = (theme) => StyleSheet.create({
     inputContainer: {
         // flex: 5,
-    //    marginHorizontal:theme?.spacing?.m,
-       width: '100%',
-    //    alignSelf: "stretch",
-    //    marginBottom: theme?.spacing?.m,
+        //    marginHorizontal:theme?.spacing?.m,
+        width: '100%',
+        //    alignSelf: "stretch",
+        //    marginBottom: theme?.spacing?.m,
     },
-    input:{
+    input: {
         paddingHorizontal: theme?.spacing?.s,
         height: theme?.spacing?.xxl,
         // marginTop: theme?.spacing?.sm,
@@ -137,18 +137,18 @@ export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyb
     },
     inputContainerWithError: {
         // flex: 5,
-    //    marginHorizontal:theme?.spacing?.m,
-       width: '100%',
-    //    alignSelf: "stretch",
-       marginBottom: theme?.spacing?.m,
-       height: 85,
+        //    marginHorizontal:theme?.spacing?.m,
+        width: '100%',
+        //    alignSelf: "stretch",
+        marginBottom: theme?.spacing?.m,
+        height: 85,
 
     },
     inputError: {
-    //    marginBottom:theme?.spacing?.m,
-       alignSelf:'center'
+        //    marginBottom:theme?.spacing?.m,
+        alignSelf: 'center'
     },
-    errorContainer : {
+    errorContainer: {
         height: 32
     },
     inputPass: {
@@ -161,12 +161,12 @@ export const InputTextNoError = ({ text, value, onChange, placeholder=text, keyb
         borderBottomColor: theme?.colors?.inputBorder,
         width: Dimensions.get('window').width - 52,
         // marginBottom: theme?.spacing?.m,
-        flexDirection: 'row', 
+        flexDirection: 'row',
         alignItems: "center",
 
     },
     placeholderColor: theme?.colors?.whiteTrp,
-    iconContainer:{
+    iconContainer: {
         height: 32,
         alignItems: "center",
     }

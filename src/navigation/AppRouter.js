@@ -1,4 +1,3 @@
-import { FontAwesome } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -15,6 +14,7 @@ import { SignUp } from "../features/SignUp/SignUp";
 import { SettingsAddProduct } from "../features/SettingsAddProduct/SettingsAddProduct";
 import { WelcomePage } from "../features/WelcomePage/WelcomePage";
 import { CaptionColor } from "../shared/components/Label";
+import { TimelineDetailPage } from "../features/TimelineDetailPage/TimelineDetailPage";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
@@ -71,6 +71,12 @@ export const AppRouter = _ => {
          })} />
          <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
             headerTitle: 'Add',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
+         <Stack.Screen name={ROUTE.DETAIL_TIMELINE} component={TimelineDetailPage} options={({ navigation, route }) => ({
+            headerTitle: 'Post',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }

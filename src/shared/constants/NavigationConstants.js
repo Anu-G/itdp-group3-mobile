@@ -16,4 +16,6 @@ export const ROUTE = {
    SETTINGS_LINKS: 'settingsLinks',
    WELCOME_PAGE: 'welcomePage',
    ADD_LINK: 'addLink',
+   TIMELINE: 'timeline',
+   DETAIL_TIMELINE: 'detail-timeline',
 }

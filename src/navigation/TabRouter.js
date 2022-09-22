@@ -51,7 +51,7 @@ export const TabRouter = _ => {
       <Tab.Navigator screenOptions={({ route }) => ({
          tabBarIcon: ({ focused, color, size }) => {
             switch (route.name) {
-               case ROUTE.HOME:
+               case ROUTE.TIMELINE:
                   return <Entypo name="home" size={style.tabIcon.size} color={color} />
                case ROUTE.SEARCH:
                   return <Entypo name="magnifying-glass" size={style.tabIcon.size} color={color} />
