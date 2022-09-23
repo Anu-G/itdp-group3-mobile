@@ -16,6 +16,7 @@ import { TimelineDetailPage } from "../features/TimelineDetailPage/TimelineDetai
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 import { SettingsAddFAQ } from "../features/SettingsAddFAQ/SettingsAddFAQ";
+import { CatalogPage } from "../features/CategorizePage/CatalogPage";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -109,6 +110,13 @@ export const AppRouter = _ => {
             })}
             />
          </Stack.Group>
+
+         <Stack.Screen name={ROUTE.CATALOG} component={CatalogPage} options={({ navigation }) => ({
+            headerTitle: 'Catalog',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
       </Stack.Navigator >
    )
 }

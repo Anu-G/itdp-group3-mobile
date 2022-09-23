@@ -5,6 +5,7 @@ import ProductService, { ProductImageService } from "./ProductService"
 import { CategoryService } from "./CategoryService"
 import { ProfileService, ProfileImageService } from './ProfileService'
 import TimelineService from "./TimelineService"
+import SettingAccountService from "./SettingAccountService"
 
 export const serviceFactory = (apiClient) => {
     return {
@@ -18,5 +19,6 @@ export const serviceFactory = (apiClient) => {
         timelineService: TimelineService(apiClient),
         profileImageService: ProfileImageService(apiClient),
         categoryService: CategoryService(apiClient),
+        settingAccountService: SettingAccountService(apiClient),
     }
 }
