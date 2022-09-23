@@ -10,4 +10,5 @@ export const ROUTE = {
    SETTINGS_BUSINESS: 'settingBusiness',
    NON_BUSINESS_PROFILE: 'non business profile',
    BUSINESS_PROFILE: 'business profile',
+   CATALOG: 'catalog',
 }
