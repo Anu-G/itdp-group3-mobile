@@ -2,6 +2,7 @@ import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from "react-native";
 import { Home } from "../features/Home/Home";
+import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { Setting } from "../features/Setting/Setting";
 import { TimelinePage } from "../features/TimelinePage/TimelinePage";
 import { ROUTE } from "../shared/constants/NavigationConstants";
@@ -31,7 +32,7 @@ export const TabRouter = _ => {
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
-            <Tab.Screen name={ROUTE.SETTING} component={Setting} />
+            <Tab.Screen name={ROUTE.SETTING} component={BusinessProfile} />
          </Tab.Group>
       </Tab.Navigator>
    )

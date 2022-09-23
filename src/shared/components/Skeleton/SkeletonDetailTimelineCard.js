@@ -3,9 +3,9 @@ import { useEffect, useRef } from "react"
 import { Animated, StyleSheet, Text, View } from "react-native"
 import { useTheme } from "../../context/ThemeContext"
 import { MainContainer } from "../MainContainer"
-import { SkeletonAvatarSmall, SkeletonCaption, SkeletonCaptionShort, SkeletonIcon24, SkeletonTimelineDate, SkeletonTimelineImage, SkeletonTimelineStatus, SkeletonTouchableOpacity } from "./SkeletonElement"
+import { SkeletonAvatarSmall, SkeletonCaption, SkeletonCaptionShort, SkeletonComment, SkeletonIcon24, SkeletonTimelineDate, SkeletonTimelineImage, SkeletonTimelineStatus, SkeletonTouchableOpacity } from "./SkeletonElement"
 
-export const SkeletonTimelineCard = ({}) => {
+export const SkeletonDetailTimelineCard = ({}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style,colorChange)
     
@@ -83,9 +83,20 @@ export const SkeletonTimelineCard = ({}) => {
                     </Animated.View>
                 </View>
 
-                {/* <View>
-                    {isActive ? <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280}/> : ''}
-                </View> */}
+                <Animated.View style={{alignSelf: 'stretch',opacity:colorChange,marginTop:16}}>
+                    <View style={styles.comment}>
+                        <SkeletonAvatarSmall/>
+                        <SkeletonComment/>
+                    </View>
+                    <View style={styles.comment}>
+                        <SkeletonAvatarSmall/>
+                        <SkeletonComment/>
+                    </View>
+                    <View style={styles.comment}>
+                        <SkeletonAvatarSmall/>
+                        <SkeletonComment/>
+                    </View>
+                </Animated.View>
             </View>
         </MainContainer>
     )
@@ -151,5 +162,10 @@ const styling = (theme,colorChange) => StyleSheet.create({
     },
     transition:{
         opacity:colorChange
+    },
+    comment:{
+        flexDirection:"row",
+        marginTop:16,
+        alignItems:"center",
     }
 })

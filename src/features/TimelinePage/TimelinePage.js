@@ -21,7 +21,7 @@ export const TimelinePage = () => {
     const [timelines, setTimelines] = useState([])
     const [accountId, setAccountId] = useState()
     const [refresh, setRefresh] = useState(false)
-    const [isLoading, setLoading] = useState(true)
+    const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
         getTimeline()

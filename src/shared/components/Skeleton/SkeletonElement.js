@@ -2,11 +2,27 @@ import { style } from "deprecated-react-native-prop-types/DeprecatedImagePropTyp
 import { StyleSheet, View } from "react-native"
 import { useTheme } from "../../context/ThemeContext"
 
-export const SkeletonAvatarSmall = ({styleEX}) => {
+export const SkeletonAvatarSmall = ({}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     return(
-        <View style={[styles.skeleton,styles.avatarCtn,styles.small,styleEX]}></View>
+        <View style={[styles.skeleton,styles.avatarCtn,styles.small]}></View>
+    )
+}
+
+export const SkeletonProfile = ({}) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+    return(
+        <View style={[styles.skeleton,styles.profile]}></View>
+    )
+}
+
+export const SkeletonButton = ({}) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+    return(
+        <View style={[styles.skeleton,styles.button]}></View>
     )
 }
 
@@ -26,6 +42,26 @@ export const SkeletonIcon24 = ({}) => {
     )
 }
 
+export const SkeletonTitle = ({}) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+    return(
+        <>
+            <View style={[styles.skeleton,styles.title]}></View>
+        </>
+    )
+}
+
+export const SkeletonCategory = ({}) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+    return(
+        <>
+            <View style={[styles.skeleton,styles.category]}></View>
+        </>
+    )
+}
+
 export const SkeletonCaption = ({}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
@@ -41,6 +77,14 @@ export const SkeletonCaptionShort = ({}) => {
     const styles = styling(theme.state.style);
     return(
         <View style={[styles.skeleton,styles.captionShort]}></View>
+    )
+}
+
+export const SkeletonComment = ({}) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+    return(
+        <View style={[styles.skeleton,styles.comment]}></View>
     )
 }
 
@@ -74,15 +118,23 @@ const styling = (theme) => StyleSheet.create({
         overflow: "hidden",
         borderRadius: 4,
     },
-    skeletonAnimation:{
-        
-    },
     avatarCtn: {
         borderRadius: 30,
         marginTop: 0,
         marginRight: 8,
         marginBottom: 0,
         marginLeft: 0,
+    },
+    profile: {
+        width: 64,
+        height: 64,
+        borderRadius: 32
+    },
+    button: {
+        width: 80,
+        height: 24,
+        borderRadius: theme?.radius?.xl,
+        marginHorizontal: theme?.spacing?.s
     },
     small : {
         height: 40,
@@ -97,14 +149,24 @@ const styling = (theme) => StyleSheet.create({
         width:24,
         height:24,
     },
+    title:{
+        width:"80%",
+        height:24,
+        marginBottom:8,
+    },
+    category:{
+        width:"100%",
+        height:24,
+        marginBottom:8,
+    },
     caption:{
         width:"100%",
-        height: 24,
+        height: 20,
         marginBottom: 8,
     },
     captionShort:{
         width:"80%",
-        height: 24,
+        height: 20,
         marginBottom: 8,
     },
     timelineImage:{
@@ -118,5 +180,10 @@ const styling = (theme) => StyleSheet.create({
     date:{
         width:48,
         height:24
+    },
+    comment:{
+        flex:1,
+        width:"100%",
+        height:36,
     }
 })

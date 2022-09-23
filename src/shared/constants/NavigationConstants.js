@@ -8,4 +8,6 @@ export const ROUTE = {
    ADD_PRODUCT: 'add-product',
    TIMELINE: 'timeline',
    DETAIL_TIMELINE: 'detail-timeline',
+   NON_BUSINESS_PROFILE: 'non business profile',
+   BUSINESS_PROFILE: 'business profile',
 }

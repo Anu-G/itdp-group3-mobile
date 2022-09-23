@@ -3,7 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { store } from '../../apps/Storage';
+import { useSelector } from 'react-redux';
+import { storage } from '../../apps/Storage';
 import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 import { TextTimeline } from '../../shared/components/Label';
 import { MainContainer } from '../../shared/components/MainContainer';
@@ -25,6 +26,7 @@ export const AddPost = ({ navigation }) => {
     const [loading, setLoading] = useState(false)
     const [charLength, setCharLength] = useState(0)
     const maxLength = 280
+    const user = useSelector((state) => state.auth);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -39,7 +41,7 @@ export const AddPost = ({ navigation }) => {
 
     const getProfile = async () => {
         try {
-            let id = await store.getData(KEY.ACCOUNT_ID)
+            let id = user.accountId
             setAccountId(id)
 
             let response = await profileService.doGetBusinessProfile({
@@ -85,7 +87,7 @@ export const AddPost = ({ navigation }) => {
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 aspect: [1, 1],
                 quality: 1
-            })
+            });
 
             if (!result.cancelled) {
                 setPickedImagePath([])

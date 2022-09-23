@@ -1,7 +1,8 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { store } from '../../apps/Storage';
+import { useSelector } from 'react-redux';
+import { storage } from '../../apps/Storage';
 import { ButtonBigComponent } from '../../shared/components/ButtonBig';
 import { ImageWithDeleteSign } from '../../shared/components/ImageProfile';
 import { InputTextActiveSmallSize } from '../../shared/components/Input';
@@ -23,6 +24,7 @@ export const SettingsAddProduct = ({ navigation }) => {
     const [pickedImagePath, setPickedImagePath] = useState([])
     const [isCorrect, setIsCorrect] = useState(true)
     const [loading, setLoading] = useState(false)
+    const user = useSelector((state) => state.auth);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -37,7 +39,7 @@ export const SettingsAddProduct = ({ navigation }) => {
 
     const getAccountId = async () => {
         try {
-            let id = await store.getData(KEY.ACCOUNT_ID)
+            let id = user.accountId
             setAccountId(id)
         } catch (err) {
             checkErr(err)
