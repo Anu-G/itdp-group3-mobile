@@ -56,6 +56,8 @@ export const Setting = _ => {
       <>
          <ButtonComponent label={'Switch Theme'} onClick={onThemeSwitch} />
          <ButtonComponent label={'Logout'} onClick={doLogout} />
+         <ButtonComponent label={'Setting Business Profile'} onClick={() => navigation.navigate(ROUTE.SETTINGS_BUSINESS)}/>
+         <ButtonComponent label={'Setting Non Business Profile'} onClick={() => navigation.navigate(ROUTE.SETTINGS_NON_BUSINESS)}/>
          {viewState.error !== null && !visible ? setVisible(true) : null}
          {viewState.error !== null && <Snackbar visible={visible} onDismiss={onDismissSnackBar} duration={3000}>{viewState.error}</Snackbar>}
       </>

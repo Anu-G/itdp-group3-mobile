@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { StackActions, useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Keyboard, Pressable, StyleSheet, View } from "react-native";
 import { ButtonMediumComponent } from "../../shared/components/ButtonMedium";
@@ -8,6 +8,10 @@ import { MainContainer } from "../../shared/components/MainContainer";
 import { useTheme } from "../../shared/context/ThemeContext";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
 import { useDep } from '../../shared/context/DependencyContext'
+import { useViewState } from "../../shared/hooks/ViewState";
+import { checkErr } from "../../utils/CommonUtils";
+import { Snackbar } from "react-native-paper";
+import { useAuth } from "../../shared/context/AuthContext";
 
 export const SignUp = () => {
     const theme = useTheme();
@@ -24,6 +28,8 @@ export const SignUp = () => {
     const [errorconPassword, seterrorConPassword] = useState('');
 
     const [disable, setDisable] = useState(true)
+    const { viewState, setLoading, setError } = useViewState();
+    const [visible, setVisible] = useState(false);
 
     const checkEmail = (text) => {
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -34,7 +40,7 @@ export const SignUp = () => {
 
 
         if (!result) {
-            if(mail.length<1){
+            if (mail.length < 1) {
                 seterrorEmail('')
 
             }
@@ -48,9 +54,9 @@ export const SignUp = () => {
     }
 
     const checkPassword = () => {
-        if (password.length < 8 && password.length>0) {
+        if (password.length < 8 && password.length > 0) {
             seterrorPassword('Minimal 8 character')
-        } else if(password.length ===0){
+        } else if (password.length === 0) {
             seterrorPassword('')
         } else {
             seterrorPassword('')
@@ -70,30 +76,31 @@ export const SignUp = () => {
     }
 
     const checkTrue = () => {
-        if(username === '' || email === '' || password === '' || conPassword === '') {
-             setDisable(true)
+        if (username === '' || email === '' || password === '' || conPassword === '') {
+            setDisable(true)
         } else if (errorusername !== '' || erroremail !== '' || errorpassword !== '' || errorconPassword !== '') {
             setDisable(true)
-        } else {setDisable(false)}
+        } else { setDisable(false) }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         checkPassword()
     }, [password])
-    
-    useEffect(()=>{
-        checkConfirmPassword()
-    },[conPassword, password])
 
-    useEffect(()=>{
+    useEffect(() => {
+        checkConfirmPassword()
+    }, [conPassword, password])
+
+    useEffect(() => {
         checkTrue()
     }, [email, username, password, conPassword, errorusername, erroremail, errorpassword, errorconPassword])
 
     //service
     const navigation = useNavigation();
     const { authService } = useDep()
+    const { onLogin } = useAuth();
 
-    const handleSignUpClick = async ()=> {
+    const handleSignUpClick = async () => {
         Keyboard.dismiss();
 
         try {
@@ -104,17 +111,22 @@ export const SignUp = () => {
             });
 
             if (response.status === 200) {
-                navigation.replace(ROUTE.SETTINGS_NON_BUSINESS)
+                if (await onLogin({ email: email, password: password })) {
+                    navigation.replace(ROUTE.SETTINGS_NON_BUSINESS, {
+                        prevPage: 'signUp'
+                    })
+                }
             }
-        }catch (e) {
-            throw(e)
+        } catch (e) {
+            setError(checkErr(e));
         }
+
     }
 
     const handleSignInClick = () => {
         navigation.replace(ROUTE.LOGIN)
     }
-    
+
 
     //handle CHange
     const handleEmailChange = (text) => {
@@ -122,9 +134,14 @@ export const SignUp = () => {
         checkEmail(text);
     }
 
-    
+    const onDismissSnackBar = _ => {
+        setVisible(false);
+        if (viewState.error !== null) {
+            setError(null);
+        };
+    };
 
-    return(
+    return (
         <MainContainer>
             <View style={styles.header}>
                 <Title1 label={'Sign Up'} />
@@ -132,70 +149,72 @@ export const SignUp = () => {
 
             <View style={styles.form}>
                 <InputTextWithError
-                    text={'Username'} 
+                    text={'Username'}
                     onChange={setUsername}
-                    value={username}/>
+                    value={username} />
 
                 <InputTextWithError
-                    text={'Email'} 
+                    text={'Email'}
                     placeholder='ex: johndoe@mail.com'
-                    onChange={(text)=>{
+                    onChange={(text) => {
                         handleEmailChange(text)
                     }}
                     value={email}
                     keyboard='email-address'
-                    error={erroremail}/>
+                    error={erroremail} />
 
-                <InputTextPassword 
+                <InputTextPassword
                     value={password}
-                    onChange={(text)=>{
+                    onChange={(text) => {
                         setPassword(text)
                         checkPassword()
                     }}
-                    error={errorpassword}/>
+                    error={errorpassword} />
 
 
-                <InputTextPassword 
+                <InputTextPassword
                     text="Confirm Password"
                     value={conPassword}
                     onChange={setConPassword}
-                    error={errorconPassword}/>
+                    error={errorconPassword} />
 
-            <View style={styles.buttonContainer}>
-               <ButtonMediumComponent label={'Continue'} disable={disable} onClick={handleSignUpClick}/>
-            </View>  
+                <View style={styles.buttonContainer}>
+                    <ButtonMediumComponent label={'Continue'} disable={disable} onClick={handleSignUpClick} />
+                </View>
 
-            <View style={styles.addAuth}>
-               <Pressable onPress={handleSignInClick} >
-                  <AuthExtLabel text1={`Have an account?`} text2={'Sign in'}/>
-               </Pressable>
+                <View style={styles.addAuth}>
+                    <Pressable onPress={handleSignInClick} >
+                        <AuthExtLabel text1={`Have an account?`} text2={'Sign in'} />
+                    </Pressable>
+                </View>
             </View>
-            </View>
 
+            {viewState.error !== null && !visible ? setVisible(true) : null}
+            {viewState.error !== null && <Snackbar visible={visible} onDismiss={onDismissSnackBar} duration={3000}>{viewState.error}</Snackbar>}
         </MainContainer>
     )
 }
 
 const styling = (theme) => StyleSheet.create({
     header: {
-       flex: 1,
-       justifyContent: 'flex-end',
-       alignItems: 'center',
-       marginBottom: theme?.spacing?.m,
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginBottom: theme?.spacing?.m,
     },
-   form: {
-      flex: 7,
-      // width: '100%',
-      alignSelf: 'stretch',
-      margin: theme?.spacing?.m,
-      alignItems: 'center',
-      // justifyContent: 'center'
-   },
-   buttonContainer : {
-      paddingTop: theme?.spacing?.xl,
-   },
-   addAuth: {
-      padding: theme?.spacing?.m,
-   }
+    form: {
+        flex: 7,
+        // width: '100%',
+        alignSelf: 'stretch',
+        margin: theme?.spacing?.m,
+        alignItems: 'center',
+        // justifyContent: 'center'
+    },
+    buttonContainer: {
+        paddingTop: theme?.spacing?.xl,
+    },
+    addAuth: {
+        padding: theme?.spacing?.m,
+    }
 
 })

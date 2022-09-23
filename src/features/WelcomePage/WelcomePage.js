@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { ButtonBigComponent } from "../../shared/components/ButtonBig";
-import { AuthExtLabel, Caption, Text32 } from "../../shared/components/Label";
+import { AuthExtLabel, Text32 } from "../../shared/components/Label";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
 import { useTheme } from "../../shared/context/ThemeContext"
 
@@ -22,6 +22,7 @@ export const WelcomePage = () => {
 
     return (
         <>
+            <View style={styles.upperContainer}></View>
             <View style={styles.container} >
                 <View style={{ height: 60 }}>
                     <Text style={styles.mainTitle} >Welcome</Text>
@@ -60,10 +61,12 @@ const styling = (theme) => StyleSheet.create({
     container: {
         flex: 1,
         alignContent: "center",
-        justifyContent: "flex-end",
+        justifyContent: "flex-start",
         marginHorizontal: theme?.spacing?.m,
-        marginBottom: 72,
-        alignItems: "stretch"
+        marginTop: 72,
+        alignItems: "stretch",
+    },
+    upperContainer: {
+        flex: 1,
     }
-
 })

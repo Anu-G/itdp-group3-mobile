@@ -7,7 +7,6 @@ import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Setting } from "../features/Setting/Setting";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useDep } from "../shared/context/DependencyContext";
 import { useTheme } from "../shared/context/ThemeContext";
@@ -32,6 +31,7 @@ export const TabRouter = _ => {
                   account_id: `${id}`
                });
                dispatch(getProfile({
+                  profileId: response.data.data.business_profile.ID,
                   profileImage: response.data.data.business_profile.profile_image
                }));
             } else {
@@ -39,6 +39,7 @@ export const TabRouter = _ => {
                   account_id: `${id}`
                });
                dispatch(getProfile({
+                  profileId: response.data.data.non_business_profile.ID,
                   profileImage: response.data.data.non_business_profile.profile_image
                }));
             }
@@ -59,7 +60,6 @@ export const TabRouter = _ => {
                      </View>
                   )
                case ROUTE.TIMELINE:
-
                   return (
                      <View style={style.iconCtn}>
                         <Foundation name='magnifying-glass' size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
@@ -68,7 +68,13 @@ export const TabRouter = _ => {
                case ROUTE.BUSINESS_PROFILE:
                   return (
                      <View style={focused ? [style.imageCtn] : ''}>
-                        <Image source={require('../../assets/images/user-default.png')} style={style.imageStyle} />
+                        <Image source={profile.profileImage === '' ? require('../../assets/images/user-default.png') : { uri: profile.profileImage }} style={style.imageStyle} />
+                     </View>
+                  )
+               case ROUTE.NON_BUSINESS_PROFILE:
+                  return (
+                     <View style={focused ? [style.imageCtn] : ''}>
+                        <Image source={profile.profileImage === '' ? require('../../assets/images/user-default.png') : { uri: profile.profileImage }} style={style.imageStyle} />
                      </View>
                   )
                default:

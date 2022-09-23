@@ -26,41 +26,31 @@ export const CustomSwitch = ({isActive=true, label='', openHour='00:00', closeHo
         } else {
             setStyleActive([styles.outer])
         }
+
         setEnable(!enable);
+        handleValueChange(id, openTime, closeTime, !enable)
     }
 
     const handleChange = (event, selectedTime) => {
         const currTime = selectedTime || time;
-        console.log(selectedTime)
-        setTime(currTime)
+
+        let open = openTime
+        let close = closeTime
         if(openShow==true){
             setOpenShow(Platform.OS === 'ios');
-            const hour = ('00' + time.getHours()).slice(-2)
-            const minute = ('00' + time.getMinutes()).slice(-2)
-            setOpenTime(hour + ':' + minute)
-            openHour=openTime;
+            const hour = ('00' + currTime.getHours()).slice(-2)
+            const minute = ('00' + currTime.getMinutes()).slice(-2)
+            open = `${hour}.${minute}`
+            setOpenTime(`${hour}.${minute}`)
         } else if (closeShow==true) {
             setCloseShow(Platform.OS==='ios')
-            const hour = ('00' + time.getHours()).slice(-2)
-            const minute = ('00' + time.getMinutes()).slice(-2)
-            setCloseTime(hour + ':' + minute)
-            closeHour=closeTime;
+            const hour = ('00' + currTime.getHours()).slice(-2)
+            const minute = ('00' + currTime.getMinutes()).slice(-2)
+            close = `${hour}.${minute}`
+            setCloseTime(`${hour}.${minute}`)
         }
-        handleValueChange(id, openTime, closeTime,enable)
-        // console.log(id + ' - ' + openTime + ' - ' + closeTime)
+        handleValueChange(id, open, close, enable)
     }
-
-    useEffect(() => {
-        handleChange()
-        handleValueChange(id, openTime, closeTime);
-        // console.log(id + ' - ' + openTime + ' - ' + closeTime)
-    },[openTime]);
-
-    useEffect(() => {
-        handleChange()
-        handleValueChange(id, openTime, closeTime);
-        // console.log(id + ' - ' + openTime + ' - ' + closeTime)
-    },[closeTime])
 
     return(
         <View style={styleActive}>

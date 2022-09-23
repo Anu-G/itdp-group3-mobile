@@ -19,12 +19,12 @@ export const ImageProfileOTHER = ({ style = {}, source = 'https://reactjs.org/lo
     )
 }
 
-export const SettingsImageProfile = ({ style = {}, source = require('../../../assets/images/user-default.png') }) => {
+export const SettingsImageProfile = ({ style = {}, source }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
 
     return (
-        <Image source={source} style={styles.imageProfileSettings} />
+        <Image source={source === '' ? require('../../../assets/images/user-default.png') : { uri: source }} style={styles.imageProfileSettings} />
     )
 }
 
@@ -35,7 +35,11 @@ export const AvatarSmall = ({ style = {}, accId, handleClick, source = 'https://
     return (
         <View style={[styles.avatarCtn, styles.small]}>
             <TouchableOpacity onPress={() => handleClick(accId)}>
-                <Image source={{ uri: source }} style={styles.avatarProfile} />
+                {source.includes("https://") === true || source.includes("file://") == true ?
+                    <Image source={{ uri: source }} style={styles.avatarProfile} />
+                    :
+                    <Image source={source} style={styles.avatarProfile} />
+                }
             </TouchableOpacity>
         </View>
     )
