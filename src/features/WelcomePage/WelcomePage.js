@@ -17,7 +17,7 @@ export const WelcomePage = () => {
     }
 
     const handleGetStartedClick = () =>{
-        navigation.navigate(ROUTE.LOGIN)
+        navigation.navigate(ROUTE.SIGNUP)
     }
 
     return(

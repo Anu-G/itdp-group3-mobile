@@ -47,7 +47,6 @@ export const AppRouter = _ => {
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour}/>
-            <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} />
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
          </Stack.Group>
          <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({navigation}) => ({
@@ -66,16 +65,20 @@ export const AppRouter = _ => {
             // headerBackImage: () => <Text style={{color: '#f4f4f4', fontSize: 16}}>Cancel</Text>,
             // headerRight: () => <TouchableOpacity style={{padding: 16}} ><Text style={{color: "#FED154", fontSize: 16, fontFamily:'Poppins-Medium'}}>Send</Text></TouchableOpacity>
          })} />
+         <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} options={({navigation}) => ({
+            headerTitle: 'Manage Business Links',
+            headerTitleAlign: "center",
+            headerTitleStyle: {color: "white"},
+            // headerStyle: {backgroundColor: "rgb(71,82,100)"},
+            // headerBackImage: () => <Text style={{color: '#f4f4f4', fontSize: 16}}>Cancel</Text>,
+            // headerRight: () => <TouchableOpacity style={{padding: 16}} ><Text style={{color: "#FED154", fontSize: 16, fontFamily:'Poppins-Medium'}}>Send</Text></TouchableOpacity>
+         })} />
+
          <Stack.Group screenOptions={{presentation: "modal",  }}>
-            <Stack.Screen name={ROUTE.ADD_LINK} component={AddLink} 
-               options={{
+            <Stack.Screen name={ROUTE.ADD_LINK} component={AddLink} options={({navigation}) => ({
                headerTitle: 'Add Link',
-               headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
                headerTintColor: '#f4f4f4',
-               headerRight: () => <View>
-                  <CaptionColor text={'Save'} style={theme?.pallete?.lightBlue}/>
-               </View>
-               }}
+            })}
              />
          </Stack.Group>
       </Stack.Navigator>

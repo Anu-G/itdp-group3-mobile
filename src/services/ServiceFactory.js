@@ -6,7 +6,7 @@ export const serviceFactory = (apiClient) => {
     return {
         authService: authService(apiClient),
         profileService: ProfileService(apiClient),
-        profileImage: ProfileImageService(apiClient),
+        profileImageService: ProfileImageService(apiClient),
         categoryService: CategoryService(apiClient),
     }
 }

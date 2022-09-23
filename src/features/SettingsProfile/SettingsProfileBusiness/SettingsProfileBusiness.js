@@ -71,8 +71,10 @@ export const SettingsProfileBusiness = ({navigation}) => {
 
             setBusinessHoursSubmit(object)
             setBusinessHoursView(route.params.openHour)                
+        } else if (route.params?.newBusinessLink) {
+            setBusinessLinks(route.params.newBusinessLink)
         }
-    }, [route.params?.openHour])
+    }, [route.params])
 
     const showImagePicker = async () => {
         try {
@@ -121,7 +123,14 @@ export const SettingsProfileBusiness = ({navigation}) => {
                 setCategoryId(data.business_profile.category_id)
                 setCategoryName(data.category_name)
 
-                setBusinessHoursSubmit(data.business_profile.business_hours)
+                setBusinessLinks(data.business_profile.business_links.map(item => ({label: item.label, link: item.link})))
+
+                // diset spt ini untuk case jika business_hour tidak diedit (langsung diatur ke format submit (hanya diambil day, openhour, dan closehour saja))
+                setBusinessHoursSubmit(data.business_profile.business_hours.map(item => ({
+                    day: `${item.day}`,
+                    open_hour: item.open_hour,
+                    close_hour: item.close_hour
+                })))
 
                 let newBusinessHours = adjustTime(data.business_profile.business_hours)
                 setBusinessHoursView(newBusinessHours)
@@ -138,8 +147,15 @@ export const SettingsProfileBusiness = ({navigation}) => {
         })
     }
 
+    const handleToLinkSettingsClick = () => {
+        navigation.navigate(ROUTE.SETTINGS_LINKS, {
+            data: businessLinks
+        })
+    }
+
     const handleChangeCategory = (value) => {
         setCategoryId(value)
+        setCategoryName(allCategories[allCategories.findIndex(cat => cat.category_id === value)].category_names)
     }
 
     const saveResponse = async () => {
@@ -175,7 +191,7 @@ export const SettingsProfileBusiness = ({navigation}) => {
                     gmaps_link: gmaps,
                     display_name: name,
                     business_hours: businessHoursSubmit,
-                    business_links: businessLink
+                    business_links: businessLinks
                 })
                 if (response.status === 200) {
                     navigation.navigate(ROUTE.MAIN)
@@ -265,8 +281,28 @@ export const SettingsProfileBusiness = ({navigation}) => {
 
                     <View style={[styles.container, styles.heightView]}>
                         <TextProfile text={'Links'}/>
+                        {businessLinks.map((item, i) => {
+                            return (
+                                <View key={i}>
+                                <Caption text={`${item.label}\t:${item.link}`} style={{paddingHorizontal: 8}}/>
+                                </View>
+                            )
+                        })}
+
+                        <Pressable onPress={handleToLinkSettingsClick}>
+                            <View style={styles.goToOtherPage}>
+                                <Text32  text={'Edit Links'}/>
+
+                                <Feather 
+                                    name="chevron-right"
+                                    size={20}
+                                    color={styles.goToOtherPage.color}
+                                        />
+                            </View>
+                        </Pressable>
 
                     </View>
+
                 </View>
             </ScrollView>
         </MainContainer>
