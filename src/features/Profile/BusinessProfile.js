@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Animated, Image, StyleSheet, View } from 'react-native'
 import { Caption, CaptionColor, Title2 } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
@@ -8,6 +8,7 @@ import { checkErr } from '../../utils/CommonUtils';
 import { useSelector } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons'
 import { ButtonComponent } from '../../shared/components/Button'
+import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonCategory, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
 
 export const BusinessProfile = () => {
     const theme = useTheme()
@@ -33,6 +34,9 @@ export const BusinessProfile = () => {
     const [closeHour, setCloseHour] = useState('')
     const user = useSelector((state) => state.auth);
 
+    const [isLoading, setLoading] = useState(false)
+    const colorChange = new Animated.Value(1)
+
     const handleClickLinks = _ => {
         setShowOurLinks(!showOurLinks);
     }
@@ -56,7 +60,31 @@ export const BusinessProfile = () => {
         getUser()
     }, [profile])
 
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence(
+                [Animated.timing(
+                    colorChange,
+                    {
+                        toValue: 0.4,
+                        duration: 1000,
+                        useNativeDriver: true
+                    }
+                ),
+                Animated.timing(
+                    colorChange,
+                    {
+                        toValue: 1,
+                        duration: 1000,
+                        useNativeDriver: true
+                    }
+                )]
+            )
+        ).start()
+    }, [colorChange])
+
     const getUser = async () => {
+        setLoading(true)
         try {
             let id = user.accountId
             setAccountId(id)
@@ -80,6 +108,8 @@ export const BusinessProfile = () => {
 
         } catch (err) {
             checkErr(err)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -112,30 +142,52 @@ export const BusinessProfile = () => {
                 <View style={styles.topProfile}>
                     <View style={styles.headProfileLeft}>
                         <View style={styles.headProfile}>
-                            {profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}
+                            {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonProfile /></Animated.View> : <>{profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}</>}
                             <View style={styles.editProfileBtn}>
-                                <ButtonComponent label={'Edit Profile'} />
+                                {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <ButtonComponent label={'Edit Profile'} />}
                             </View>
+                            <Title2 label={profile.DisplayName} />
+                            <Caption text={profile.CategoryName} />
+                            <View style={styles.openHours}>
+                                {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
+                                <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
+                                <Caption text={`Closes ${openHour} - ${closeHour}`} />
+                            </View>
+                            <Caption text={profile.ProfileBio} />
                         </View>
-                        <Title2 label={profile.DisplayName} />
-                        <Caption text={profile.CategoryName} />
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonTitle /></Animated.View> : <Title2 label={profile.DisplayName} />}
+                        {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}><SkeletonCategory /></Animated.View> : <Caption text={profile.CategoryName} />}
                         <View style={styles.openHours}>
-                            {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
-                            <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
-                            <Caption text={`Closes ${openHour} - ${closeHour}`} />
+                            {isLoading
+                                ?
+                                <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}><SkeletonCategory /></Animated.View>
+                                :
+                                <>
+                                    {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
+                                    <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
+                                    <Caption text={`Closes ${openHour} - ${closeHour}`} />
+                                </>
+                            }
                         </View>
-                        <Caption text={profile.ProfileBio} />
+                        {isLoading ?
+                            <>
+                                <Animated.View style={{ opacity: colorChange }}>
+                                    <SkeletonCaption />
+                                    <SkeletonCaption />
+                                    <SkeletonCaptionShort />
+                                </Animated.View>
+                            </> : <Caption text={profile.ProfileBio} />}
                     </View>
                     <View style={styles.profileButtons}>
-                        {profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} />}
-                        {profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} />}
-                        {profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} />}
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} />}</>}
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} />}</>}
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} />}</>}
                     </View>
-                </View>
 
-                {/* <CategorizePage/> */}
+                    {/* <CategorizePage/> */}
+                </View>
+                {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
             </View>
-            {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
         </MainContainer>
     )
 }

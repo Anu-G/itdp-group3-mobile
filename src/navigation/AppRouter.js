@@ -75,18 +75,6 @@ export const AppRouter = _ => {
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
-         {/* <Stack.Screen name={ROUTE.NON_BUSINESS_PROFILE} component={NonBusinessProfile} options={({ navigation }) => ({
-            headerTitle: 'Non Business Profile',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
-         })} />
-         <Stack.Screen name={ROUTE.BUSINESS_PROFILE} component={BusinessProfile} options={({ navigation }) => ({
-            headerTitle: 'Business Profile',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
-         })} /> */}
          <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({
             headerTitle: 'Edit Profile',
             headerTitleAlign: "center",
