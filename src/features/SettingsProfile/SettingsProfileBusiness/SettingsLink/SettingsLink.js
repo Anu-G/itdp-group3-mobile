@@ -1,31 +1,34 @@
-import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Animated, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { ButtonComponent } from "../../../../shared/components/Button";
-import { Caption, TextProfile } from "../../../../shared/components/Label";
+import { Caption, CaptionColor, TextProfile } from "../../../../shared/components/Label";
 import { ROUTE } from "../../../../shared/constants/NavigationConstants";
-import { useTheme } from "../../../../shared/context/ThemeContext"
-import { AddLink } from "./AddLink/AddLink";
+import { useTheme } from "../../../../shared/context/ThemeContext";
 
-export const SettingsLink = () => {
+export const SettingsLink = ({navigation}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style)
+    const route = useRoute()
 
-    const dummyLink = [
-        {
-            id: 0,
-            email: 'a',
-            label: 'aa',
-        },
-        {
-            id: 2,
-            email: 'b',
-            label: 'bb',
-        },
-    ]
-    const [link, setLinks] = useState(dummyLink)
+    const [link, setLinks] = useState([])
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
+            headerRight: () => <TouchableOpacity onPress={saveResponse}><CaptionColor text={'Submit'} style={theme?.pallete?.lightBlue}/></TouchableOpacity>
+        })
+    }, [navigation, link])
+
+    useEffect(() => {
+        if (route.params?.data) {
+            setLinks(route.params.data)                        
+        } else if (route.params?.newLink) {
+            setLinks(prevState => [...prevState, route.params.newLink])            
+        }
+    }, [route.params])
 
     const row = []
     let prevOpenedRow;
@@ -58,7 +61,7 @@ export const SettingsLink = () => {
                         <MaterialIcons name="edit" size={32} color='red' />
                     </View>
                     <View style={[styles.swipButtonSize, styles.delete]}>
-                        <MaterialIcons name="delete-forever" size={32} color='red' />
+                        <MaterialIcons name="delete-forever" size={32} color='red' onPress={onDelete}/>
                     </View>
                     </View>
                     
@@ -69,10 +72,16 @@ export const SettingsLink = () => {
     }
 
     //
-    const navigation = useNavigation();
+    const navigate = useNavigation();
 
     const goToAddLink = () => {
-        navigation.navigate(ROUTE.ADD_LINK)
+        navigate.navigate(ROUTE.ADD_LINK)
+    }
+
+    const saveResponse = () => {
+        navigate.navigate(ROUTE.SETTINGS_BUSINESS, {
+            newBusinessLink : link
+        })
     }
 
 
@@ -89,21 +98,20 @@ export const SettingsLink = () => {
 
         {link.length > 0 && 
             <View style={styles.container}>
-            {link.map((item)=>{
+            {link.map((item, i)=>{
                 return(
-                    <>
+                    <View key={i}>
                         <Swipeable 
                             renderRightActions={leftSwipe}
-                            ref={ref => row[item.id] = ref}
-                            onSwipeableWillOpen={closeRow(item.id)}
-                            key={item.id}
+                            ref={ref => row[i] = ref}
+                            onSwipeableWillOpen={closeRow(i)}
                         >
                             <View style={styles.cellContainer}>
-                                <TextProfile text={dummyLink[0].label}/>
-                                <Caption text={dummyLink[0].email}/>
+                                <TextProfile text={item.label}/>
+                                <Caption text={item.link}/>
                              </View>
                         </Swipeable>
-                    </>
+                    </View>
                 )
             })}
             </View>

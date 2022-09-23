@@ -18,12 +18,12 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     const [comment, setComment] = useState('')
     const [isButtonSendActive, setIsButtonSendActive] = useState(false)
     const [readMore, setReadMore] = useState(true)
-    const {timelineService} = useDep()
+    const { timelineService } = useDep()
 
     useEffect(() => {
         setIsLiked(thisAccountLikes)
     }, [thisAccountLikes])
-    
+
     useEffect(() => {
         if (comment.length == 0) {
             setIsButtonSendActive(false)
@@ -35,7 +35,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     const handleReadMore = () => {
         setReadMore(!readMore)
     }
-        
+
     const handleCommentChange = (event) => {
         setComment(event)
     }
@@ -51,7 +51,6 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     }
 
     const handleLike = async () => {
-        console.log(isLiked);
         try {
             if (isLiked) {
                 await timelineService.doDeleteTimelineLike({
@@ -72,66 +71,66 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
             console.log(e);
         }
     }
-    
+
     return (
         <MainContainer>
             <View style={styles.timelineCtn}>
                 <View>
                     <View style={styles.profileHd}>
-                        <View style={{flex: 1}}>
-                            <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId)}/>
+                        <View style={{ flex: 1 }}>
+                            <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId)} />
                         </View>
-                        <TouchableOpacity style={{flex: 6, alignContent: 'flex-start', justifyContent: 'center'}} onPress={() => handleClickName(postAccId)}>
-                            <Text style={{fontFamily: 'Poppins-SemiBold', color: '#F4F4F4', fontSize: 16}}>{name}</Text>
+                        <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }} onPress={() => handleClickName(postAccId)}>
+                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#F4F4F4', fontSize: 16 }}>{name}</Text>
                         </TouchableOpacity>
                         <View style={styles.optionBtn}>
                             <TouchableOpacity>
-                                <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />   
-                            </TouchableOpacity>                     
+                                <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
 
                 <View style={styles.captionCtn}>
-                    <Caption text={caption}/>
+                    <Caption text={caption} />
                 </View>
 
                 <View>
-                    {links.length === 1 ? 
-                        <ImageViewTimeline item={links[0]} index={0}/>
-                     :
-                        <ImageViewTimelineMany data={links}/>
+                    {links.length === 1 ?
+                        <ImageViewTimeline item={links[0]} index={0} />
+                        :
+                        <ImageViewTimelineMany data={links} />
                     }
                 </View>
 
                 <View style={styles.bottonCtn}>
                     <View style={styles.bottomLikeCommentCtn}>
                         <View style={styles.bottomBtn}>
-                            <View  style={{flex: 1, flexDirection: 'row'}}>
+                            <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <FontAwesome5 name="comment-dots" size={24} color='#F4F4F4' />
                                 <View style={styles.commentCountCtn}>
-                                    <Caption text={comments == null ? 0 : comments.length} style={{color: '#849EB9'}}/>
+                                    <Caption text={comments == null ? 0 : comments.length} style={{ color: '#849EB9' }} />
                                 </View>
                             </View>
                         </View>
 
                         <View style={styles.bottomBtn}>
-                            <TouchableOpacity onPress={handleLike} style={{flex: 1, flexDirection: 'row'}}>
+                            <TouchableOpacity onPress={handleLike} style={{ flex: 1, flexDirection: 'row' }}>
                                 {!isLiked ? <AntDesign name="hearto" size={22} color='#F4F4F4' /> : <AntDesign name="heart" size={22} color='#FE5454' />}
                                 <View style={styles.likeCountCtn}>
-                                    <Caption text={postLikes == null ? 0 : postLikes} style={{color: '#849EB9'}}/>
+                                    <Caption text={postLikes == null ? 0 : postLikes} style={{ color: '#849EB9' }} />
                                 </View>
                             </TouchableOpacity>
                         </View>
                     </View>
 
                     <View>
-                        <Caption text={`${date}\t${time}`} style={{color: '#849EB9'}}/>
+                        <Caption text={`${date}\t${time}`} style={{ color: '#849EB9' }} />
                     </View>
                 </View>
 
-                <View style={{alignSelf: 'stretch'}}>
-                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={avatar}/>
+                <View style={{ alignSelf: 'stretch' }}>
+                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={avatar} />
                 </View>
             </View>
         </MainContainer>
@@ -164,7 +163,7 @@ const styling = (theme) => StyleSheet.create({
         marginRight: 12
     },
     bottonCtn: {
-        flex: 1, 
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 12
@@ -187,7 +186,7 @@ const styling = (theme) => StyleSheet.create({
         opacity: 0.8,
         marginLeft: 4
     },
-    xBtn : {
+    xBtn: {
         width: 28,
         height: 32,
         marginLeft: 0,

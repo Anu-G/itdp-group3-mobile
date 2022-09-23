@@ -84,7 +84,7 @@ export const AddPost = ({ navigation }) => {
         try {
             const responseImage = await postImageService.doPostImage(pickedImagePath)
             const response = await postService.doPostData({
-                account_ID: `${accountId}`,
+                account_ID: `${user.accountId}`,
                 caption_post: caption,
                 media_links: responseImage
             })
@@ -118,8 +118,8 @@ export const AddPost = ({ navigation }) => {
                 </View>
             </View>
             <View style={styles.downContainer}>
-                <FontAwesome name='image' size={32} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
-                <FontAwesome name='camera' size={32} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
+                <FontAwesome name='image' size={28} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
+                <FontAwesome name='camera' size={28} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
             </View>
         </MainContainer>
     )

@@ -50,7 +50,7 @@ export const BusinessProfile = () => {
     }
 
     // service
-    const { profileService} = useDep()
+    const { profileService } = useDep()
 
     useEffect(() => {
         getUser()
@@ -62,7 +62,7 @@ export const BusinessProfile = () => {
             setAccountId(id)
 
             let response = await profileService.doGetBusinessProfile({
-                account_id:`${id}`
+                account_id: `${id}`
             })
 
             setProfile(prevState => ({
@@ -79,7 +79,6 @@ export const BusinessProfile = () => {
             }))
 
         } catch (err) {
-            console.log(err)
             checkErr(err)
         }
     }
@@ -107,38 +106,38 @@ export const BusinessProfile = () => {
         return false
     }
 
-  return (
-   <MainContainer>
-        <View style={styles.container}>
-            <View style={styles.topProfile}>
-                <View style={styles.headProfileLeft}>
-                    <View style={styles.headProfile}>
-                        {profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}
-                        <View style={styles.editProfileBtn}>
-                            <ButtonComponent label={'Edit Profile'}/>
+    return (
+        <MainContainer>
+            <View style={styles.container}>
+                <View style={styles.topProfile}>
+                    <View style={styles.headProfileLeft}>
+                        <View style={styles.headProfile}>
+                            {profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}
+                            <View style={styles.editProfileBtn}>
+                                <ButtonComponent label={'Edit Profile'} />
+                            </View>
                         </View>
+                        <Title2 label={profile.DisplayName} />
+                        <Caption text={profile.CategoryName} />
+                        <View style={styles.openHours}>
+                            {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
+                            <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
+                            <Caption text={`Closes ${openHour} - ${closeHour}`} />
+                        </View>
+                        <Caption text={profile.ProfileBio} />
                     </View>
-                    <Title2 label={profile.DisplayName}/>
-                    <Caption text={profile.CategoryName}/>
-                    <View style={styles.openHours}>
-                        {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
-                        <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle}/>
-                        <Caption text={`Closes ${openHour} - ${closeHour}`}/>
+                    <View style={styles.profileButtons}>
+                        {profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} />}
+                        {profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} />}
+                        {profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} />}
                     </View>
-                    <Caption text={profile.ProfileBio}/>
                 </View>
-                <View style={styles.profileButtons}>
-                    {profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} />}
-                    {profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} />}
-                    {profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} />}
-                </View>
-            </View>
 
-            {/* <CategorizePage/> */}
-        </View>
-        {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
-   </MainContainer>
-  )
+                {/* <CategorizePage/> */}
+            </View>
+            {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
+        </MainContainer>
+    )
 }
 
 const styling = (theme) => StyleSheet.create({
@@ -152,36 +151,36 @@ const styling = (theme) => StyleSheet.create({
     },
     topProfile: {
         flex: 1,
-        flexDirection:'column',
+        flexDirection: 'column',
     },
     headProfileLeft: {
         flex: 1,
-        flexDirection:'column',
+        flexDirection: 'column',
     },
     headProfile: {
         flex: 1,
-        flexDirection:'row',
+        flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 16,
     },
-    editProfileBtn:{
-        alignContent:'space-around',
+    editProfileBtn: {
+        alignContent: 'space-around',
         marginLeft: 140,
     },
-    openHours:{
-        flex:1,
+    openHours: {
+        flex: 1,
         flexDirection: 'row',
-        alignItems:'center',
+        alignItems: 'center',
     },
-    circle :{
+    circle: {
         marginLeft: 5,
         marginRight: 5,
     },
-    profileButtons:{
-        flex:1,
-        flexDirection:'row',
-        alignItems:'flex-start',
-        justifyContent:'flex-start',
-        flexWrap:'wrap',
+    profileButtons: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        flexWrap: 'wrap',
     }
 })

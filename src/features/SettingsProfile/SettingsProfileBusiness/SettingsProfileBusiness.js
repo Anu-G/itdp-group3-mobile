@@ -15,7 +15,7 @@ import { useDep } from "../../../shared/context/DependencyContext";
 import { useTheme } from "../../../shared/context/ThemeContext";
 import { checkErr } from '../../../utils/CommonUtils';
 
-export const SettingsProfileBusiness = ({navigation}) => {
+export const SettingsProfileBusiness = ({ navigation }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     const route = useRoute()
@@ -38,19 +38,19 @@ export const SettingsProfileBusiness = ({navigation}) => {
     const [allCategories, setAllCategories] = useState([])
     const [existing, setExisting] = useState(false)
 
-    useLayoutEffect(()=>{
+    useLayoutEffect(() => {
         navigation.setOptions({
-           headerLeft: () => (
-            <TouchableOpacity style={{margin: 16}} onPress={()=>navigation.goBack()}>
-                <Text style={{color: '#f4f4f4', fontSize: 16}}>Cancel</Text>
-            </TouchableOpacity>
-           
-           ),
-           headerRight: () => (
-            // <View style={{margin: 16}}>
-                <TouchableOpacity style={{padding: 16}} onPress={saveResponse}><Text style={{color: "#FED154", fontSize: 16, fontFamily:'Poppins-Medium'}}>Send</Text></TouchableOpacity>
-            // </View>
-           )
+            headerLeft: () => (
+                <TouchableOpacity style={{ margin: 16 }} onPress={() => navigation.goBack()}>
+                    <Text style={{ color: '#f4f4f4', fontSize: 16 }}>Cancel</Text>
+                </TouchableOpacity>
+
+            ),
+            headerRight: () => (
+                // <View style={{margin: 16}}>
+                <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Send</Text></TouchableOpacity>
+                // </View>
+            )
         })
     })
 
@@ -70,9 +70,11 @@ export const SettingsProfileBusiness = ({navigation}) => {
             }
 
             setBusinessHoursSubmit(object)
-            setBusinessHoursView(route.params.openHour)                
+            setBusinessHoursView(route.params.openHour)
+        } else if (route.params?.newBusinessLink) {
+            setBusinessLinks(route.params.newBusinessLink)
         }
-    }, [route.params?.openHour])
+    }, [route.params])
 
     const showImagePicker = async () => {
         try {
@@ -87,13 +89,12 @@ export const SettingsProfileBusiness = ({navigation}) => {
                 setProfileImage(result.uri)
             }
         } catch (err) {
-            console.log(err);
             checkErr(err)
         }
     }
 
     // service
-    const {profileService, profileImageService, categoryService} = useDep()
+    const { profileService, profileImageService, categoryService } = useDep()
 
     const getProfileAndCategories = async () => {
         try {
@@ -101,7 +102,7 @@ export const SettingsProfileBusiness = ({navigation}) => {
             setAccountId(accId)
 
             const responseCategories = await categoryService.doGetCategories()
-            if (responseCategories.status ===  200) {
+            if (responseCategories.status === 200) {
                 setAllCategories(responseCategories.data.data)
             }
 
@@ -112,7 +113,7 @@ export const SettingsProfileBusiness = ({navigation}) => {
             let data = response.data.data
             if (data.business_profile.display_name != "") {
                 setExisting(true)
- 
+
                 setProfileImage(data.business_profile.profile_image)
                 setName(data.business_profile.display_name)
                 setBio(data.business_profile.profile_bio)
@@ -121,13 +122,19 @@ export const SettingsProfileBusiness = ({navigation}) => {
                 setCategoryId(data.business_profile.category_id)
                 setCategoryName(data.category_name)
 
-                setBusinessHoursSubmit(data.business_profile.business_hours)
+                setBusinessLinks(data.business_profile.business_links.map(item => ({ label: item.label, link: item.link })))
+
+                // diset spt ini untuk case jika business_hour tidak diedit (langsung diatur ke format submit (hanya diambil day, openhour, dan closehour saja))
+                setBusinessHoursSubmit(data.business_profile.business_hours.map(item => ({
+                    day: `${item.day}`,
+                    open_hour: item.open_hour,
+                    close_hour: item.close_hour
+                })))
 
                 let newBusinessHours = adjustTime(data.business_profile.business_hours)
                 setBusinessHoursView(newBusinessHours)
-             }
+            }
         } catch (err) {
-            console.log(err);
             checkErr(err)
         }
     }
@@ -138,8 +145,15 @@ export const SettingsProfileBusiness = ({navigation}) => {
         })
     }
 
+    const handleToLinkSettingsClick = () => {
+        navigation.navigate(ROUTE.SETTINGS_LINKS, {
+            data: businessLinks
+        })
+    }
+
     const handleChangeCategory = (value) => {
         setCategoryId(value)
+        setCategoryName(allCategories[allCategories.findIndex(cat => cat.category_id === value)].category_names)
     }
 
     const saveResponse = async () => {
@@ -175,26 +189,25 @@ export const SettingsProfileBusiness = ({navigation}) => {
                     gmaps_link: gmaps,
                     display_name: name,
                     business_hours: businessHoursSubmit,
-                    business_links: businessLink
+                    business_links: businessLinks
                 })
                 if (response.status === 200) {
                     navigation.navigate(ROUTE.MAIN)
                 }
             }
         } catch (err) {
-            console.log(err);
             checkErr(err)
         }
     }
 
-    return(
+    return (
         <MainContainer>
-            <ScrollView style={{width: '100%'}}>
+            <ScrollView style={{ width: '100%' }}>
                 <View style={styles.changeProfileCtn}>
-                    <SettingsImageProfile source={profileImage}/>
+                    <SettingsImageProfile source={profileImage} />
 
                     <Pressable onPress={showImagePicker}>
-                        <Text13SemiBoldYellow text={'Change Profile Picture'}/>
+                        <Text13SemiBoldYellow text={'Change Profile Picture'} />
                     </Pressable>
                 </View>
 
@@ -203,70 +216,90 @@ export const SettingsProfileBusiness = ({navigation}) => {
                         text={'Display Name'}
                         onChange={setName}
                         value={name}
-                         />
+                    />
 
-                        
+
                     <InputTextNoError
                         text={'Bio'}
                         onChange={setBio}
                         value={bio}
-                         />
+                    />
 
-                    
+
                     <View style={styles.container}>
-                        <CustomPicker label="Category" data={allCategories} init={categoryName} handleChange={handleChangeCategory}/>
+                        <CustomPicker label="Category" data={allCategories} init={categoryName} handleChange={handleChangeCategory} />
                     </View>
 
                     <InputTextNoError
                         text={'Address'}
                         onChange={setAddress}
                         value={address}
-                         />
+                    />
 
                     <InputTextNoError
                         text={'Google Maps Link'}
                         onChange={setGmaps}
                         value={gmaps}
-                         />
+                    />
 
                     <View style={[styles.container, styles.heightView]}>
-                        <TextProfile text={'Open Hours:'}/>
+                        <TextProfile text={'Open Hours:'} />
                         {/* Nanti tampilin macem 'conclusion' kea:
                             monday: 10.00-22.00
                             Tuesday: 14.00-22.00 */}
-                        
-                        {businessHoursView.map((dummy,i) => {
-                            if (dummy.active==true) {
+
+                        {businessHoursView.map((dummy, i) => {
+                            if (dummy.active == true) {
                                 return (
                                     <View key={i}>
-                                    <Caption text={`${dummy.day} \t\t ${dummy.openTime} - ${dummy.closeTime}`} style={{paddingHorizontal: 8}}/>
+                                        <Caption text={`${dummy.day} \t\t ${dummy.openTime} - ${dummy.closeTime}`} style={{ paddingHorizontal: 8 }} />
                                     </View>
                                 )
                             }
                         })}
 
-                        
-                        
+
+
                         <Pressable onPress={handleToOpenHourSettingsClick}>
                             <View style={styles.goToOtherPage}>
-                                <Text32  text={'Edit Open Hours'}/>
+                                <Text32 text={'Edit Open Hours'} />
 
-                                <Feather 
+                                <Feather
                                     name="chevron-right"
                                     size={20}
                                     color={styles.goToOtherPage.color}
-                                     />
+                                />
                             </View>
                         </Pressable>
-                        
+
                     </View>
 
-                    
+
 
                     <View style={[styles.container, styles.heightView]}>
-                        <TextProfile text={'Links'}/>
+                        <TextProfile text={'Links'} />
+                        {businessLinks.map((item, i) => {
+                            return (
+                                <View key={i}>
+                                    <Caption text={`${item.label}\t:${item.link}`} style={{ paddingHorizontal: 8 }} />
+                                </View>
+                            )
+                        })}
+
+                        <Pressable onPress={handleToLinkSettingsClick}>
+                            <View style={styles.goToOtherPage}>
+                                <Text32 text={'Edit Links'} />
+
+                                <Feather
+                                    name="chevron-right"
+                                    size={20}
+                                    color={styles.goToOtherPage.color}
+                                />
+                            </View>
+                        </Pressable>
 
                     </View>
+
                 </View>
             </ScrollView>
         </MainContainer>
@@ -275,14 +308,14 @@ export const SettingsProfileBusiness = ({navigation}) => {
 
 const styling = (theme) => StyleSheet.create({
     form: {
-       flex: 1,
-    //    width: '100%',
-       alignSelf: "stretch",
-       margin: theme?.spacing?.m,
-       alignItems: 'center',
-       // justifyContent: 'center'
+        flex: 1,
+        //    width: '100%',
+        alignSelf: "stretch",
+        margin: theme?.spacing?.m,
+        alignItems: 'center',
+        // justifyContent: 'center'
     },
-    imageCtn : {
+    imageCtn: {
         width: 100,
         height: 100,
         borderRadius: 50,
@@ -299,7 +332,7 @@ const styling = (theme) => StyleSheet.create({
         alignItems: "center",
         margin: theme?.spacing?.m,
     },
-    container : {
+    container: {
         width: '100%',
         marginBottom: theme?.spacing?.m
     },
@@ -326,7 +359,7 @@ const styling = (theme) => StyleSheet.create({
 const adjustTime = (data) => {
     // digunakan untuk menyesuaikan waktu dengan isActive true dan false
     let temporary = Array.from({ length: 7 }, (v, i) => ({
-        id: 0, 
+        id: 0,
         day: '',
         openTime: '',
         closeTime: '',
@@ -336,108 +369,108 @@ const adjustTime = (data) => {
     for (let i = 0; i < 7; i++) {
         if (i == 0) {
             let index = data.findIndex((item) => item.day == i)
-            if (index !== -1 ) {
+            if (index !== -1) {
                 temporary[i].id = i
                 temporary[i].day = 'Monday'
                 temporary[i].openTime = data[index].open_hour
                 temporary[i].closeTime = data[index].close_hour
-                temporary[i].active = true                    
+                temporary[i].active = true
             } else {
                 temporary[i].id = i
                 temporary[i].day = 'Monday'
                 temporary[i].openTime = "08.00"
                 temporary[i].closeTime = "21.00"
-                temporary[i].active = false   
+                temporary[i].active = false
             }
         } else if (i == 1) {
             let index = data.findIndex((item) => item.day == i)
-            if (index !== -1 ) {
+            if (index !== -1) {
                 temporary[i].id = i
                 temporary[i].day = 'Tuesday'
                 temporary[i].openTime = data[index].open_hour
                 temporary[i].closeTime = data[index].close_hour
-                temporary[i].active = true                    
+                temporary[i].active = true
             } else {
                 temporary[i].id = i
                 temporary[i].day = 'Tuesday'
                 temporary[i].openTime = "08.00"
                 temporary[i].closeTime = "21.00"
-                temporary[i].active = false   
+                temporary[i].active = false
             }
         } else if (i == 2) {
             let index = data.findIndex((item) => item.day == i)
-            if (index !== -1 ) {
+            if (index !== -1) {
                 temporary[i].id = i
                 temporary[i].day = 'Wednesday'
                 temporary[i].openTime = data[index].open_hour
                 temporary[i].closeTime = data[index].close_hour
-                temporary[i].active = true                    
+                temporary[i].active = true
             } else {
                 temporary[i].id = i
                 temporary[i].day = 'Wednesday'
                 temporary[i].openTime = "08.00"
                 temporary[i].closeTime = "21.00"
-                temporary[i].active = false   
+                temporary[i].active = false
             }
         } else if (i == 3) {
             let index = data.findIndex((item) => item.day == i)
-            if (index !== -1 ) {
+            if (index !== -1) {
                 temporary[i].id = i
                 temporary[i].day = 'Thursday'
                 temporary[i].openTime = data[index].open_hour
                 temporary[i].closeTime = data[index].close_hour
-                temporary[i].active = true                    
+                temporary[i].active = true
             } else {
                 temporary[i].id = i
                 temporary[i].day = 'Thursday'
                 temporary[i].openTime = "08.00"
                 temporary[i].closeTime = "21.00"
-                temporary[i].active = false   
+                temporary[i].active = false
             }
         } else if (i == 4) {
             let index = data.findIndex((item) => item.day == i)
-            if (index !== -1 ) {
+            if (index !== -1) {
                 temporary[i].id = i
                 temporary[i].day = 'Friday'
                 temporary[i].openTime = data[index].open_hour
                 temporary[i].closeTime = data[index].close_hour
-                temporary[i].active = true                    
+                temporary[i].active = true
             } else {
                 temporary[i].id = i
                 temporary[i].day = 'Friday'
                 temporary[i].openTime = "08.00"
                 temporary[i].closeTime = "21.00"
-                temporary[i].active = false   
+                temporary[i].active = false
             }
         } else if (i == 5) {
             let index = data.findIndex((item) => item.day == i)
-            if (index !== -1 ) {
+            if (index !== -1) {
                 temporary[i].id = i
                 temporary[i].day = 'Saturday'
                 temporary[i].openTime = data[index].open_hour
                 temporary[i].closeTime = data[index].close_hour
-                temporary[i].active = true                    
+                temporary[i].active = true
             } else {
                 temporary[i].id = i
                 temporary[i].day = 'Saturday'
                 temporary[i].openTime = "08.00"
                 temporary[i].closeTime = "21.00"
-                temporary[i].active = false   
+                temporary[i].active = false
             }
         } else if (i == 6) {
             let index = data.findIndex((item) => item.day == i)
-            if (index !== -1 ) {
+            if (index !== -1) {
                 temporary[i].id = i
                 temporary[i].day = 'Sunday'
                 temporary[i].openTime = data[index].open_hour
                 temporary[i].closeTime = data[index].close_hour
-                temporary[i].active = true                    
+                temporary[i].active = true
             } else {
                 temporary[i].id = i
                 temporary[i].day = 'Sunday'
                 temporary[i].openTime = "08.00"
                 temporary[i].closeTime = "21.00"
-                temporary[i].active = false   
+                temporary[i].active = false
             }
         }
     }

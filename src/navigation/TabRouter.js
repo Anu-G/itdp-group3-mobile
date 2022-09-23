@@ -1,8 +1,7 @@
-import { AntDesign, Entypo, FontAwesome, FontAwesome5, Fontisto, Foundation, Octicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign, Entypo, Foundation } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, StyleSheet, View } from "react-native";
 import { AddPost } from "../features/AddPost/AddPost";
-import { Home } from "../features/Home/Home";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import { useDep } from "../shared/context/DependencyContext";
 import { useTheme } from "../shared/context/ThemeContext";
 import { checkErr } from "../utils/CommonUtils";
 import { TimelinePage } from "../features/TimelinePage/TimelinePage";
+import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
 
 const Tab = createBottomTabNavigator();
 export const TabRouter = _ => {
@@ -53,7 +53,7 @@ export const TabRouter = _ => {
       <Tab.Navigator initialRouteName={ROUTE.MAIN} screenOptions={({ route }) => ({
          tabBarIcon: ({ focused, color, size }) => {
             switch (route.name) {
-               case ROUTE.HOME:
+               case ROUTE.TIMELINE:
                   return (
                      <View style={style.iconCtn}>
                         <Entypo name="home" size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
@@ -65,13 +65,7 @@ export const TabRouter = _ => {
                         <Foundation name='magnifying-glass' size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
                      </View>
                   )
-               case ROUTE.BUSINESS_PROFILE:
-                  return (
-                     <View style={focused ? [style.imageCtn] : ''}>
-                        <Image source={profile.profileImage === '' ? require('../../assets/images/user-default.png') : { uri: profile.profileImage }} style={style.imageStyle} />
-                     </View>
-                  )
-               case ROUTE.NON_BUSINESS_PROFILE:
+               case ROUTE.PROFILE:
                   return (
                      <View style={focused ? [style.imageCtn] : ''}>
                         <Image source={profile.profileImage === '' ? require('../../assets/images/user-default.png') : { uri: profile.profileImage }} style={style.imageStyle} />
@@ -87,10 +81,8 @@ export const TabRouter = _ => {
          tabBarLabel: () => null,
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
-            <Tab.Screen name={ROUTE.HOME} component={Home} />
             <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
-            <Tab.Screen name={ROUTE.ADD_POST} component={AddPost} />
-            <Tab.Screen name={ROUTE.BUSINESS_PROFILE} component={BusinessProfile} />
+            <Tab.Screen name={ROUTE.PROFILE} component={user.roleId === 2 ? BusinessProfile : NonBusinessProfile} />
          </Tab.Group>
       </Tab.Navigator>
    )

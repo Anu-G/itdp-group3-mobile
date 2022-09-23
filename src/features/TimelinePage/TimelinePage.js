@@ -23,13 +23,13 @@ export const TimelinePage = () => {
 
     useEffect(() => {
         getTimeline()
-    }, [refresh, route.params?.refresh])
+    }, [])
 
     // service
     const { timelineService } = useDep()
 
     const getTimeline = async () => {
-        try {            
+        try {
             const response = await timelineService.doGetTimeline({
                 page: 1,
                 page_lim: 200
@@ -37,7 +37,6 @@ export const TimelinePage = () => {
             if (response.data.data !== null) {
                 setTimelines(response.data.data)
             }
-
             const accId = await store.getData(KEY.ACCOUNT_ID)
             setAccountId(accId)
 
@@ -51,7 +50,7 @@ export const TimelinePage = () => {
             const response = await timelineService.doPostComment({
                 feed_id: `${detailComment.feedId}`,
                 account_id: `${detailComment.accountId}`,
-                comment_fill: detailComment.comment        
+                comment_fill: detailComment.comment
             })
             if (response.data.data !== null) {
                 getTimeline()
@@ -76,41 +75,41 @@ export const TimelinePage = () => {
             <View style={styles.tlBg}>
                 <View style={styles.tlLst}>
                     <ScrollView>
-                    {timelines.map((post, i) => {
-                        let dt = new Date(post.created_at.replace(' ', 'T'));
-                        let date = dt.getDate()
-                        let month = dt.getMonth() + 1
-                        let year = dt.getFullYear()
-                        let hour = (dt.getHours() < 10 ? '0' : '') + dt.getHours()
-                        let minutes = (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes()
-                        return(
-                            <TimelineCard
-                                key={i}
-                                avatar={post.avatar}
-                                caption={post.caption_post}
-                                comments={post.detail_comment}
-                                date={`${date}/${month}/${year}`}
-                                links={post.detail_media_feed}
-                                name={post.display_name}
-                                place={post.place}
-                                time={`${hour}:${minutes}`}
-                                postLikes={post.total_like}
-                                setRefresh={setRefresh}
-                                accId={accountId}
-                                postAccId={post.account_id}
-                                handleClickName={handleClickName}
-                                feedId={post.post_id}
-                                handleComment={handleComment}
-                                thisAccountLikes={post.detail_like.findIndex(like => like.account_id == accountId) != -1 ? true : false}                                            
-                            />
-                        )                        
-                    })}
+                        {timelines.map((post, i) => {
+                            let dt = new Date(post.created_at.replace(' ', 'T'));
+                            let date = dt.getDate()
+                            let month = dt.getMonth() + 1
+                            let year = dt.getFullYear()
+                            let hour = (dt.getHours() < 10 ? '0' : '') + dt.getHours()
+                            let minutes = (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes()
+                            return (
+                                <TimelineCard
+                                    key={i}
+                                    avatar={post.avatar}
+                                    caption={post.caption_post}
+                                    comments={post.detail_comment}
+                                    date={`${date}/${month}/${year}`}
+                                    links={post.detail_media_feed}
+                                    name={post.display_name}
+                                    place={post.place}
+                                    time={`${hour}:${minutes}`}
+                                    postLikes={post.total_like}
+                                    setRefresh={setRefresh}
+                                    accId={accountId}
+                                    postAccId={post.account_id}
+                                    handleClickName={handleClickName}
+                                    feedId={post.post_id}
+                                    handleComment={handleComment}
+                                    thisAccountLikes={post.detail_like.findIndex(like => like.account_id == accountId) != -1 ? true : false}
+                                />
+                            )
+                        })}
                     </ScrollView>
-                    <TouchableOpacity onPress={() => navigate.navigate(ROUTE.ADD_POST)} style={{zIndex: 101, position: 'absolute', justifyContent: 'flex-end', right: 20, bottom: 16}}>
-                        <View style={{width: 56, height: 56, borderRadius: 28, backgroundColor: '#FED154', justifyContent: 'center', alignItems: 'center'}}>
-                            <Entypo name="plus" size={40} color="#849EB9" />                    
-                        </View>                            
-                    </TouchableOpacity>                        
+                    <TouchableOpacity onPress={() => navigate.navigate(ROUTE.ADD_POST)} style={{ zIndex: 101, position: 'absolute', justifyContent: 'flex-end', right: 20, bottom: 16 }}>
+                        <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: '#FED154', justifyContent: 'center', alignItems: 'center' }}>
+                            <Entypo name="plus" size={40} color="#849EB9" />
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         </MainContainer>
@@ -130,7 +129,7 @@ const styling = (theme) => StyleSheet.create({
         paddingLeft: 0,
         flex: 1,
         flexDirection: 'column',
-        borderRadius: 20, 
+        borderRadius: 20,
     },
     ctg: {
         borderTopLeftRadius: 0,
