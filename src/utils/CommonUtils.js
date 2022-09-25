@@ -5,3 +5,8 @@ export const checkErr = (e) => {
       return (e?.message);
    }
 }
+
+export const price = new Intl.NumberFormat('id-ID', {
+   style: 'currency',
+   currency: 'IDR'
+})

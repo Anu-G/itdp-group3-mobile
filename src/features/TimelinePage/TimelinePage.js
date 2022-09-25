@@ -40,13 +40,13 @@ export const TimelinePage = () => {
             if (response.data.data !== null) {
                 setTimelines(response.data.data)
             }
-
             const accId = await store.getData(KEY.ACCOUNT_ID)
             setAccountId(accId)
 
         } catch (err) {
             checkErr(err)
         } finally {
+            console.log(timelines);
             setLoading(false)
         }
     }

@@ -83,6 +83,11 @@ export const themeDark = {
          color: pallete.white,
          fontFamily: 'Poppins-Regular',
       },
+      text32yellow: {
+         fontSize: 16,
+         color: pallete.yellow,
+         fontFamily: 'Poppins-Regular',
+      },
       caption: {
          fontSize: 14,
          color: pallete.white,

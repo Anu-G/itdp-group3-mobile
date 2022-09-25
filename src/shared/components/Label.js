@@ -25,6 +25,14 @@ export const Text32 = ({ text, style = {} }) => {
    )
 }
 
+export const Text32Yellow = ({ text, style = {} }) => {
+   const theme = useTheme();
+
+   return(
+      <Text style={[theme.state.style?.text?.text32yellow, style]}>{text}</Text>
+   )
+}
+
 export const Caption = ({ text, style= {} }) => {
    const theme = useTheme();
 
