@@ -10,10 +10,15 @@ import { FontAwesome } from '@expo/vector-icons'
 import { ButtonComponent } from '../../shared/components/Button'
 import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonCategory, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
 import { LinkModal } from '../../shared/components/LinkModal'
+import { useRoute } from '@react-navigation/native'
+import { useLayoutEffect } from 'react'
 
-export const BusinessProfile = () => {
+export const BusinessProfile = ({navigation}) => {
     const theme = useTheme()
-    const styles = styling(theme)
+    const styles = styling(theme.state.style)
+    const route = useRoute();
+    const {openId} = route.params
+    const [openStatus,setStatus] = useState(true)
 
     // state
     const [profile, setProfile] = useState({
@@ -55,10 +60,21 @@ export const BusinessProfile = () => {
         }
     }
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'}/>
+        })
+    }, [navigation])
+
     // service
     const { profileService} = useDep()
 
     useEffect(() => {
+        if (openId && openId != user.accountId) {
+            setStatus(true)
+        } else {
+            setStatus(true)
+        }
         getUser()
     }, [])
 
@@ -87,12 +103,15 @@ export const BusinessProfile = () => {
 
     const getUser = async () => {
         setLoading(true)
+        let useId = 0 
+        if (openId) {
+            useId = openId
+        } else {
+            useId = user.accountId
+        }
         try {
-            let id = user.accountId
-            setAccountId(id)
-
             let response = await profileService.doGetBusinessProfile({
-                account_id:`${id}`
+                account_id:`${useId}`
             })
 
             setProfile(prevState => ({
@@ -107,7 +126,6 @@ export const BusinessProfile = () => {
                 PhoneNumber: response.data.data.phone_number,
                 CategoryName: response.data.data.category_name
             }))
-
         } catch (err) {
             console.log(err)
             checkErr(err)
@@ -148,7 +166,11 @@ export const BusinessProfile = () => {
                     <View style={styles.headProfile}>
                         {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonProfile/></Animated.View> : <>{profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}</>}
                         <View style={styles.editProfileBtn}>
-                            {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <ButtonComponent label={'Edit Profile'}/>}
+                            {openStatus &&
+                                <>
+                                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn}/>}
+                                </>                             
+                            }
                         </View>
                     </View>
                     {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonTitle/></Animated.View> : <Title2 label={profile.DisplayName}/>}
@@ -175,9 +197,9 @@ export const BusinessProfile = () => {
                         </> : <Caption text={profile.ProfileBio}/>}
                 </View>
                 <View style={styles.profileButtons}>
-                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} />}</>}
-                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} />}</>}
-                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} />}</>}
+                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn}/>}</>}
+                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn}/>}</>}
+                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn}/>}</>}
                 </View>
             </View>
 
@@ -191,10 +213,7 @@ export const BusinessProfile = () => {
 const styling = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 16,
-        marginBottom: 16,
-        marginLeft: 16,
-        marginRight: 16,
+        margin: theme?.spacing?.m,
         alignSelf: 'stretch',
     },
     topProfile: {
@@ -206,14 +225,18 @@ const styling = (theme) => StyleSheet.create({
         flexDirection:'column',
     },
     headProfile: {
-        flex: 1,
         flexDirection:'row',
         alignItems: 'center',
-        marginBottom: 16,
+        marginBottom: theme.spacing?.s,
     },
     editProfileBtn:{
-        alignContent:'space-around',
-        marginLeft: 140,
+        flex:1,
+        alignItems:'flex-end',
+        width:"80%",
+    },
+    editProfileBtnCtn:{
+        margin:0,
+        alignSelf:'auto'
     },
     openHours:{
         flex:1,
@@ -230,5 +253,9 @@ const styling = (theme) => StyleSheet.create({
         alignItems:'flex-start',
         justifyContent:'flex-start',
         flexWrap:'wrap',
+    },
+    profileButtonCtn:{
+        margin:theme.spacing?.s,
+        marginLeft:0
     }
 })

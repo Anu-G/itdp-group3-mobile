@@ -12,7 +12,41 @@ export const PostService = ({ doPost }) => {
       }
    }
 
-   return { doPostData };
+   const doGetDataById = async (data) => {
+      try {
+         return await doPost({
+            url: '/feed/id',
+            data: data
+         })
+      } catch (err) {
+         throw err
+      }
+   }
+
+   const doEditData = async (editData) => {
+      try {
+         return await doPost({
+            url: '/feed/update',
+            data: editData
+         })
+      } catch (err) {
+         throw err;
+      }
+   }
+
+   const doDeleteData = async (id) => {
+      try {
+         return await doPost({
+            url: '/feed/delete',
+            data: id
+         })
+      } catch (err) {
+         throw err;
+      }
+   }
+
+
+   return { doPostData, doEditData, doDeleteData, doGetDataById };
 }
 
 

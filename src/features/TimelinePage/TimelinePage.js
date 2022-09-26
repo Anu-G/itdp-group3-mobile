@@ -22,6 +22,7 @@ export const TimelinePage = () => {
     const [accountId, setAccountId] = useState()
     const [refresh, setRefresh] = useState(false)
     const [isLoading, setLoading] = useState(false)
+    const navigation = useNavigation()
 
     useEffect(() => {
         getTimeline()
@@ -67,13 +68,7 @@ export const TimelinePage = () => {
     }
 
     const handleClickName = (id) => {
-        if (id === accountId) {
-            console.log(`PAGE PROFILE ID ${id}`);
-            // navigate.navigate(ROUTE.PROFILE)
-        } else {
-            console.log(`PAGE PROFILE ID ${id}`);
-            // navigate.navigate()
-        }
+        navigation.navigate(ROUTE.BUSINESS_PROFILE,{openId:id})
     }
 
     return (

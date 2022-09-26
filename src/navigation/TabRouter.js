@@ -33,7 +33,7 @@ export const TabRouter = _ => {
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
-            <Tab.Screen name={ROUTE.SETTING} component={Setting} />
+            <Tab.Screen name={`ROUTE.SETTING`} component={Setting} />
          </Tab.Group>
       </Tab.Navigator>
    )

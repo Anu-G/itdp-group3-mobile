@@ -10,6 +10,7 @@ import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
+import { useSelector } from 'react-redux'
 
 export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes }) => {
     const theme = useTheme()
@@ -23,6 +24,10 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
     const [isButtonSendActive, setIsButtonSendActive] = useState(false)
     const [readMore, setReadMore] = useState(true)
     const {timelineService} = useDep()
+    const post = {
+        caption_post:caption,
+        detail_media_feed:links
+    }
 
     useEffect(() => {
         setIsLiked(thisAccountLikes)
@@ -83,6 +88,14 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
             console.log(e);
         }
     }
+
+    const handleOptionPress = () => {
+        if (accId == postAccId) {
+            navigation.navigate(ROUTE.EDIT_POST,{post:post,accId:postAccId})            
+        } else {
+            handleCommentOnClick()
+        }
+    }
     
     return (
         <MainContainer>
@@ -96,7 +109,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                             <Text style={{fontFamily: 'Poppins-SemiBold', color: '#F4F4F4', fontSize: 16}}>{name}</Text>
                         </TouchableOpacity>
                         <View style={styles.optionBtn}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={handleOptionPress}>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />   
                             </TouchableOpacity>                     
                         </View>
