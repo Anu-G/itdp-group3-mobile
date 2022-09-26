@@ -16,13 +16,13 @@ export const LinkModal = ({linksIn,handleClickLinks}) => {
         const regexp = new RegExp('https://www.')
         let linked = ''
         if (!regexp.test(link)) {
-            linked = 'https://www.' + link
+            linked = 'https://www.' + link.link
         } else {
-            linked = link
+            linked = link.link
         }
         const linki = 'Link' + `${index}`
         return(
-            <ButtonBigComponent label={linki} onClick={()=>handleClickLink(link)} style={styles.link}/>
+            <ButtonBigComponent label={link.label} onClick={()=>handleClickLink(linked)} style={styles.link}/>
         )
     })
     const handleClickLink = (link) => {
