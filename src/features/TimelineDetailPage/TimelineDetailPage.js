@@ -94,7 +94,7 @@ export const TimelineDetailPage = ({navigation}) => {
                         let hour = (dt.getHours() < 10 ? '0' : '') + dt.getHours()
                         let minutes = (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes()
                         return(
-                            <>
+                            <View key={i}>
                             {isLoading ? <SkeletonDetailTimelineCard/> 
                                 : 
                                 <TimelineDetailCard
@@ -116,7 +116,7 @@ export const TimelineDetailPage = ({navigation}) => {
                                     handleComment={handleComment}
                                     thisAccountLikes={post.detail_like.findIndex(like => like.account_id == accountId) != -1 ? true : false}                                            
                                 />}
-                            </>
+                            </View>
                         )                        
                     })}
                     </ScrollView>
