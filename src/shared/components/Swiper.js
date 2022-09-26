@@ -2,7 +2,7 @@ import { Video } from 'expo-av';
 import React from 'react';
 import { StyleSheet, View, Image, ScrollView, Dimensions, Text, StatusBar, Platform } from 'react-native';
 
-export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, imageHeight, imageWidth, swipeBottom, swipeTop }) => {
+export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, imageHeight, imageWidth, swipeBottom, swipeTop, styleImage }) => {
     const height = imageHeight 
     const handleClick = (e, item) => {
         if (e.nativeEvent.contentOffset.y < 0) {
@@ -19,9 +19,9 @@ export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, i
                     return (typeof item.url === 'string' && typeof item.name === 'string' ?
                         <ScrollView key={index} onScrollEndDrag={(e) => handleClick(e, item)}>
                             {item.url.toUpperCase().includes(".MP4") === true ?
-                                <Video onError={error => {console.log(error)}} style={{ height: height, width: imageWidth, backgroundColor:'white' }} useNativeControls={true} source={{ uri: item.url.replace(/\s+/g, '') }} resizeMode='contain'/>
+                                <Video onError={error => {console.log(error)}} style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} useNativeControls={true} source={{ uri: item.url.replace(/\s+/g, '') }} resizeMode='contain'/>
                             :
-                                <Image style={{ height: height, width: imageWidth, backgroundColor:'white' }} source={{ uri: item.url }} resizeMode={'contain'}/>
+                                <Image style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} source={{ uri: item.url }} resizeMode={'contain'}/>
                             }
                             <View style={styles.imageText}>
                                 <Text style={[

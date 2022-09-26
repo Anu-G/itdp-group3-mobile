@@ -128,6 +128,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                         swipeBottom={e => console.log('swipe bottom: ', e)}
                         swipeTop={e => console.log('swipe top: ', e)}
                         textSize={16}
+                        styleImage={{borderRadius: 8}}
                     />
                 </View>
 
