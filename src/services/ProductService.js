@@ -34,7 +34,18 @@ const ProductService = ({ doPost }) => {
       }
    }
 
-   return { doGetProductByAccount, doGetProductSearch, doPostProductData };
+   const doGetProductByProduct = async (user) => {
+      try {
+         return await doPost({
+            url: '/product/get/by-product',
+            data: user
+         });
+      } catch (err) {
+         throw err;
+      }
+   }
+
+   return { doGetProductByAccount, doGetProductSearch, doPostProductData, doGetProductByProduct };
 }
 
 export default ProductService;

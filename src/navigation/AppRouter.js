@@ -14,6 +14,7 @@ import { useAuth } from "../shared/context/AuthContext";
 import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { CatalogPage } from "../features/CategorizePage/CatalogPage";
+import { DetailProductCard } from "../features/DetailProductCard/DetailProductCard";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -36,7 +37,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.MAIN} >
+      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
@@ -75,7 +76,14 @@ export const AppRouter = _ => {
             headerTitle: 'Catalog',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
+         })} />
+
+         <Stack.Screen name={ROUTE.DETAIL_PRODUCT} component={DetailProductCard} options={({ navigation }) => ({
+            headerTitle: 'Detail Product',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
          })} />
 
       </Stack.Navigator>
