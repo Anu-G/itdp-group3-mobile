@@ -38,7 +38,7 @@ export const AvatarSmall = ({ style = {}, accId, handleClick, source = 'https://
                 {source.includes("https://") === true || source.includes("file://") == true ?
                     <Image source={{ uri: source }} style={styles.avatarProfile} />
                     :
-                    <Image source={source} style={styles.avatarProfile} />
+                    <Image source={ source ? {uri: source } : require('../../../assets/images/user-default.png') } style={styles.avatarProfile} />
                 }
             </TouchableOpacity>
         </View>

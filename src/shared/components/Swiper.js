@@ -1,6 +1,9 @@
-import { Video } from 'expo-av';
+import { ResizeMode } from 'expo-av';
+import VideoPlayer from 'expo-video-player';
 import React from 'react';
 import { StyleSheet, View, Image, ScrollView, Dimensions, Text, StatusBar, Platform } from 'react-native';
+
+const windowWidth = Dimensions.get('screen').width
 
 export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, imageHeight, imageWidth, swipeBottom, swipeTop, styleImage }) => {
     const height = imageHeight 
@@ -19,7 +22,18 @@ export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, i
                     return (typeof item.url === 'string' && typeof item.name === 'string' ?
                         <ScrollView key={index} onScrollEndDrag={(e) => handleClick(e, item)}>
                             {item.url.toUpperCase().includes(".MP4") === true ?
-                                <Video onError={error => {console.log(error)}} style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} useNativeControls={true} source={{ uri: item.url.replace(/\s+/g, '') }} resizeMode='contain'/>
+                                    <VideoPlayer 
+                                        videoProps={{ 
+                                            shouldPlay: false,
+                                            resizeMode: ResizeMode.CONTAIN, 
+                                            source: {uri: item.url.replace(/\s+/g, '')},
+                                        }}
+                                        slider={{visible: false}}
+                                        timeVisible={false}
+                                        fullscreen={{visible: false}}
+                                        style={{ height: height, width: imageWidth, videoBackgroundColor: '#F4F4F4' }}
+                                    />
+                                // <Video onError={error => {console.log(error)}} style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} useNativeControls={true} source={{ uri: item.url.replace(/\s+/g, '') }} resizeMode='contain'/>
                             :
                                 <Image style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} source={{ uri: item.url }} resizeMode={'contain'}/>
                             }
