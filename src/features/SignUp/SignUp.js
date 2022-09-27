@@ -8,6 +8,7 @@ import { MainContainer } from "../../shared/components/MainContainer";
 import { useTheme } from "../../shared/context/ThemeContext";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
 import { useDep } from '../../shared/context/DependencyContext'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const SignUp = () => {
     const theme = useTheme();
@@ -125,54 +126,60 @@ export const SignUp = () => {
     
 
     return(
-        <MainContainer>
-            <View style={styles.header}>
-                <Title1 label={'Sign Up'} />
-            </View>
+        <KeyboardAwareScrollView
+            style={{marginTop:91}}
+            extraHeight={100}
+            enableOnAndroid={true}
+        >
+            <MainContainer>
+                <View style={styles.header}>
+                    <Title1 label={'Sign Up'} />
+                </View>
 
-            <View style={styles.form}>
-                <InputTextWithError
-                    text={'Username'} 
-                    onChange={setUsername}
-                    value={username}/>
+                <View style={styles.form}>
+                    <InputTextWithError
+                        text={'Username'} 
+                        onChange={setUsername}
+                        value={username}/>
 
-                <InputTextWithError
-                    text={'Email'} 
-                    placeholder='ex: johndoe@mail.com'
-                    onChange={(text)=>{
-                        handleEmailChange(text)
-                    }}
-                    value={email}
-                    keyboard='email-address'
-                    error={erroremail}/>
+                    <InputTextWithError
+                        text={'Email'} 
+                        placeholder='ex: johndoe@mail.com'
+                        onChange={(text)=>{
+                            handleEmailChange(text)
+                        }}
+                        value={email}
+                        keyboard='email-address'
+                        error={erroremail}/>
 
-                <InputTextPassword 
-                    value={password}
-                    onChange={(text)=>{
-                        setPassword(text)
-                        checkPassword()
-                    }}
-                    error={errorpassword}/>
+                    <InputTextPassword 
+                        value={password}
+                        onChange={(text)=>{
+                            setPassword(text)
+                            checkPassword()
+                        }}
+                        error={errorpassword}/>
 
 
-                <InputTextPassword 
-                    text="Confirm Password"
-                    value={conPassword}
-                    onChange={setConPassword}
-                    error={errorconPassword}/>
+                    <InputTextPassword 
+                        text="Confirm Password"
+                        value={conPassword}
+                        onChange={setConPassword}
+                        error={errorconPassword}/>
 
-            <View style={styles.buttonContainer}>
-               <ButtonMediumComponent label={'Continue'} disable={disable} onClick={handleSignUpClick}/>
-            </View>  
+                    <View style={styles.buttonContainer}>
+                    <ButtonMediumComponent label={'Continue'} disable={disable} onClick={handleSignUpClick}/>
+                    </View>  
 
-            <View style={styles.addAuth}>
-               <Pressable onPress={handleSignInClick} >
-                  <AuthExtLabel text1={`Have an account?`} text2={'Sign in'}/>
-               </Pressable>
-            </View>
-            </View>
+                    <View style={styles.addAuth}>
+                    <Pressable onPress={handleSignInClick} >
+                        <AuthExtLabel text1={`Have an account?`} text2={'Sign in'}/>
+                    </Pressable>
+                    </View>
+                </View>
 
-        </MainContainer>
+            </MainContainer>
+        </KeyboardAwareScrollView>
     )
 }
 

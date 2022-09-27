@@ -2,9 +2,11 @@ import { FontAwesome } from '@expo/vector-icons'
 import { useRoute } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { store } from '../../apps/Storage'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { SkeletonDetailTimelineCard } from '../../shared/components/Skeleton/SkeletonDetailTimelineCard'
+import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { KEY } from '../../shared/constants/StoreConstants'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
@@ -72,20 +74,19 @@ export const TimelineDetailPage = ({navigation}) => {
     }
 
     const handleClickName = (id) => {
-        if (id === accountId) {
-            console.log(`PAGE PROFILE ID ${id}`);
-            // navigate.navigate(ROUTE.PROFILE)
-        } else {
-            console.log(`PAGE PROFILE ID ${id}`);
-            // navigate.navigate()
-        }
+        navigation.navigate(ROUTE.BUSINESS_PROFILE,{openId:id})
     }
 
     return (
+        <KeyboardAwareScrollView
+            style = {{flex:1}}
+            contentContainerStyle = {{}}
+            extraHeight={50}
+            enableOnAndroid={true}
+        >
         <MainContainer>
             <View style={styles.tlBg}>
                 <View style={styles.tlLst}>
-                    <ScrollView>
                     {timelines.map((post, i) => {
                         let dt = new Date(post.created_at.replace(' ', 'T'));
                         let date = dt.getDate()
@@ -119,10 +120,10 @@ export const TimelineDetailPage = ({navigation}) => {
                             </>
                         )                        
                     })}
-                    </ScrollView>
                 </View>
             </View>
         </MainContainer>
+        </KeyboardAwareScrollView>
     )
 }
 

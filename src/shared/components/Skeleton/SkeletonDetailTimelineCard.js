@@ -42,7 +42,7 @@ export const SkeletonDetailTimelineCard = ({}) => {
                         <Animated.View style={{flex: 1, opacity:colorChange}}>
                             <SkeletonAvatarSmall/>
                         </Animated.View>
-                        <Animated.View style={{width: "70%", opacity:colorChange}}>
+                        <Animated.View style={{flex: 6, justifyContent:'center', opacity:colorChange}}>
                             <SkeletonTouchableOpacity/>
                         </Animated.View>
                         <Animated.View style={[styles.optionBtn, {opacity:colorChange}]}>
