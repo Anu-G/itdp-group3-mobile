@@ -21,6 +21,7 @@ import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { ManageProductComponent } from "../features/Manage Product/ManageProduct";
 import { SettingsEditProduct } from "../features/SettingsEditProduct/SettingsEditProduct";
+import { DetailProductCard } from "../features/DetailProductCard/DetailProductCard";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -107,7 +108,14 @@ export const AppRouter = _ => {
             headerTitle: 'Catalog',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
+         })} />
+
+         <Stack.Screen name={ROUTE.DETAIL_PRODUCT} component={DetailProductCard} options={({ navigation }) => ({
+            headerTitle: 'Detail Product',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
          })} />
          <Stack.Screen name={ROUTE.MANAGE_PRODUCT} component={ManageProductComponent} options={({ navigation }) => ({
             headerTitle: 'Manage Product',

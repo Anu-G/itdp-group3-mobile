@@ -56,7 +56,18 @@ const ProductService = ({ doPost }) => {
       }
    }
 
-   return { doGetProductByAccount, doGetProductSearch, doPostProductData, doUpdateProductData, doDeleteProductData };
+   const doGetProductByProduct = async (user) => {
+      try {
+         return await doPost({
+            url: '/product/get/by-product',
+            data: user
+         });
+      } catch (err) {
+         throw err;
+      }
+   }
+
+   return { doGetProductByAccount, doGetProductSearch, doPostProductData, doUpdateProductData, doDeleteProductData, doGetProductByProduct };
 }
 
 export default ProductService;
@@ -64,12 +75,12 @@ export default ProductService;
 export const ProductImageService = ({ doStoreMultipleFiles }) => {
    const doPostProductImage = async (image) => {
       try {
-        let newDate = new Date()
-        let date = newDate.toISOString().slice(0, 10)
-        let time = newDate.toTimeString().slice(0, 8)
-        let newUuid = uuid.v4().toString()
-        let folderName = `${date} ${time} ${newUuid}`
-        return await doStoreMultipleFiles({
+         let newDate = new Date()
+         let date = newDate.toISOString().slice(0, 10)
+         let time = newDate.toTimeString().slice(0, 8)
+         let newUuid = uuid.v4().toString()
+         let folderName = `${date} ${time} ${newUuid}`
+         return await doStoreMultipleFiles({
             url: `/product/${folderName}`,
             data: image
          });
