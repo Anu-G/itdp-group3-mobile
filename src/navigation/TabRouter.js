@@ -11,8 +11,10 @@ import { useTheme } from "../shared/context/ThemeContext";
 import { checkErr } from "../utils/CommonUtils";
 import { TimelinePage } from "../features/TimelinePage/TimelinePage";
 import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
+import { createStackNavigator } from "@react-navigation/stack";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 export const TabRouter = _ => {
    const theme = useTheme();
    const style = styling(theme.state.style);
@@ -80,9 +82,12 @@ export const TabRouter = _ => {
          tabBarLabel: () => null,
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
-            <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
+            <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} ></Tab.Screen>
             <Tab.Screen name={ROUTE.PROFILE} component={user.roleId === 2 ? BusinessProfile : NonBusinessProfile} />
          </Tab.Group >
+         <Stack.Group>
+
+         </Stack.Group>
       </Tab.Navigator >
    )
 }

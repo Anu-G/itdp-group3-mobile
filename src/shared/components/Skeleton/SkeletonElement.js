@@ -141,9 +141,9 @@ const styling = (theme) => StyleSheet.create({
         width: 40,
     },
     touchableOpacity: {
-        flex:6,
         alignContent: "flex-start",
-        justifyContent: "center"
+        justifyContent: "center",
+        height:24
     },
     icon24:{
         width:24,

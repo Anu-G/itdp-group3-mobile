@@ -22,6 +22,7 @@ import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { ManageProductComponent } from "../features/Manage Product/ManageProduct";
 import { SettingsEditProduct } from "../features/SettingsEditProduct/SettingsEditProduct";
 import { DetailProductCard } from "../features/DetailProductCard/DetailProductCard";
+import { EditPost } from "../features/EditPost/EditPost";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -125,6 +126,12 @@ export const AppRouter = _ => {
          })} />
          <Stack.Screen name={ROUTE.EDIT_PRODUCT} component={SettingsEditProduct} options={({ navigation }) => ({
             headerTitle: 'Edit Product',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
+         <Stack.Screen name={ROUTE.EDIT_POST} component={EditPost} options={({ navigation }) => ({
+            headerTitle: 'Edit Post',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }

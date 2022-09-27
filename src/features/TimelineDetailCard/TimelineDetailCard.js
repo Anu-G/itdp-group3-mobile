@@ -130,7 +130,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                 </View>
 
                 <View style={{ alignSelf: 'stretch' }}>
-                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={avatar} />
+                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Test'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={avatar} />
                 </View>
             </View>
         </MainContainer>

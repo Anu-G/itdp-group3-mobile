@@ -43,7 +43,9 @@ export const SkeletonTimelineCard = ({}) => {
                             <SkeletonAvatarSmall/>
                         </Animated.View>
                         <Animated.View style={{width: "70%", opacity:colorChange}}>
-                            <SkeletonTouchableOpacity/>
+                            <View style={{flex:1,justifyContent:"center"}}>
+                                <SkeletonTouchableOpacity/>
+                            </View>
                         </Animated.View>
                         <Animated.View style={[styles.optionBtn, {opacity:colorChange}]}>
                             <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />                
