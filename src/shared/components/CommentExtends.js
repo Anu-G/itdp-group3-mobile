@@ -24,7 +24,7 @@ export const DetailComment = ({user, comment, profileImage}) => {
  
     return (
         <View style={styles.commentExtHdWrp}>
-            <Image source={{uri: profileImage}} style={{width: 36, height: 36, borderRadius: 18}}/>
+            <Image source={ profileImage ? {uri: profileImage } : require('../../../assets/images/user-default.png') } style={{width: 36, height: 36, borderRadius: 18}}/>
             <View style={{marginLeft: 8}}>
                 <TextComment text={user} style={{fontWeight: 'bold', fontSize: 14, marginBottom: 2}}/>
                 <View>

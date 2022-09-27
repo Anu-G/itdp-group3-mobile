@@ -4,13 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
 import { AvatarSmall } from '../../shared/components/ImageProfile'
-import { ImageViewTimeline, ImageViewTimelineMany } from '../../shared/components/ImageViewTimeline'
 import { Caption } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
-import { useSelector } from 'react-redux'
+import { Swiper } from '../../shared/components/Swiper'
 
 export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes }) => {
     const theme = useTheme()
@@ -22,6 +21,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
     const [isLiked, setIsLiked] = useState(false)
     const [comment, setComment] = useState('')
     const [isButtonSendActive, setIsButtonSendActive] = useState(false)
+    const [images, setImages] = useState([])
     const [readMore, setReadMore] = useState(true)
     const { timelineService } = useDep()
     const post = {
@@ -32,6 +32,10 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
     useEffect(() => {
         setIsLiked(thisAccountLikes)
     }, [thisAccountLikes])
+
+    useEffect(() => {
+        arrangeImagesFormat()
+    }, [])
 
     useEffect(() => {
         if (comment.length == 0) {
@@ -96,6 +100,11 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
             handleCommentOnClick()
         }
     }
+    const arrangeImagesFormat = () => {
+        setImages(links.map((item, i) => {
+            return { url: item, name: `${i + 1}/${links.length}` }
+        }))
+    }
 
     return (
         <MainContainer>
@@ -123,11 +132,15 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                 </View>
 
                 <View>
-                    {links.length === 1 ?
-                        <ImageViewTimeline item={links[0]} index={0} />
-                        :
-                        <ImageViewTimelineMany data={links} />
-                    }
+                    <Swiper
+                        imageWidth={380}
+                        imageHeight={250}
+                        images={images}
+                        swipeBottom={e => console.log('swipe bottom: ', e)}
+                        swipeTop={e => console.log('swipe top: ', e)}
+                        textSize={16}
+                        styleImage={{ borderRadius: 8 }}
+                    />
                 </View>
 
                 <View style={styles.bottonCtn}>

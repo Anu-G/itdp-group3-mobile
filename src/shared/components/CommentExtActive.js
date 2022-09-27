@@ -11,7 +11,7 @@ export const CommentExtActive = ({ comments, handleCommentChange, maxLength, cha
         <View style={styles.extCmt}>
                 {comments == null ? '' : <CommentExtends comments={comments}/>}
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Image source={{uri: avatar}} style={{width: 36, height: 36, borderRadius: 18}}/>
+                    <Image source={ avatar ? {uri: avatar } : require('../../../assets/images/user-default.png') } style={{width: 36, height: 36, borderRadius: 18}}/>
                     <CommentColumn handleChange={handleCommentChange} maxLength={maxLength} charLength={charLength} value={value} placeholder='Add comment...'/>
                     <TouchableOpacity disabled={!isButtonSendActive} onPress={handleOnClickSend} style={{marginTop: 8}}>
                         {isButtonSendActive? <Caption text={buttonLabel} style={{color: '#FED154'}}/> : <Caption text={buttonLabel} style={{color: '#849EB9'}}/>}

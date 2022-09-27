@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
 import { AvatarSmall } from '../../shared/components/ImageProfile'
-import { ImageViewTimeline, ImageViewTimelineMany } from '../../shared/components/ImageViewTimeline'
 import { Caption } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
+import { Swiper } from '../../shared/components/Swiper'
 
 export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes }) => {
     const theme = useTheme()
@@ -18,6 +18,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     const [comment, setComment] = useState('')
     const [isButtonSendActive, setIsButtonSendActive] = useState(false)
     const [readMore, setReadMore] = useState(true)
+    const [images, setImages] = useState([])
     const { timelineService } = useDep()
 
     useEffect(() => {
@@ -31,6 +32,10 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
             setIsButtonSendActive(true)
         }
     }, [comment])
+
+    useEffect(() => {
+        arrangeImagesFormat()
+    }, [])
 
     const handleReadMore = () => {
         setReadMore(!readMore)
@@ -72,6 +77,12 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
         }
     }
 
+    const arrangeImagesFormat = () => {
+        setImages(links.map((item, i) => {
+            return { url: item, name: `${i + 1}/${links.length}` }
+        }))
+    }
+
     return (
         <MainContainer>
             <View style={styles.timelineCtn}>
@@ -96,11 +107,14 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                 </View>
 
                 <View>
-                    {links.length === 1 ?
-                        <ImageViewTimeline item={links[0]} index={0} />
-                        :
-                        <ImageViewTimelineMany data={links} />
-                    }
+                    <Swiper
+                        imageWidth={380}
+                        imageHeight={218}
+                        images={images}
+                        swipeBottom={e => { }}
+                        swipeTop={e => { }}
+                        textSize={16}
+                    />
                 </View>
 
                 <View style={styles.bottonCtn}>
