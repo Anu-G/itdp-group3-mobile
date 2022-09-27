@@ -34,7 +34,29 @@ const ProductService = ({ doPost }) => {
       }
    }
 
-   return { doGetProductByAccount, doGetProductSearch, doPostProductData };
+   const doUpdateProductData = async (user) => {
+      try {
+         return await doPost({
+            url: '/product/update',
+            data: user
+         })
+      } catch (err) {
+         throw (err);
+      }
+   }
+
+   const doDeleteProductData = async (user) => {
+      try {
+         return await doPost({
+            url: '/product/delete/product',
+            data: user
+         })
+      } catch (err) {
+         throw (err);
+      }
+   }
+
+   return { doGetProductByAccount, doGetProductSearch, doPostProductData, doUpdateProductData, doDeleteProductData };
 }
 
 export default ProductService;

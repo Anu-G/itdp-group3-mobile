@@ -15,6 +15,8 @@ export const ROUTE = {
    SETTINGS_LINKS: 'settingsLinks',
    WELCOME_PAGE: 'welcomePage',
    ADD_LINK: 'addLink',
+   MANAGE_PRODUCT: 'manage-product',
+   EDIT_PRODUCT: 'edit-product',
    TIMELINE: 'timeline',
    DETAIL_TIMELINE: 'detail-timeline',
    CATALOG: 'catalog',

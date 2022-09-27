@@ -46,6 +46,7 @@ export const TimelinePage = () => {
         } catch (err) {
             checkErr(err)
         } finally {
+            console.log(timelines);
             setLoading(false)
         }
     }

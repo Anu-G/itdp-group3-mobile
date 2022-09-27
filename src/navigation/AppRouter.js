@@ -17,6 +17,10 @@ import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 import { SettingsAddFAQ } from "../features/SettingsAddFAQ/SettingsAddFAQ";
 import { CatalogPage } from "../features/CategorizePage/CatalogPage";
+import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
+import { BusinessProfile } from "../features/Profile/BusinessProfile";
+import { ManageProductComponent } from "../features/Manage Product/ManageProduct";
+import { SettingsEditProduct } from "../features/SettingsEditProduct/SettingsEditProduct";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -105,6 +109,18 @@ export const AppRouter = _ => {
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
-      </Stack.Navigator >
+         <Stack.Screen name={ROUTE.MANAGE_PRODUCT} component={ManageProductComponent} options={({ navigation }) => ({
+            headerTitle: 'Manage Product',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
+         <Stack.Screen name={ROUTE.EDIT_PRODUCT} component={SettingsEditProduct} options={({ navigation }) => ({
+            headerTitle: 'Edit Product',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
+      </Stack.Navigator>
    )
 }

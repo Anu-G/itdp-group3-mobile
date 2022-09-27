@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons'
 import { ButtonComponent } from '../../shared/components/Button'
 import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonCategory, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
+import { LinkModal } from '../../shared/components/LinkModal'
 
 export const BusinessProfile = () => {
     const theme = useTheme()
@@ -33,6 +34,7 @@ export const BusinessProfile = () => {
     const [openHour, setOpenHour] = useState('')
     const [closeHour, setCloseHour] = useState('')
     const user = useSelector((state) => state.auth);
+    const [showOurLinks, setShowOurLinks] = useState(false)
 
     const [isLoading, setLoading] = useState(false)
     const colorChange = new Animated.Value(1)
@@ -58,7 +60,7 @@ export const BusinessProfile = () => {
 
     useEffect(() => {
         getUser()
-    }, [profile])
+    }, [])
 
     useEffect(() => {
         Animated.loop(

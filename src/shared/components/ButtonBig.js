@@ -1,10 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 
-export const ButtonBigComponent = ({label,onClick,style={},icon=null}) => {
+export const ButtonBigComponent = ({ label, onClick, style = {}, icon = null }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
+    return (
         <TouchableOpacity style={[styles.bigButton, style]} onPress={onClick}>
             <Text style={styles.bigButtonText} >{label}</Text>
         </TouchableOpacity>
@@ -12,7 +12,7 @@ export const ButtonBigComponent = ({label,onClick,style={},icon=null}) => {
 }
 
 const styling = (theme) => StyleSheet.create({
-    bigButton:{
+    bigButton: {
         alignItems: 'center',
         backgroundColor: theme?.colors?.button,
         padding: theme?.spacing?.s,
@@ -20,7 +20,7 @@ const styling = (theme) => StyleSheet.create({
         alignSelf: 'stretch',
         flexDirection: 'row',
         justifyContent: 'center',
-        marginVertical: theme?.spacing?.xl       
+        marginVertical: theme?.spacing?.xl
     },
-    bigButtonText:theme?.text?.bigButtonText
+    bigButtonText: theme?.text?.bigButtonText
 })

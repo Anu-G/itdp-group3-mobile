@@ -1,7 +1,6 @@
 import { AntDesign, Entypo, Foundation } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, StyleSheet, View } from "react-native";
-import { AddPost } from "../features/AddPost/AddPost";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -83,8 +82,8 @@ export const TabRouter = _ => {
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
             <Tab.Screen name={ROUTE.PROFILE} component={user.roleId === 2 ? BusinessProfile : NonBusinessProfile} />
-         </Tab.Group>
-      </Tab.Navigator>
+         </Tab.Group >
+      </Tab.Navigator >
    )
 }
 

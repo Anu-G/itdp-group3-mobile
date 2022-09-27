@@ -6,7 +6,7 @@ export const ImageProfile = ({ style = {}, source = 'https://reactjs.org/logo-og
     const styles = styling(theme.state.style);
 
     return (
-        <Image source={{ uri: source }} style={styles.imageProfile} />
+        <Image source={{ uri: source }} style={[styles.imageProfile, style]} />
     )
 }
 
