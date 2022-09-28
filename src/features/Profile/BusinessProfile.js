@@ -187,19 +187,21 @@ export const BusinessProfile = ({navigation}) => {
                             </>
                         }
                     </View>
-                    {isLoading ? 
-                        <>
-                            <Animated.View style={{opacity:colorChange}}>
-                                <SkeletonCaption/>
-                                <SkeletonCaption/>
-                                <SkeletonCaptionShort/>
-                            </Animated.View>
-                        </> : <Caption text={profile.ProfileBio}/>}
-                </View>
-                <View style={styles.profileButtons}>
-                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn}/>}</>}
-                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn}/>}</>}
-                    {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn}/>}</>}
+                    <View style={styles.bio}>
+                        {isLoading ? 
+                            <>
+                                <Animated.View style={{opacity:colorChange}}>
+                                    <SkeletonCaption/>
+                                    <SkeletonCaption/>
+                                    <SkeletonCaptionShort/>
+                                </Animated.View>
+                            </> : <Caption text={profile.ProfileBio}/>}
+                    </View>
+                    <View style={styles.profileButtons}>
+                        {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn}/>}</>}
+                        {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn}/>}</>}
+                        {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn}/>}</>}
+                    </View>
                 </View>
             </View>
 
@@ -242,6 +244,9 @@ const styling = (theme) => StyleSheet.create({
         flex:1,
         flexDirection: 'row',
         alignItems:'center',
+    },
+    bio:{
+        flex:2
     },
     circle :{
         marginLeft: 5,

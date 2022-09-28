@@ -14,6 +14,7 @@ import { checkErr } from "../../utils/CommonUtils";
 export const Setting = _ => {
    // theme
    const theme = useTheme();
+   const naviation = useNavigation()
 
    const onThemeSwitch = _ => {
       if (theme.state.darkMode) {
@@ -52,9 +53,13 @@ export const Setting = _ => {
       }
    }
 
+   const tempClick = () => {
+      navigation.navigate(ROUTE.EDIT_PROFILE)
+   }
+
    return (
       <>
-         <ButtonComponent label={'Switch Theme'} onClick={onThemeSwitch} />
+         <ButtonComponent label={'Switch Theme'} onClick={tempClick} />
          <ButtonComponent label={'Logout'} onClick={doLogout} />
          {viewState.error !== null && !visible ? setVisible(true) : null}
          {viewState.error !== null && <Snackbar visible={visible} onDismiss={onDismissSnackBar} duration={3000}>{viewState.error}</Snackbar>}

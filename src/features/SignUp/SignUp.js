@@ -127,8 +127,8 @@ export const SignUp = () => {
 
     return(
         <KeyboardAwareScrollView
+            style={{marginTop:91}}
             extraHeight={100}
-            contentContainerStyle={{flex:1,justifyContent:'center'}}
             enableOnAndroid={true}
         >
             <MainContainer>

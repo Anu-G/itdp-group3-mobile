@@ -13,4 +13,5 @@ export const ROUTE = {
    DETAIL_TIMELINE: 'detail-timeline',
    NON_BUSINESS_PROFILE: 'non business profile',
    BUSINESS_PROFILE: 'business profile',
+   EDIT_PROFILE: 'edit-profile'
 }
