@@ -17,6 +17,9 @@ import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 import { SettingsAddFAQ } from "../features/SettingsAddFAQ/SettingsAddFAQ";
 import { CatalogPage } from "../features/CategorizePage/CatalogPage";
+import { WelcomeStory1 } from "../features/WelcomePage/WelcomeStory1";
+import { WelcomeStory2 } from "../features/WelcomePage/WelcomeStory2";
+import { WelcomeStory3 } from "../features/WelcomePage/WelcomeStory3";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -32,10 +35,10 @@ export const AppRouter = _ => {
             if (resp) {
                setInitialRoute(ROUTE.MAIN);
             } else {
-               setInitialRoute(ROUTE.WELCOME_PAGE);
+               setInitialRoute(ROUTE.WELCOME_STORY_1);
             }
          } catch (e) {
-            setInitialRoute(ROUTE.WELCOME_PAGE);
+            setInitialRoute(ROUTE.WELCOME_STORY_1);
          }
       }
       onValidToken();
@@ -45,10 +48,13 @@ export const AppRouter = _ => {
       <Stack.Navigator initialRouteName={initialRoute} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
+            <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
+            <Stack.Screen name={ROUTE.WELCOME_STORY_2} component={WelcomeStory2} />
+            <Stack.Screen name={ROUTE.WELCOME_STORY_3} component={WelcomeStory3} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} />
-            <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
+            <Stack.Screen name={ROUTE.MAIN} component={MainPage} />            
          </Stack.Group >
 
          <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
