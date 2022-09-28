@@ -1,8 +1,8 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useLayoutEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { Animated, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 import { TextTimeline } from '../../shared/components/Label';
@@ -26,6 +26,35 @@ export const AddPost = ({ navigation }) => {
     const maxLength = 280
     const profile = useSelector((state) => state.profile);
     const user = useSelector((state) => state.auth);
+
+    //keyboard actions
+
+    const buttonBar = new Animated.Value(0)
+
+    const keyboardDidShow = (event) => {
+        Animated.timing(buttonBar, {
+            duration: event.duration + 150,
+            toValue: 335,
+            useNativeDriver: false
+        }).start()
+    }
+
+    const keyboardDidHide = (event) => {
+        Animated.timing(buttonBar, {
+            duration: event.duration + 150,
+            toValue: 0,
+            useNativeDriver: false
+        }).start()
+    }
+
+    useEffect(() => {
+        const keyboardShow = Keyboard.addListener('keyboardDidShow', keyboardDidShow)
+        const keyboardHide = Keyboard.addListener('keyboardDidHide', keyboardDidHide)
+        return () => {
+            keyboardShow.remove()
+            keyboardHide.remove()
+        }
+    }, [buttonBar])
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -117,10 +146,10 @@ export const AddPost = ({ navigation }) => {
                     <ImageHorizontalScroll images={pickedImagePath} />
                 </View>
             </View>
-            <View style={styles.downContainer}>
-                <FontAwesome name='image' size={28} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
-                <FontAwesome name='camera' size={28} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
-            </View>
+            <Animated.View style={[styles.downContainer, { bottom: buttonBar }]}>
+                <FontAwesome name='image' size={32} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
+                <FontAwesome name='camera' size={32} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
+            </Animated.View>
         </MainContainer>
     )
 }
@@ -134,7 +163,7 @@ const styling = (theme) => StyleSheet.create({
         marginRight: 16
     },
     downContainer: {
-        flex: 1,
+        position: 'absolute',
         width: "100%",
         flexDirection: 'row',
         alignItems: 'center',
