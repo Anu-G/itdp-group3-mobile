@@ -12,6 +12,7 @@ import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonCategory
 import { LinkModal } from '../../shared/components/LinkModal'
 import { useRoute } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
+import { CategorizePageProfile } from '../CategorizePage/CategorizePageProfile'
 
 export const BusinessProfile = ({ navigation }) => {
     const theme = useTheme()
@@ -209,6 +210,8 @@ export const BusinessProfile = ({ navigation }) => {
                         {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn} />}</>}
                     </View>
                     {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
+
+                    <CategorizePageProfile />
                 </View>
             </View>
         </MainContainer>

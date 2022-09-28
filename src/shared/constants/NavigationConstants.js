@@ -23,5 +23,4 @@ export const ROUTE = {
    TIMELINE: 'timeline',
    DETAIL_TIMELINE: 'detail-timeline',
    CATALOG: 'catalog',
-   DETAIL_PRODUCT: 'detail-product',
 }

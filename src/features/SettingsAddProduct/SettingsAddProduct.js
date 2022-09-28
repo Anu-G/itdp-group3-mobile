@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -9,7 +8,6 @@ import { ImageWithDeleteSign } from '../../shared/components/ImageAddCatalog';
 import { InputTextActiveSmallSize } from '../../shared/components/Input';
 import { TextProfile } from '../../shared/components/Label';
 import { MainContainer } from '../../shared/components/MainContainer';
-import { ROUTE } from '../../shared/constants/NavigationConstants';
 import { KEY } from '../../shared/constants/StoreConstants';
 import { useDep } from '../../shared/context/DependencyContext';
 import { useTheme } from '../../shared/context/ThemeContext';
@@ -27,7 +25,6 @@ export const SettingsAddProduct = ({ navigation }) => {
     const [isCorrect, setIsCorrect] = useState(true)
     const [loading, setLoading] = useState(false)
     const user = useSelector((state) => state.auth);
-    const navigate = useNavigation()
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -88,7 +85,6 @@ export const SettingsAddProduct = ({ navigation }) => {
             })
             if (response.status === 200) {
                 console.log("success upload product data");
-                navigate.navigate(ROUTE.CATALOG)
             }
         } catch (err) {
             checkErr(err)
