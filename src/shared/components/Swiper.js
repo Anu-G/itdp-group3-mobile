@@ -5,8 +5,9 @@ import { StyleSheet, View, Image, ScrollView, Dimensions, Text, StatusBar, Platf
 
 const windowWidth = Dimensions.get('screen').width
 
-export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, imageHeight, imageWidth, swipeBottom, swipeTop, styleImage }) => {
-    const height = imageHeight
+export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, swipeBottom, swipeTop, styleImage }) => {
+    const width = Dimensions.get('window').width - 34
+    const height = width / 2
     const handleClick = (e, item) => {
         if (e.nativeEvent.contentOffset.y < 0) {
             swipeBottom(item)
@@ -29,13 +30,12 @@ export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, i
                                         source: { uri: item.url.replace(/\s+/g, '') },
                                     }}
                                     slider={{ visible: false }}
-                                    timeVisible={false}
+                                    timeVisible={true}
                                     fullscreen={{ visible: false }}
-                                    style={{ height: height, width: imageWidth, videoBackgroundColor: '#F4F4F4' }}
+                                    style={{ height: height, width: width, videoBackgroundColor: '#1E2329' }}
                                 />
-                                // <Video onError={error => {console.log(error)}} style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} useNativeControls={true} source={{ uri: item.url.replace(/\s+/g, '') }} resizeMode='contain'/>
                                 :
-                                <Image style={[{ height: height, width: imageWidth, backgroundColor: 'white' }, styleImage]} source={{ uri: item.url }} resizeMode={'contain'} />
+                                <Image style={[{ height: height, width: width, backgroundColor: 'white', resizeMode: 'cover' }, styleImage]} source={{ uri: item.url }} resizeMode={'contain'} />
                             }
                             <View style={styles.imageText}>
                                 <Text style={[
@@ -61,10 +61,11 @@ export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, i
 const styles = StyleSheet.create({
     imageText: {
         position: 'absolute',
-        bottom: 12,
+        top: 12,
         left: 12,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        width: '100%'
+        width: '100%',
+        color: 'white'
     },
 });

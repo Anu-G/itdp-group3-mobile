@@ -71,7 +71,7 @@ export const BusinessProfile = ({ navigation }) => {
 
     useEffect(() => {
         if (openId && openId != user.accountId) {
-            setStatus(true)
+            setStatus(false)
         } else {
             setStatus(true)
         }

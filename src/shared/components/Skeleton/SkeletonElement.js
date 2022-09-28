@@ -1,125 +1,127 @@
 import { style } from "deprecated-react-native-prop-types/DeprecatedImagePropType";
-import { StyleSheet, View } from "react-native"
+import { Dimensions, StyleSheet, View } from "react-native"
 import { useTheme } from "../../context/ThemeContext"
 
-export const SkeletonAvatarSmall = ({}) => {
+export const SkeletonAvatarSmall = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.avatarCtn,styles.small]}></View>
+    return (
+        <View style={[styles.skeleton, styles.avatarCtn, styles.small]}></View>
     )
 }
 
-export const SkeletonProfile = ({}) => {
+export const SkeletonProfile = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.profile]}></View>
+    return (
+        <View style={[styles.skeleton, styles.profile]}></View>
     )
 }
 
-export const SkeletonButton = ({}) => {
+export const SkeletonButton = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.button]}></View>
+    return (
+        <View style={[styles.skeleton, styles.button]}></View>
     )
 }
 
-export const SkeletonTouchableOpacity = ({}) => {
+export const SkeletonTouchableOpacity = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.touchableOpacity]}></View>
+    return (
+        <View style={[styles.skeleton, styles.touchableOpacity]}></View>
     )
 }
 
-export const SkeletonIcon24 = ({}) => {
+export const SkeletonIcon24 = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.icon24]}></View>
+    return (
+        <View style={[styles.skeleton, styles.icon24]}></View>
     )
 }
 
-export const SkeletonTitle = ({}) => {
+export const SkeletonTitle = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
+    return (
         <>
-            <View style={[styles.skeleton,styles.title]}></View>
+            <View style={[styles.skeleton, styles.title]}></View>
         </>
     )
 }
 
-export const SkeletonCategory = ({}) => {
+export const SkeletonCategory = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
+    return (
         <>
-            <View style={[styles.skeleton,styles.category]}></View>
+            <View style={[styles.skeleton, styles.category]}></View>
         </>
     )
 }
 
-export const SkeletonCaption = ({}) => {
+export const SkeletonCaption = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
+    return (
         <>
-            <View style={[styles.skeleton,styles.caption]}></View>
+            <View style={[styles.skeleton, styles.caption]}></View>
         </>
     )
 }
 
-export const SkeletonCaptionShort = ({}) => {
+export const SkeletonCaptionShort = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.captionShort]}></View>
+    return (
+        <View style={[styles.skeleton, styles.captionShort]}></View>
     )
 }
 
-export const SkeletonComment = ({}) => {
+export const SkeletonComment = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.comment]}></View>
+    return (
+        <View style={[styles.skeleton, styles.comment]}></View>
     )
 }
 
-export const SkeletonTimelineImage = ({}) => {
+export const SkeletonTimelineImage = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.timelineImage]}></View>
+    const width = Dimensions.get('window').width - 34
+    const height = width / 2
+    return (
+        <View style={[styles.skeleton, { width: width, height: height }]}></View>
     )
 }
 
-export const SkeletonTimelineStatus = ({}) => {
+export const SkeletonTimelineStatus = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.status]}></View>
+    return (
+        <View style={[styles.skeleton, styles.status]}></View>
     )
 }
 
-export const SkeletonTimelineDate = ({}) => {
+export const SkeletonTimelineDate = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    return(
-        <View style={[styles.skeleton,styles.date]}></View>
+    return (
+        <View style={[styles.skeleton, styles.date]}></View>
     )
 }
 
 const styling = (theme) => StyleSheet.create({
-    skeleton:{
-        backgroundColor:"#ddd",
+    skeleton: {
+        backgroundColor: "#ddd",
         overflow: "hidden",
         borderRadius: 4,
     },
     avatarCtn: {
-        borderRadius: 30,
+        borderRadius: 20,
         marginTop: 0,
         marginRight: 8,
         marginBottom: 0,
@@ -136,54 +138,48 @@ const styling = (theme) => StyleSheet.create({
         borderRadius: theme?.radius?.xl,
         marginHorizontal: theme?.spacing?.s
     },
-    small : {
+    small: {
         height: 40,
         width: 40,
     },
     touchableOpacity: {
-        alignContent: "flex-start",
-        justifyContent: "center",
-        height:24
+        height: 16
     },
-    icon24:{
-        width:24,
-        height:24,
+    icon24: {
+        width: 24,
+        height: 24,
     },
-    title:{
-        width:"80%",
-        height:24,
-        marginBottom:8,
-    },
-    category:{
-        width:"100%",
-        height:24,
-        marginBottom:8,
-    },
-    caption:{
-        width:"100%",
-        height: 20,
+    title: {
+        width: "80%",
+        height: 24,
         marginBottom: 8,
     },
-    captionShort:{
-        width:"80%",
-        height: 20,
+    category: {
+        width: "100%",
+        height: 24,
         marginBottom: 8,
     },
-    timelineImage:{
-        width:376,
-        height:218
+    caption: {
+        width: "100%",
+        height: 14,
+        marginBottom: 8,
     },
-    status:{
-        width:48,
-        height:24
+    captionShort: {
+        width: "80%",
+        height: 14,
+        marginBottom: 8,
     },
-    date:{
-        width:48,
-        height:24
+    status: {
+        width: 48,
+        height: 24
     },
-    comment:{
-        flex:1,
-        width:"100%",
-        height:36,
+    date: {
+        width: 48,
+        height: 24
+    },
+    comment: {
+        flex: 1,
+        width: "100%",
+        height: 36,
     }
 })

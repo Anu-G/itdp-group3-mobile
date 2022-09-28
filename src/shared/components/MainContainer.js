@@ -1,4 +1,4 @@
-import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, useWindowDimensions } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 
 export const MainContainer = ({ children }) => {
@@ -18,6 +18,6 @@ const styling = (theme) => StyleSheet.create({
       flex: 1,
       backgroundColor: theme?.colors?.background,
       alignItems: 'center',
-      justifyContent: 'flex-start'
+      justifyContent: 'flex-end',
    }
 });

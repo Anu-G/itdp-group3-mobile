@@ -12,6 +12,7 @@ import { useViewState } from "../../shared/hooks/ViewState";
 import { checkErr } from "../../utils/CommonUtils";
 import { Snackbar } from "react-native-paper";
 import { useAuth } from "../../shared/context/AuthContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const SignUp = () => {
     const theme = useTheme();
@@ -143,54 +144,62 @@ export const SignUp = () => {
 
     return (
         <MainContainer>
-            <View style={styles.header}>
-                <Title1 label={'Sign Up'} />
-            </View>
-
-            <View style={styles.form}>
-                <InputTextWithError
-                    text={'Username'}
-                    onChange={setUsername}
-                    value={username} />
-
-                <InputTextWithError
-                    text={'Email'}
-                    placeholder='ex: johndoe@mail.com'
-                    onChange={(text) => {
-                        handleEmailChange(text)
-                    }}
-                    value={email}
-                    keyboard='email-address'
-                    error={erroremail} />
-
-                <InputTextPassword
-                    value={password}
-                    onChange={(text) => {
-                        setPassword(text)
-                        checkPassword()
-                    }}
-                    error={errorpassword} />
-
-
-                <InputTextPassword
-                    text="Confirm Password"
-                    value={conPassword}
-                    onChange={setConPassword}
-                    error={errorconPassword} />
-
-                <View style={styles.buttonContainer}>
-                    <ButtonMediumComponent label={'Continue'} disable={disable} onClick={handleSignUpClick} />
+            <KeyboardAwareScrollView
+                enableOnAndroid={true}
+                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+                style={{ alignSelf: 'stretch' }}
+                keyboardShouldPersistTaps={'handled'}
+                scrollEnabled={true}
+                showsVerticalScrollIndicator={false}
+                extraScrollHeight={50}
+            >
+                <View style={styles.header}>
+                    <Title1 label={'Sign Up'} />
                 </View>
 
-                <View style={styles.addAuth}>
-                    <Pressable onPress={handleSignInClick} >
-                        <AuthExtLabel text1={`Have an account?`} text2={'Sign in'} />
-                    </Pressable>
-                </View>
-            </View>
+                <View style={styles.form}>
+                    <InputTextWithError
+                        text={'Username'}
+                        onChange={setUsername}
+                        value={username} />
 
-            {viewState.error !== null && !visible ? setVisible(true) : null}
-            {viewState.error !== null && <Snackbar visible={visible} onDismiss={onDismissSnackBar} duration={3000}>{viewState.error}</Snackbar>}
+                    <InputTextWithError
+                        text={'Email'}
+                        placeholder='ex: johndoe@mail.com'
+                        onChange={(text) => {
+                            handleEmailChange(text)
+                        }}
+                        value={email}
+                        keyboard='email-address'
+                        error={erroremail} />
+
+                    <InputTextPassword
+                        value={password}
+                        onChange={(text) => {
+                            setPassword(text)
+                            checkPassword()
+                        }}
+                        error={errorpassword} />
+
+
+                    <InputTextPassword
+                        text="Confirm Password"
+                        value={conPassword}
+                        onChange={setConPassword}
+                        error={errorconPassword} />
+
+                    <View style={styles.buttonContainer}>
+                        <ButtonMediumComponent label={'Continue'} disable={disable} onClick={handleSignUpClick} />
+                    </View>
+
+                    <View style={styles.addAuth}>
+                        <Pressable onPress={handleSignInClick} >
+                            <AuthExtLabel text1={`Have an account?`} text2={'Sign in'} />
+                        </Pressable>
+                    </View>
+                </View>
+
+            </KeyboardAwareScrollView>
         </MainContainer>
     )
 }
@@ -200,15 +209,15 @@ const styling = (theme) => StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginBottom: theme?.spacing?.m,
+        marginVertical: theme?.spacing?.xl
     },
     form: {
         flex: 7,
         // width: '100%',
         alignSelf: 'stretch',
-        margin: theme?.spacing?.m,
+        marginHorizontal: theme?.spacing?.m,
         alignItems: 'center',
-        // justifyContent: 'center'
+        // justifyContent: 'center',
     },
     buttonContainer: {
         paddingTop: theme?.spacing?.xl,

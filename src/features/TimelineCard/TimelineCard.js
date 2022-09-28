@@ -93,7 +93,6 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
     }
 
     const handleOptionPress = () => {
-        console.log('hello')
         if (accId == postAccId) {
             navigation.navigate(ROUTE.EDIT_POST, { post: post, accId: postAccId })
         } else {
@@ -133,8 +132,6 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
 
                 <View>
                     <Swiper
-                        imageWidth={380}
-                        imageHeight={250}
                         images={images}
                         swipeBottom={e => console.log('swipe bottom: ', e)}
                         swipeTop={e => console.log('swipe top: ', e)}
@@ -168,10 +165,6 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                         <Caption text={`${date}\t${time}`} style={{ color: '#849EB9' }} />
                     </View>
                 </View>
-
-                {/* <View>
-                    {isActive ? <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280}/> : ''}
-                </View> */}
             </View>
         </MainContainer>
     )

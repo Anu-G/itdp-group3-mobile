@@ -8,6 +8,7 @@ import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { Swiper } from '../../shared/components/Swiper'
+import { useSelector } from 'react-redux'
 
 export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes }) => {
     const theme = useTheme()
@@ -20,6 +21,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     const [readMore, setReadMore] = useState(true)
     const [images, setImages] = useState([])
     const { timelineService } = useDep()
+    const profile = useSelector((state) => state.profile);
 
     useEffect(() => {
         setIsLiked(thisAccountLikes)
@@ -144,7 +146,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                 </View>
 
                 <View style={{ alignSelf: 'stretch' }}>
-                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Test'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={avatar} />
+                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={profile.profileImage} />
                 </View>
             </View>
         </MainContainer>

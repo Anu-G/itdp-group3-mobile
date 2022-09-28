@@ -11,6 +11,7 @@ import { useTheme } from '../../shared/context/ThemeContext'
 import { TimelineCard } from '../TimelineCard/TimelineCard'
 import { Entypo } from '@expo/vector-icons';
 import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
+import { useSelector } from 'react-redux'
 
 export const TimelinePage = () => {
     const theme = useTheme()
@@ -19,10 +20,10 @@ export const TimelinePage = () => {
     const route = useRoute()
     const navigate = useNavigation()
     const [timelines, setTimelines] = useState([])
-    const [accountId, setAccountId] = useState()
     const [refresh, setRefresh] = useState(false)
     const [isLoading, setLoading] = useState(false)
     const navigation = useNavigation()
+    const user = useSelector((state) => state.auth);
 
     useEffect(() => {
         getTimeline()
@@ -41,13 +42,10 @@ export const TimelinePage = () => {
             if (response.data.data !== null) {
                 setTimelines(response.data.data)
             }
-            const accId = await store.getData(KEY.ACCOUNT_ID)
-            setAccountId(accId)
 
         } catch (err) {
             checkErr(err)
         } finally {
-            console.log(timelines);
             setLoading(false)
         }
     }
@@ -105,12 +103,12 @@ export const TimelinePage = () => {
                                             time={`${hour}:${minutes}`}
                                             postLikes={post.total_like}
                                             setRefresh={setRefresh}
-                                            accId={accountId}
+                                            accId={user.accountId}
                                             postAccId={post.account_id}
                                             handleClickName={handleClickName}
                                             feedId={post.post_id}
                                             handleComment={handleComment}
-                                            thisAccountLikes={post.detail_like.findIndex(like => like.account_id == accountId) != -1 ? true : false}
+                                            thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
                                         />
                                     )
                                 })}
