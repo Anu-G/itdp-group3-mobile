@@ -17,7 +17,11 @@ export const WelcomePage = () => {
     }
 
     const handleGetStartedClick = () => {
-        navigation.replace(ROUTE.SIGNUP)
+        navigation.replace(ROUTE.WELCOME_STORY_1)
+    }
+
+    const handleWelcomeStory = () => {
+        navigation.replace(ROUTE.WELCOME_STORY_1)
     }
 
     return (
