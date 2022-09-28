@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons'
 import { ButtonComponent } from '../../shared/components/Button'
 import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonCategory, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
+import { CategorizePageProfile } from '../CategorizePage/CategorizePageProfile'
 
 export const BusinessProfile = () => {
     const theme = useTheme()
@@ -184,7 +185,7 @@ export const BusinessProfile = () => {
                         {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} />}</>}
                     </View>
 
-                    {/* <CategorizePage/> */}
+                    <CategorizePageProfile/>
                 </View>
                 {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
             </View>
