@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import { Text } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { storage } from "../../apps/Storage";
 import { ButtonComponent } from "../../shared/components/Button";
@@ -54,10 +55,10 @@ export const Setting = _ => {
 
    return (
       <>
+         <Text style={{ color: 'white' }}>Page only for test purpose</Text>
          <ButtonComponent label={'Switch Theme'} onClick={onThemeSwitch} />
          <ButtonComponent label={'Logout'} onClick={doLogout} />
-         <ButtonComponent label={'Setting Business Profile'} onClick={() => navigation.navigate(ROUTE.SETTINGS_BUSINESS)}/>
-         <ButtonComponent label={'Setting Non Business Profile'} onClick={() => navigation.navigate(ROUTE.SETTINGS_NON_BUSINESS)}/>
+         <ButtonComponent label={'Add FAQ'} onClick={() => navigation.navigate(ROUTE.ADD_FAQ)} />
          {viewState.error !== null && !visible ? setVisible(true) : null}
          {viewState.error !== null && <Snackbar visible={visible} onDismiss={onDismissSnackBar} duration={3000}>{viewState.error}</Snackbar>}
       </>

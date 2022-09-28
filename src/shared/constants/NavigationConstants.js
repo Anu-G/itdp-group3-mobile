@@ -23,4 +23,8 @@ export const ROUTE = {
    TIMELINE: 'timeline',
    DETAIL_TIMELINE: 'detail-timeline',
    CATALOG: 'catalog',
+   WELCOME_STORY_1: 'welcome-story-1',
+   WELCOME_STORY_2: 'welcome-story-2',
+   WELCOME_STORY_3: 'welcome-story-3',
+   SEARCH_INITIAL: 'searchInitial'
 }

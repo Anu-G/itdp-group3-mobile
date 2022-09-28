@@ -23,6 +23,9 @@ import { ManageProductComponent } from "../features/Manage Product/ManageProduct
 import { SettingsEditProduct } from "../features/SettingsEditProduct/SettingsEditProduct";
 import { DetailProductCard } from "../features/DetailProductCard/DetailProductCard";
 import { EditPost } from "../features/EditPost/EditPost";
+import { WelcomeStory1 } from "../features/WelcomePage/WelcomeStory1";
+import { WelcomeStory2 } from "../features/WelcomePage/WelcomeStory2";
+import { WelcomeStory3 } from "../features/WelcomePage/WelcomeStory3";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -38,10 +41,10 @@ export const AppRouter = _ => {
             if (resp) {
                setInitialRoute(ROUTE.MAIN);
             } else {
-               setInitialRoute(ROUTE.WELCOME_PAGE);
+               setInitialRoute(ROUTE.WELCOME_STORY_1);
             }
          } catch (e) {
-            setInitialRoute(ROUTE.WELCOME_PAGE);
+            setInitialRoute(ROUTE.WELCOME_STORY_1);
          }
       }
       onValidToken();
@@ -51,6 +54,9 @@ export const AppRouter = _ => {
       <Stack.Navigator initialRouteName={initialRoute} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
+            <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
+            <Stack.Screen name={ROUTE.WELCOME_STORY_2} component={WelcomeStory2} />
+            <Stack.Screen name={ROUTE.WELCOME_STORY_3} component={WelcomeStory3} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} />
@@ -64,12 +70,6 @@ export const AppRouter = _ => {
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
          <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({ navigation }) => ({
-            headerTitle: 'Add',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
-         })} />
-         <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
             headerTitle: 'Add',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },

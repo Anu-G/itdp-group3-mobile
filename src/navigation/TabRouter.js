@@ -12,6 +12,8 @@ import { checkErr } from "../utils/CommonUtils";
 import { TimelinePage } from "../features/TimelinePage/TimelinePage";
 import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SettingsAddFAQ } from "../features/SettingsAddFAQ/SettingsAddFAQ";
+import { Setting } from "../features/Setting/Setting";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -60,7 +62,7 @@ export const TabRouter = _ => {
                         <Entypo name="home" size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
                      </View>
                   )
-               case ROUTE.TIMELINE:
+               case ROUTE.SEARCH:
                   return (
                      <View style={style.iconCtn}>
                         <Foundation name='magnifying-glass' size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
@@ -83,12 +85,31 @@ export const TabRouter = _ => {
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} ></Tab.Screen>
+            <Tab.Screen name={ROUTE.SEARCH} component={TabStack} />
             <Tab.Screen name={ROUTE.PROFILE} component={user.roleId === 2 ? BusinessProfile : NonBusinessProfile} />
          </Tab.Group >
-         <Stack.Group>
-
-         </Stack.Group>
       </Tab.Navigator >
+   )
+}
+
+const TabStack = _ => {
+   return (
+      <Stack.Navigator initialRouteName={ROUTE.SEARCH_INITIAL} >
+         <Stack.Group >
+            <Stack.Screen name={ROUTE.SEARCH_INITIAL} component={Setting} options={({ navigation }) => ({
+               headerTitle: 'Setting',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            })} />
+            <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
+               headerTitle: 'Add',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            })} />
+         </Stack.Group >
+      </Stack.Navigator>
    )
 }
 
