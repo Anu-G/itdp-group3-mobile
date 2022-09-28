@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { ImagesViewProfile } from '../../shared/components/ImagesViewProfile'
@@ -9,8 +9,9 @@ import { useTheme } from '../../shared/context/ThemeContext'
 import { checkErr } from '../../utils/CommonUtils'
 import { DetailProductCard } from '../DetailProductCard/DetailProductCard'
 import { price } from '../../utils/CommonUtils'
+import { FontAwesome } from '@expo/vector-icons'
 
-export const CatalogPage = ({ }) => {
+export const CatalogPage = ({ navigation }) => {
     const theme = useTheme()
     const styles = styling(theme)
 
@@ -20,6 +21,12 @@ export const CatalogPage = ({ }) => {
     const [productOpen, setProductOpen] = useState({})
     const [accountId, setAccountId] = useState()
     const [refresh, setRefresh] = useState(false)
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
+        })
+    }, [navigation])
 
     const handleFormClose = () => {
         setIsActive(prevState => false)

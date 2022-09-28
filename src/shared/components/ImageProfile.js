@@ -1,4 +1,5 @@
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ROUTE } from '../constants/NavigationConstants';
 import { useTheme } from "../context/ThemeContext";
 
 export const ImageProfile = ({ style = {}, source = 'https://reactjs.org/logo-og.png' }) => {
@@ -45,6 +46,20 @@ export const AvatarSmall = ({ style = {}, accId, handleClick, source = 'https://
     )
 }
 
+export const AvatarNavbar = ({style={}, status='', source='https://reactjs.org/logo-og.png'}) => {
+    const theme = useTheme();
+    const styles = styling(theme.state.style);
+
+    return(
+        <View style={[styles.avatarCtn, styles.small]}>
+            <View>
+                {(status == ROUTE.BUSINESS_PROFILE) ? <Image source={{uri: source}} style={styles.avatarNavbar}/> 
+                    : <Image source={{uri: source}} style={styles.avatarNavbarInactive}/>}
+            </View>
+        </View>
+    )
+} 
+
 const styling = (theme) => StyleSheet.create({
     imageProfile: {
         width: 100,
@@ -78,7 +93,19 @@ const styling = (theme) => StyleSheet.create({
         width: 40,
         borderRadius: 20,
     },
-    small: {
+    avatarNavbar: {
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: theme?.colors?.button
+    },
+    avatarNavbarInactive: {
+        height: 40,
+        width: 40,
+        borderRadius: 20,
+    },
+    small : {
         height: 40,
         width: 40,
     },

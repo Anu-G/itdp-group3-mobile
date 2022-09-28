@@ -130,7 +130,8 @@ const styling = (theme) => StyleSheet.create({
     profile: {
         width: 64,
         height: 64,
-        borderRadius: 32
+        borderRadius: 32,
+        marginBottom: 8
     },
     button: {
         width: 80,

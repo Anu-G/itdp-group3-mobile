@@ -53,6 +53,8 @@ export const SettingsAddFAQ = ({ navigation }) => {
 
 const styling = (theme) => StyleSheet.create({
     container:{
+        flex:1,
+        justifyContent:'flex-start',
         flexDirection:'column',
         width: '100%'
     },
