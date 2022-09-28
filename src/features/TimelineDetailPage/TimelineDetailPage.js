@@ -78,15 +78,10 @@ export const TimelineDetailPage = ({navigation}) => {
     }
 
     return (
-        <KeyboardAwareScrollView
-            style = {{flex:1}}
-            contentContainerStyle = {{}}
-            extraHeight={50}
-            enableOnAndroid={true}
-        >
         <MainContainer>
             <View style={styles.tlBg}>
                 <View style={styles.tlLst}>
+                    <ScrollView>
                     {timelines.map((post, i) => {
                         let dt = new Date(post.created_at.replace(' ', 'T'));
                         let date = dt.getDate()
@@ -120,10 +115,10 @@ export const TimelineDetailPage = ({navigation}) => {
                             </>
                         )                        
                     })}
+                    </ScrollView>
                 </View>
             </View>
         </MainContainer>
-        </KeyboardAwareScrollView>
     )
 }
 

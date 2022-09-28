@@ -1,6 +1,8 @@
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
 import { AvatarSmall } from '../../shared/components/ImageProfile'
 import { ImageViewTimeline, ImageViewTimelineMany } from '../../shared/components/ImageViewTimeline'
@@ -130,9 +132,14 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                     </View>
                 </View>
 
-                <View style={{alignSelf: 'stretch'}}>
+                <KeyboardAwareScrollView 
+                    style={{height:400}}
+                    extraHeight={50}
+                    nestedScrollEnabled={true}
+                    enableOnAndroid={true}
+                >
                     <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={avatar}/>
-                </View>
+                </KeyboardAwareScrollView>
             </View>
         </MainContainer>
     )
