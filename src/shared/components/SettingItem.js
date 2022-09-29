@@ -1,20 +1,20 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../context/ThemeContext"
 import { TextSettingProfile } from "./Label";
 
-export const SettingItemComponent = ({label='Template',}) => {
+export const SettingItemComponent = ({label='Template',handlePress={}}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
 
     return(
-        <View style={styles.settingItemContainer}>
+        <TouchableOpacity style={styles.settingItemContainer} onPress={handlePress}>
             <Ionicons name="person" size={24} style={styles.settingItemIcon}/>
-            <View style={styles.settingItemContainer2}>
+            <View style={styles.settingItemContainer2} >
                 <TextSettingProfile text={label}/>
                 <MaterialIcons name="keyboard-arrow-right" size={24} style={styles.settingItemArrow}/>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

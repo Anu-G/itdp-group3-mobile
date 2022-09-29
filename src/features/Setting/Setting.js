@@ -15,6 +15,7 @@ import { checkErr } from "../../utils/CommonUtils";
 export const Setting = _ => {
    // theme
    const theme = useTheme();
+   const naviation = useNavigation()
 
    const onThemeSwitch = _ => {
       if (theme.state.darkMode) {
@@ -51,6 +52,10 @@ export const Setting = _ => {
       } catch (e) {
          setError(checkErr(e));
       }
+   }
+
+   const tempClick = () => {
+      navigation.navigate(ROUTE.EDIT_PROFILE)
    }
 
    return (

@@ -11,6 +11,8 @@ export const ROUTE = {
    SETTINGS_NON_BUSINESS: 'settingNonBusiness',
    SETTINGS_BUSINESS: 'settingBusiness',
    PROFILE: 'profile',
+   PROFILE_BUSINESS: 'profileBusiness',
+   PROFILE_NON_BUSINESS: 'profileNonBusiness',
    BUSINESS_PROFILE: 'businessProfile',
    NON_BUSINESS_PROFILE: 'nonBusinessProfile',
    NOTIFICATION: 'notification',
@@ -27,5 +29,6 @@ export const ROUTE = {
    WELCOME_STORY_1: 'welcome-story-1',
    WELCOME_STORY_2: 'welcome-story-2',
    WELCOME_STORY_3: 'welcome-story-3',
-   SEARCH_INITIAL: 'searchInitial'
+   SEARCH_INITIAL: 'searchInitial',
+   EDIT_PROFILE: 'edit-profile'
 }

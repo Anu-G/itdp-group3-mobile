@@ -10,7 +10,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import { ButtonComponent } from '../../shared/components/Button'
 import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonCategory, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
 import { LinkModal } from '../../shared/components/LinkModal'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import { CategorizePageProfile } from '../CategorizePage/CategorizePageProfile'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
@@ -45,6 +45,7 @@ export const BusinessProfile = ({ navigation }) => {
 
     const [isLoading, setLoading] = useState(false)
     const colorChange = new Animated.Value(1)
+    const navigator = useNavigation()
 
     const handleClickLinks = _ => {
         setShowOurLinks(!showOurLinks);
@@ -153,6 +154,10 @@ export const BusinessProfile = ({ navigation }) => {
         return false
     }
 
+    const handleEditProfile = () => {
+        navigator.navigate(ROUTE.EDIT_PROFILE)
+    }
+
     return (
         <MainContainer>
             <View style={styles.container}>
@@ -164,47 +169,45 @@ export const BusinessProfile = ({ navigation }) => {
                             <View style={styles.editProfileBtn}>
                                 {route.name === ROUTE.PROFILE &&
                                     <>
-                                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} />}
+                                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile}/>}
                                     </>
                                 }
                             </View>
+                        </View>
+                        <View style={{flex:1}}>
                             {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonTitle /></Animated.View> : <Title2 label={profile.DisplayName} />}
                             {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}><SkeletonCategory /></Animated.View> : <Caption text={profile.CategoryName} />}
-                            <View style={styles.openHours}>
-                                {isLoading
-                                    ?
-                                    <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}><SkeletonCategory /></Animated.View>
-                                    :
-                                    <>
-                                        {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
-                                        <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
-                                        <Caption text={`Closes ${openHour} - ${closeHour}`} />
-                                    </>
-                                }
-                            </View>
-                            {isLoading ?
-                                <>
-                                    <Animated.View style={{ opacity: colorChange }}>
-                                        <SkeletonCaption />
-                                        <SkeletonCaption />
-                                        <SkeletonCaptionShort />
-                                    </Animated.View>
-                                </> : <Caption text={profile.ProfileBio} />}
                         </View>
-                        {isLoading ?
-                            <>
-                                <Animated.View style={{ opacity: colorChange }}>
-                                    <SkeletonCaption />
-                                    <SkeletonCaption />
-                                    <SkeletonCaptionShort />
-                                </Animated.View>
-                            </> : <Caption text={profile.ProfileBio} />}
+                        
+                        <View style={styles.openHours}>
+                            {isLoading
+                                ?
+                                <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}><SkeletonCategory /></Animated.View>
+                                :
+                                <>
+                                    {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
+                                    <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
+                                    <Caption text={`Closes ${openHour} - ${closeHour}`} />
+                                </>
+                            }
+                        </View>
+                        <View style={styles.bio}>
+                            {isLoading ? 
+                                <>
+                                    <Animated.View style={{opacity:colorChange}}>
+                                        <SkeletonCaption/>
+                                        <SkeletonCaption/>
+                                        <SkeletonCaptionShort/>
+                                    </Animated.View>
+                                </> : <Caption text={profile.ProfileBio}/>}
+                        </View>
+                        <View style={styles.profileButtons}>
+                            {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn}/>}</>}
+                            {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn}/>}</>}
+                            {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn}/>}</>}
+                        </View>
                     </View>
-                    <View style={styles.profileButtons}>
-                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn} />}</>}
-                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn} />}</>}
-                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn} />}</>}
-                    </View>
+
                     {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
 
                     <CategorizePageProfile />
@@ -248,7 +251,10 @@ const styling = (theme) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    circle: {
+    bio:{
+        flex:2
+    },
+    circle :{
         marginLeft: 5,
         marginRight: 5,
     },
