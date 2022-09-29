@@ -45,13 +45,14 @@ const styling = (theme) => StyleSheet.create({
     textCtn: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     image: {
         width: 311,
         height: 282,
     },
     textProfile: {
-        marginTop: 114,
+        marginTop: 80,
         color: '#1E2329',
         fontSize: 20,
     },

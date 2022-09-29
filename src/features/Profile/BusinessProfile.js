@@ -66,7 +66,7 @@ export const BusinessProfile = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
+            headerBackImage: () => <></>
         })
     }, [navigation])
 
@@ -156,7 +156,7 @@ export const BusinessProfile = ({ navigation }) => {
     }
 
     const handleEditProfile = () => {
-        navigator.navigate(ROUTE.EDIT_PROFILE)
+        navigator.navigate(ROUTE.SETTINGS_ACCOUNT)
     }
 
     return (

@@ -1,9 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useDep } from '../../shared/context/DependencyContext'
 import { checkErr } from '../../utils/CommonUtils'
-import { store } from '../../apps/Storage'
-import { KEY } from '../../shared/constants/StoreConstants'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { MainContainer } from '../../shared/components/MainContainer'
@@ -92,7 +90,9 @@ export const TimelinePage = () => {
                         {isLoading
                             ?
                             <>
-                                <SkeletonTimelineCard />
+                                <View style={{ marginTop: 48 }}>
+                                    <SkeletonTimelineCard />
+                                </View>
                                 <SkeletonTimelineCard />
                                 <SkeletonTimelineCard />
                             </>
@@ -108,6 +108,7 @@ export const TimelinePage = () => {
                                     return (
                                         <TimelineCard
                                             key={i}
+                                            index={i}
                                             avatar={post.avatar}
                                             caption={post.caption_post}
                                             comments={post.detail_comment}

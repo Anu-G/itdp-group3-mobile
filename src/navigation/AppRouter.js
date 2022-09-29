@@ -21,6 +21,8 @@ import { WelcomeStory1 } from "../features/WelcomePage/WelcomeStory1";
 import { WelcomeStory2 } from "../features/WelcomePage/WelcomeStory2";
 import { WelcomeStory3 } from "../features/WelcomePage/WelcomeStory3";
 import { Search } from "../features/Search/Search";
+import { StaticPage } from "../features/StaticPage/StaticPage";
+import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -36,17 +38,17 @@ export const AppRouter = _ => {
             if (resp) {
                setInitialRoute(ROUTE.MAIN);
             } else {
-               setInitialRoute(ROUTE.WELCOME_STORY_1);
+               setInitialRoute(ROUTE.WELCOME_PAGE);
             }
          } catch (e) {
-            setInitialRoute(ROUTE.WELCOME_STORY_1);
+            setInitialRoute(ROUTE.WELCOME_PAGE);
          }
       }
       onValidToken();
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
+      <Stack.Navigator initialRouteName={initialRoute} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
             <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
@@ -54,21 +56,13 @@ export const AppRouter = _ => {
             <Stack.Screen name={ROUTE.WELCOME_STORY_3} component={WelcomeStory3} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
-            <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
          </Stack.Group >
 
-         <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
-            headerTitle: 'Add Post',
+         <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({
+            headerTitle: 'Edit Profile',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
-         })} />
-         <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({ navigation }) => ({
-            headerTitle: 'Add',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
          <Stack.Screen name={ROUTE.DETAIL_TIMELINE} component={TimelineDetailPage} options={({ navigation, route }) => ({
             headerTitle: 'Post',
@@ -76,10 +70,18 @@ export const AppRouter = _ => {
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
-         <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({
-            headerTitle: 'Edit Profile',
+         <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
+            headerTitle: 'Add Post',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
+
+         <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({ navigation }) => ({
+            headerTitle: 'Add',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
          <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} options={({ navigation }) => ({
             headerTitle: 'Edit Profile',

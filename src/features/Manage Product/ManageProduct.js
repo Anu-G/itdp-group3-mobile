@@ -12,23 +12,23 @@ import { useDep } from "../../shared/context/DependencyContext";
 import { useTheme } from "../../shared/context/ThemeContext"
 import { toPrice } from "../../utils/CommonUtils";
 
-export const ManageProductComponent = ({navigation}) => {
+export const ManageProductComponent = ({ navigation }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     const [products, setProducts] = useState([])
-    const {productService} = useDep();
-    const user = useSelector((state)=>state.auth)
+    const { productService } = useDep();
+    const user = useSelector((state) => state.auth)
     const navigate = useNavigation()
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'}/>
+            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
         })
     }, [navigation])
 
-    useEffect(()=>{
+    useEffect(() => {
         getProduct()
-    },[])
+    }, [navigation])
 
     const getProduct = async () => {
         try {
@@ -43,33 +43,33 @@ export const ManageProductComponent = ({navigation}) => {
 
     const handleDelete = async (id) => {
         try {
-          await productService.doDeleteProductData({
-            "product_id": `${id}`
-          })
+            await productService.doDeleteProductData({
+                "product_id": `${id}`
+            })
         } catch (err) {
             console.log(err);
         }
     }
 
-    return(
+    return (
         <View style={styles.container}>
-            {products.map((product, index)=>{
+            {products.map((product, index) => {
                 const links = product.detail_media_products
-                return(
+                return (
                     <View style={styles.listContainer} key={index}>
                         <View style={styles.productContainer}>
-                            {(links.length>1) ? <ImageProfile source={links} style={styles.imageLink}/> : <ImageProfile source={links[0]} style={styles.imageLink}/>}
+                            <ImageProfile source={links[0]} style={styles.imageLink} />
                             <View style={styles.textContainer}>
-                                <Text32 text={product.product_name.length < 20 ? product.product_name : product.product_name.slice(0, 15).concat('', '...')} style={styles.text}/>
-                                <Text32Yellow text={toPrice(product.price)} style={styles.text}/>
+                                <Text32 text={product.product_name.length < 20 ? product.product_name : product.product_name.slice(0, 15).concat('', '...')} style={styles.text} />
+                                <Text32Yellow text={toPrice(product.price)} style={styles.text} />
                             </View>
                         </View>
                         <View style={styles.buttonContainer}>
                             <View>
-                                <MaterialCommunityIcons name="delete" style={styles.button} onPress={()=>handleDelete(product.product_id)}/>
+                                <MaterialCommunityIcons name="delete" style={styles.button} onPress={() => handleDelete(product.product_id)} />
                             </View>
                             <View>
-                                <MaterialIcons name="edit" style={styles.button} onPress={()=>navigate.navigate(ROUTE.EDIT_PRODUCT, {oParams: product})}/>                                
+                                <MaterialIcons name="edit" style={styles.button} onPress={() => navigate.navigate(ROUTE.EDIT_PRODUCT, { oParams: product })} />
                             </View>
                         </View>
                     </View>
@@ -80,37 +80,37 @@ export const ManageProductComponent = ({navigation}) => {
 }
 
 const styling = (theme) => StyleSheet.create({
-    container:{
-        marginHorizontal:theme.spacing.m,
-        marginVertical:theme?.spacing?.m
+    container: {
+        marginHorizontal: theme.spacing.m,
+        marginVertical: theme?.spacing?.m
     },
-    listContainer:{
-        flexDirection:"row",
-        alignItems:'center',
-        justifyContent:'space-between',
+    listContainer: {
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingBottom: 8,
         marginBottom: 8,
         borderBottomWidth: 2,
         borderBottomColor: theme?.colors?.inputBorder
     },
-    productContainer:{
-        flexDirection:"row",
+    productContainer: {
+        flexDirection: "row",
     },
-    imageLink:{
+    imageLink: {
 
     },
-    textContainer:{
+    textContainer: {
         marginLeft: 8
     },
-    text:{
+    text: {
 
     },
-    buttonContainer:{
-        flexDirection:"row",
+    buttonContainer: {
+        flexDirection: "row",
     },
-    button:{
+    button: {
         color: theme?.colors?.inputBorder,
         fontSize: 30,
-        marginHorizontal:4
+        marginHorizontal: 4
     }
 })

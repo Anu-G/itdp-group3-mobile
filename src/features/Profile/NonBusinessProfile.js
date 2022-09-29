@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Animated, Image, StyleSheet, View } from 'react-native'
 import { Caption, CaptionColor, Title2 } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
@@ -13,7 +13,7 @@ import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
 import { CategorizePageProfile } from '../CategorizePage/CategorizePageProfile'
 
-export const NonBusinessProfile = () => {
+export const NonBusinessProfile = ({ navigation }) => {
     const theme = useTheme()
     const styles = styling(theme)
     const route = useRoute();
@@ -88,8 +88,14 @@ export const NonBusinessProfile = () => {
     }, [colorChange])
 
     const handleEditProfile = () => {
-        navigator.navigate(ROUTE.EDIT_PROFILE)
+        navigation.navigate(ROUTE.SETTINGS_ACCOUNT)
     }
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerBackImage: () => <></>
+        })
+    }, [navigation])
 
     return (
         <MainContainer>

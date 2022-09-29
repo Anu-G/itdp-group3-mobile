@@ -6,19 +6,19 @@ import { useTheme } from "../context/ThemeContext"
 import { ButtonComponent } from "./Button"
 import { Caption, TextTimeline } from "./Label"
 
-export const ActivateModalComponent = ({handleShowActivate}) => {
+export const ActivateModalComponent = ({ handleShowActivate }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
-    const [logoutReq,setLogoutReq] = useState(false)
+    const [logoutReq, setLogoutReq] = useState(false)
 
     // services ========================================================================================
-    const {settingAccountService} = useDep();
-    const user = useSelector(state=>state.auth);
+    const { settingAccountService } = useDep();
+    const user = useSelector(state => state.auth);
 
     const onActivate = async () => {
         try {
-            const response  = await settingAccountService.doActivateBusiness({
-                "account_id":user.accountId
+            const response = await settingAccountService.doActivateBusiness({
+                "account_id": user.accountId
             })
             if (response.status == 200) {
                 setLogoutReq(true)
@@ -32,33 +32,33 @@ export const ActivateModalComponent = ({handleShowActivate}) => {
         setLogoutReq(true)
         // onActivate()
     }
-    
+
     return (
         <Modal
             animationType="slide"
             transparent={true}
-            >
+        >
             <View style={styles.modalCtn}>
                 <View style={styles.mainCtn}>
-                    {logoutReq 
+                    {logoutReq
                         ?
                         <>
                             <View style={styles.textCtn}>
-                                <Caption text={"Please Log Out your account to complete this step"} style={styles.caption}/>
+                                <Caption text={"Please Log Out your account to complete this step"} style={styles.caption} />
                             </View>
                             <View style={styles.buttonCtn}>
-                                <ButtonComponent label={"Okey"} onClick={()=>handleShowActivate()} style={styles.btn}/>
+                                <ButtonComponent label={"Okey"} onClick={() => handleShowActivate()} style={styles.btn} />
                             </View>
                         </>
                         :
                         <>
                             <View style={styles.textCtn}>
-                                <Caption text={"Are you sure to activate Business Account ?"} style={styles.caption}/>
-                                <TextTimeline text={"This action cannot be undone."}/>
+                                <Caption text={"Are you sure to activate Business Account ?"} style={styles.caption} />
+                                <TextTimeline text={"This action cannot be undone."} />
                             </View>
                             <View style={styles.buttonCtn}>
-                                <ButtonComponent label={"Yes! I am"} onClick={()=>handleOnActivate()} style={styles.btn}/>
-                                <TouchableOpacity onPress={()=>handleShowActivate()}>
+                                <ButtonComponent label={"Yes! I am"} onClick={() => handleOnActivate()} style={styles.btn} />
+                                <TouchableOpacity onPress={() => handleShowActivate()}>
                                     <Text style={styles.cancel}>Hm.. I'm not sure</Text>
                                 </TouchableOpacity>
                             </View>
@@ -71,42 +71,43 @@ export const ActivateModalComponent = ({handleShowActivate}) => {
 }
 
 const styling = (theme) => StyleSheet.create({
-    modalCtn:{
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center'
+    modalCtn: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(59, 64, 70, 0.5)'
     },
-    mainCtn:{
-        backgroundColor:theme?.colors?.navbarBackground,
-        width:229,
-        height:150,
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection:'column',
-        position:"absolute",
-        padding:theme?.spacing?.m,
-        borderRadius:theme?.radius?.m
+    mainCtn: {
+        backgroundColor: theme?.colors?.navbarBackground,
+        width: 229,
+        height: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        position: "absolute",
+        padding: theme?.spacing?.m,
+        borderRadius: theme?.radius?.m
     },
-    textCtn:{
-        flex:2,
+    textCtn: {
+        flex: 2,
     },
-    caption:{
-        textAlign:"center"
+    caption: {
+        textAlign: "center"
     },
-    buttonCtn:{
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-around',
-        alignSelf:'stretch',
-        alignItems:'center',
+    buttonCtn: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignSelf: 'stretch',
+        alignItems: 'center',
     },
-    btn:{
-        margin:0,
-        alignSelf:'auto'
+    btn: {
+        margin: 0,
+        alignSelf: 'auto'
     },
-    cancel:{
-        fontSize:8,
-        fontFamily:'Poppins-Regular',
-        color:theme.colors.white
+    cancel: {
+        fontSize: 8,
+        fontFamily: 'Poppins-Regular',
+        color: theme.colors.white
     }
 })

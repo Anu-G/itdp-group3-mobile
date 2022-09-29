@@ -26,18 +26,16 @@ export const WelcomeStory2 = () => {
     return (
         <MainContainer>
             <View style={styles.container}>
-                <View style={styles.viewCtn}>
-                    <View style={styles.imageCtn}>
-                        <Image style={styles.image} source={require('../../../assets/animations/Marketing-bro.gif')} />
-                    </View>
-                    <View style={styles.textCtn}>
-                        <TextProfile text={'Promote your product'} style={styles.textProfile} />
-                        <Caption text={'Share and promote your product to other user!'} style={styles.caption1} />
-                        <ButtonMediumComponent label={'Next'} style={styles.button} onClick={() => { clearTimeout(timeRef.current); navigation.navigate(ROUTE.WELCOME_STORY_3) }} />
-                        <TouchableOpacity style={{ marginTop: 8 }} onPress={() => { clearTimeout(timeRef.current); navigation.navigate(ROUTE.SIGNUP) }}>
-                            <Caption text={'skip'} style={styles.caption2} />
-                        </TouchableOpacity>
-                    </View>
+                <View style={styles.imageCtn}>
+                    <Image style={styles.image} source={require('../../../assets/animations/Marketing-bro.gif')} />
+                </View>
+                <View style={styles.textCtn}>
+                    <TextProfile text={'Promote your product'} style={styles.textProfile} />
+                    <Caption text={'Share and promote your product to other user!'} style={styles.caption1} />
+                    <ButtonMediumComponent label={'Next'} style={styles.button} onClick={() => { clearTimeout(timeRef.current); navigation.navigate(ROUTE.WELCOME_STORY_3) }} />
+                    <TouchableOpacity style={{ marginTop: 8 }} onPress={() => { clearTimeout(timeRef.current); navigation.navigate(ROUTE.SIGNUP) }}>
+                        <Caption text={'skip'} style={styles.caption2} />
+                    </TouchableOpacity>
                 </View>
             </View>
         </MainContainer>
@@ -61,13 +59,14 @@ const styling = (theme) => StyleSheet.create({
     textCtn: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     image: {
         width: 311,
         height: 282,
     },
     textProfile: {
-        marginTop: 114,
+        marginTop: 80,
         color: '#1E2329',
         fontSize: 20,
     },

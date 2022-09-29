@@ -1,6 +1,6 @@
 import { AntDesign, Entypo, Foundation } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
+import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,8 @@ import { CatalogPage } from "../features/CategorizePage/CatalogPage";
 import { Account } from "../features/Account/Account";
 import { EditAccount } from "../features/Account/EditAccount";
 import { ChangePassword } from "../features/Account/ChangePassword";
+import { StaticPage } from "../features/StaticPage/StaticPage";
+import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -124,8 +126,15 @@ const TabStack = _ => {
 const TimelineStack = _ => {
    return (
       <Stack.Navigator initialRouteName={ROUTE.TIMELINE} >
+         <Stack.Screen name={ROUTE.TIMELINE} component={TimelinePage} options={{
+            headerTitle: 'LogoTokTok',
+            headerStyle: { height: 48 },
+            headerTransparent: true,
+            headerBackground: () =>
+               <View style={{ backgroundColor: 'rgba(71,82,100,0.9)', height: 48 }}></View>
+         }} />
+
          <Stack.Group screenOptions={{ headerShown: false }} >
-            <Stack.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
             <Stack.Screen name={ROUTE.BUSINESS_PROFILE} component={BusinessProfile} />
             <Stack.Screen name={ROUTE.NON_BUSINESS_PROFILE} component={NonBusinessProfile} />
          </Stack.Group >
@@ -144,22 +153,15 @@ const ProfileStack = _ => {
             })} />
             <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={NonBusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: "rgb(71,82,100)", height: 48 }
             })} />
-            <Stack.Screen name={ROUTE.EDIT_PROFILE} component={EditProfile} options={({ navigator }) => ({
+            <Stack.Screen name={ROUTE.SETTINGS_ACCOUNT} component={EditProfile} options={({ navigator }) => ({
                headerTitle: 'Settings',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
-            {/* =========================== ACCOUNT ============================== */}
-            <Stack.Screen name={ROUTE.ACCOUNT} component={Account} options={({ navigator }) => ({
-               headerTitle: 'Account',
-               headerTitleAlign: "center",
-               headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
-            })} />
-            <Stack.Screen name={ROUTE.EDIT_ACCOUNT} component={EditAccount} options={({ navigator }) => ({
+            <Stack.Screen name={ROUTE.EDIT_ACCOUNT} component={Account} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
@@ -171,35 +173,32 @@ const ProfileStack = _ => {
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
-            {/* =========================== ACCOUNT ============================== */}
+            <Stack.Screen name={ROUTE.STATIC_PAGE} component={StaticPage} options={({ navigator }) => ({
+               headerTitle: 'Support',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            })} />
+            <Stack.Screen name={ROUTE.HELP_CENTER} component={HelpCenter} options={({ navigation }) => ({
+               headerTitle: 'Help Center',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            })} />
             <Stack.Screen name={ROUTE.MANAGE_PRODUCT} component={ManageProductComponent} options={({ navigation }) => ({
                headerTitle: 'Manage Product',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
+
+            {/* =========================== ACCOUNT ============================== */}
             <Stack.Screen name={ROUTE.EDIT_PRODUCT} component={SettingsEditProduct} options={({ navigation }) => ({
                headerTitle: 'Edit Product',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
-            {/* =========================== FAQ ============================== */}
-            {/* <Stack.Screen name={"ROUTE.FAQ"} component={FAQ} options={({ navigation }) => ({
-               headerTitle: 'FAQ',
-               headerTitleAlign: "center",
-               headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
-            })} /> */}
-            {/* =========================== FAQ ============================== */}
-            {/* =========================== Support ============================== */}
-            {/* <Stack.Screen name={"ROUTE.Support"} component={Support} options={({ navigation }) => ({
-               headerTitle: 'Support',
-               headerTitleAlign: "center",
-               headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
-            })} /> */}
-            {/* =========================== Support ============================== */}
             <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
                headerTitle: 'Add',
                headerTitleAlign: "center",

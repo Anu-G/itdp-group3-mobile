@@ -12,7 +12,7 @@ import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { Swiper } from '../../shared/components/Swiper'
 import { checkErr } from '../../utils/CommonUtils'
 
-export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes, accType }) => {
+export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes, accType, index }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
 
@@ -112,7 +112,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
 
     return (
         <MainContainer>
-            <View style={styles.timelineCtn}>
+            <View style={[styles.timelineCtn, index === 0 && { marginTop: 48 }]}>
                 <View>
                     <View style={styles.profileHd}>
                         <View style={{ flex: 1 }}>

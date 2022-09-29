@@ -34,14 +34,14 @@ export const AddPost = ({ navigation }) => {
     const keyboardDidShow = (event) => {
         Animated.timing(buttonBar, {
             duration: event.duration + 150,
-            toValue: 335,
+            toValue: event.endCoordinates.height,
             useNativeDriver: false
         }).start()
     }
 
     const keyboardDidHide = (event) => {
         Animated.timing(buttonBar, {
-            duration: event.duration + 150,
+            duration: event.duration,
             toValue: 0,
             useNativeDriver: false
         }).start()
@@ -147,8 +147,8 @@ export const AddPost = ({ navigation }) => {
                 </View>
             </View>
             <Animated.View style={[styles.downContainer, { bottom: buttonBar }]}>
-                <FontAwesome name='image' size={32} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
-                <FontAwesome name='camera' size={32} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
+                <FontAwesome name='image' size={24} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
+                <FontAwesome name='camera' size={24} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
             </Animated.View>
         </MainContainer>
     )
@@ -168,6 +168,7 @@ const styling = (theme) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: "rgb(71,82,100)",
+        height: 32,
     },
     textArea: {
         color: "#849EB9",

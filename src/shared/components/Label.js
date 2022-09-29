@@ -104,3 +104,10 @@ export const Text13SemiBoldYellow = ({text, style={}}) => {
       <Text style={[theme.state.style?.text?.text13regYellow, style]}>{text}</Text>
    )
 }
+
+export const Text14SemiBoldWhite = ({text, style={}}) => {
+   const theme = useTheme()
+   return(
+      <Text style={[theme.state.style?.text?.text14SemiBold, style]}>{text}</Text>
+   )
+}
