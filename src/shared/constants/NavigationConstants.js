@@ -26,5 +26,7 @@ export const ROUTE = {
    WELCOME_STORY_1: 'welcome-story-1',
    WELCOME_STORY_2: 'welcome-story-2',
    WELCOME_STORY_3: 'welcome-story-3',
-   SEARCH_INITIAL: 'searchInitial'
+   SEARCH_INITIAL: 'searchInitial',
+   STATIC_PAGE: 'staticPage',
+   HELP_CENTER: 'help_center',
 }

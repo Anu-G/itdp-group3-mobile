@@ -47,7 +47,7 @@ const styling = (theme) => StyleSheet.create({
     viewCtn: {
         flex: 1, 
         position: 'absolute', 
-        top: 176, 
+        top: 64, 
         alignItems: 'center',
     },
     image: {

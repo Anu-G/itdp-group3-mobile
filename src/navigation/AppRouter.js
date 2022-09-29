@@ -26,6 +26,8 @@ import { EditPost } from "../features/EditPost/EditPost";
 import { WelcomeStory1 } from "../features/WelcomePage/WelcomeStory1";
 import { WelcomeStory2 } from "../features/WelcomePage/WelcomeStory2";
 import { WelcomeStory3 } from "../features/WelcomePage/WelcomeStory3";
+import { StaticPage } from "../features/StaticPage/StaticPage";
+import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -51,7 +53,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={initialRoute} >
+      <Stack.Navigator initialRouteName={ROUTE.STATIC_PAGE} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
             <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
@@ -61,6 +63,7 @@ export const AppRouter = _ => {
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
+            <Stack.Screen name={ROUTE.STATIC_PAGE} component={StaticPage} />
          </Stack.Group >
 
          <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
@@ -125,6 +128,12 @@ export const AppRouter = _ => {
          })} />
          <Stack.Screen name={ROUTE.EDIT_POST} component={EditPost} options={({ navigation }) => ({
             headerTitle: 'Edit Post',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
+         <Stack.Screen name={ROUTE.HELP_CENTER} component={HelpCenter} options={({ navigation }) => ({
+            headerTitle: 'Help Center',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
