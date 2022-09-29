@@ -34,7 +34,7 @@ export const WelcomeStory1 = () => {
                         <TextProfile text={'Find your desire product'} style={styles.textProfile} />
                         <Caption text={'Search any product you want or place you wish to come!'} style={styles.caption1} />
                         <ButtonMediumComponent label={'Next'} style={styles.button} onClick={() => { clearTimeout(timeRef.current); navigation.navigate(ROUTE.WELCOME_STORY_2) }} />
-                        <TouchableOpacity style={{ marginTop: 8 }} onPress={() => navigation.navigate(ROUTE.LOGIN)}>
+                        <TouchableOpacity style={{ marginTop: 8 }} onPress={() => { clearTimeout(timeRef.current); navigation.navigate(ROUTE.SIGNUP) }}>
                             <Caption text={'skip'} style={styles.caption2} />
                         </TouchableOpacity>
                     </View>

@@ -139,7 +139,7 @@ const ProfileStack = _ => {
                headerTitle: '',
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
-            <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={BusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
+            <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={NonBusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
