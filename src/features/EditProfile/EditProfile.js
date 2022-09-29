@@ -12,10 +12,6 @@ export const EditProfile = ({navigation}) => {
     const styles = styling(theme.state.style);
     const navigator = useNavigation()
 
-    const handlePress = (route) => {
-        navigator.navigate(route)
-    }
-
     useLayoutEffect(() => {
         navigation.setOptions({
             headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
@@ -25,7 +21,7 @@ export const EditProfile = ({navigation}) => {
     return(
         <MainContainer>
             <View style={styles.container}>
-                <SettingItemComponent label="Account" handlePress={()=>"navigator.navigate(ROUTE.ACCOUNT)"}/>
+                <SettingItemComponent label="Account" handlePress={()=>navigator.navigate(ROUTE.ACCOUNT)}/>
                 <SettingItemComponent label="Catalog" handlePress={()=>navigator.navigate(ROUTE.CATALOG)}/>
                 <SettingItemComponent label="FAQ" handlePress={()=>navigator.navigate(ROUTE.ADD_FAQ)}/>
                 <SettingItemComponent label="Support" handlePress={()=>"navigator.navigate(ROUTE.SUPPORT)"}/>

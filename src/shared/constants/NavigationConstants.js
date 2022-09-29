@@ -1,4 +1,7 @@
 export const ROUTE = {
+   ACCOUNT: 'account',
+   EDIT_ACCOUNT: 'edit-account',
+   CHANGE_PASSWORD: 'change-password',
    LOGIN: 'login',
    MAIN: 'main',
    HOME: 'home',

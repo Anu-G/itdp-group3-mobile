@@ -27,7 +27,7 @@ export const InputTextWithError = ({ text, value, onChange, placeholder = text, 
 
 
     return (
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer,style]}>
             <TextProfile text={text} />
             <InputTextOnly
                 onChange={onChange}
@@ -41,7 +41,7 @@ export const InputTextWithError = ({ text, value, onChange, placeholder = text, 
     );
 }
 
-export const InputTextPassword = ({ text = 'Password', value, onChange, placeholder = text, error = 'error' }) => {
+export const InputTextPassword = ({ text = 'Password', value, onChange, placeholder = text, error = 'error', style={} }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
 
@@ -54,7 +54,7 @@ export const InputTextPassword = ({ text = 'Password', value, onChange, placehol
     }
 
     return (
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer,style]}>
             <TextProfile text={text} />
             <View style={styles.passwordContainer}>
                 <InputTextOnly

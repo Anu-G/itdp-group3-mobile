@@ -57,14 +57,14 @@ export const InputTextActiveNoError = ({ text, value, onChange, placeholder, key
    );
 }
 
-export const InputTextInactiveNoError = ({ text, value, onChange, placeholder, keyboard = 'default', style }) => {
+export const InputTextInactiveNoError = ({ text, value, onChange, placeholder, keyboard = 'default', style, editable=true }) => {
    const theme = useTheme();
    const styles = styling(theme.state.style);
 
    return (
       <View style={style}>
          <TextProfile text={text}/>
-         <TextInput style={[styles.input,styles.inputInactive,styles.inputNoError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
+         <TextInput editable={editable} style={[styles.input,styles.inputInactive,styles.inputNoError]} placeholder={placeholder} placeholderTextColor={theme.state.darkMode ? styles.placeholderColor : null} onChangeText={onChange} value={value} keyboardType={keyboard} selectionColor={styles.input.color} />
       </View>
    );
 }

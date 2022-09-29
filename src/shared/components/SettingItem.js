@@ -3,13 +3,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../context/ThemeContext"
 import { TextSettingProfile } from "./Label";
 
-export const SettingItemComponent = ({label='Template',handlePress={}}) => {
+export const SettingItemComponent = ({label='Template',handlePress={}, style={},iconStatus=true}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
 
     return(
-        <TouchableOpacity style={styles.settingItemContainer} onPress={handlePress}>
-            <Ionicons name="person" size={24} style={styles.settingItemIcon}/>
+        <TouchableOpacity style={[styles.settingItemContainer, style]} onPress={handlePress}>
+            {iconStatus && <Ionicons name="person" size={24} style={styles.settingItemIcon}/>}
             <View style={styles.settingItemContainer2} >
                 <TextSettingProfile text={label}/>
                 <MaterialIcons name="keyboard-arrow-right" size={24} style={styles.settingItemArrow}/>
