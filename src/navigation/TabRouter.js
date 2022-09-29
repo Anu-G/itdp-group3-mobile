@@ -1,6 +1,6 @@
 import { AntDesign, Entypo, Foundation } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -140,7 +140,7 @@ const ProfileStack = _ => {
          <Stack.Group>
             <Stack.Screen name={ROUTE.PROFILE_BUSINESS} component={BusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: "rgb(71,82,100)", height: 48 },
             })} />
             <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={NonBusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
@@ -153,19 +153,19 @@ const ProfileStack = _ => {
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
             {/* =========================== ACCOUNT ============================== */}
-            <Stack.Screen name={ROUTE.ACCOUNT} component={Account} options={({navigator})=>({
+            <Stack.Screen name={ROUTE.ACCOUNT} component={Account} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
-            <Stack.Screen name={ROUTE.EDIT_ACCOUNT} component={EditAccount} options={({navigator})=>({
+            <Stack.Screen name={ROUTE.EDIT_ACCOUNT} component={EditAccount} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
-            <Stack.Screen name={ROUTE.CHANGE_PASSWORD} component={ChangePassword} options={({navigator})=>({
+            <Stack.Screen name={ROUTE.CHANGE_PASSWORD} component={ChangePassword} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },

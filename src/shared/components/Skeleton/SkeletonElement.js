@@ -42,22 +42,22 @@ export const SkeletonIcon24 = ({ }) => {
     )
 }
 
-export const SkeletonTitle = ({ }) => {
+export const SkeletonTitle = ({ style }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     return (
         <>
-            <View style={[styles.skeleton, styles.title]}></View>
+            <View style={[styles.skeleton, styles.title, style]}></View>
         </>
     )
 }
 
-export const SkeletonCategory = ({ }) => {
+export const SkeletonCategory = ({ style }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     return (
         <>
-            <View style={[styles.skeleton, styles.category]}></View>
+            <View style={[styles.skeleton, styles.category, style]}></View>
         </>
     )
 }
@@ -131,13 +131,14 @@ const styling = (theme) => StyleSheet.create({
         width: 64,
         height: 64,
         borderRadius: 32,
-        marginBottom: 8
     },
     button: {
         width: 80,
         height: 24,
         borderRadius: theme?.radius?.xl,
-        marginHorizontal: theme?.spacing?.s
+        marginHorizontal: theme?.spacing?.s,
+        marginLeft: 0,
+        marginVertical: theme?.spacing?.xs
     },
     small: {
         height: 40,
@@ -153,22 +154,22 @@ const styling = (theme) => StyleSheet.create({
     title: {
         width: "80%",
         height: 24,
-        marginBottom: 8,
     },
     category: {
         width: "100%",
-        height: 24,
+        height: 16,
         marginBottom: 8,
     },
     caption: {
         width: "100%",
         height: 14,
-        marginBottom: 8,
+        marginTop: 4,
     },
     captionShort: {
         width: "80%",
         height: 14,
-        marginBottom: 8,
+        marginTop: 4,
+        marginBottom: 8
     },
     status: {
         width: 48,

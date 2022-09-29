@@ -35,7 +35,7 @@ export const WelcomePage = () => {
 
                 <View style={styles.buttonBottom}>
                     <ButtonBigComponent onClick={handleGetStartedClick}
-                        label={'Get Started'} />
+                        label={'Get Started'} style={styles.btnBig} />
                     <View style={styles.addAuth}>
                         <Pressable onPress={handleSignInClick} >
                             <AuthExtLabel text1={`Have an account?`} text2={'Sign in'} />
@@ -72,5 +72,8 @@ const styling = (theme) => StyleSheet.create({
     },
     upperContainer: {
         flex: 1,
+    },
+    btnBig: {
+        marginVertical: theme?.spacing?.xl
     }
 })

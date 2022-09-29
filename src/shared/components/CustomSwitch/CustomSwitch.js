@@ -2,12 +2,10 @@ import RNDateTimePicker, { DateTimePickerAndroid } from "@react-native-community
 import { useEffect, useState } from "react"
 import { Platform, StyleSheet, Switch, View } from "react-native"
 import { useTheme } from "../../context/ThemeContext"
-import { ButtonComponent } from "../Button"
-import { ButtonBigComponent } from "../ButtonBig"
 import { ButtonMediumComponent } from "../ButtonMedium"
 import { Text32, TextProfile } from "../Label"
 
-export const CustomSwitch = ({isActive=true, label='', openHour='00:00', closeHour='00:00', handleValueChange, id}) => {
+export const CustomSwitch = ({ isActive = true, label = '', openHour = '00:00', closeHour = '00:00', handleValueChange, id }) => {
 
     const theme = useTheme();
     const styles = styling(theme.state.style);
@@ -21,7 +19,7 @@ export const CustomSwitch = ({isActive=true, label='', openHour='00:00', closeHo
     const [openTime, setOpenTime] = useState(openHour)
 
     const handleToggle = () => {
-        if (enable===true){
+        if (enable === true) {
             setStyleActive([styles.outer, styles.inactive])
         } else {
             setStyleActive([styles.outer])
@@ -36,14 +34,14 @@ export const CustomSwitch = ({isActive=true, label='', openHour='00:00', closeHo
 
         let open = openTime
         let close = closeTime
-        if(openShow==true){
+        if (openShow == true) {
             setOpenShow(Platform.OS === 'ios');
             const hour = ('00' + currTime.getHours()).slice(-2)
             const minute = ('00' + currTime.getMinutes()).slice(-2)
             open = `${hour}.${minute}`
             setOpenTime(`${hour}.${minute}`)
-        } else if (closeShow==true) {
-            setCloseShow(Platform.OS==='ios')
+        } else if (closeShow == true) {
+            setCloseShow(Platform.OS === 'ios')
             const hour = ('00' + currTime.getHours()).slice(-2)
             const minute = ('00' + currTime.getMinutes()).slice(-2)
             close = `${hour}.${minute}`
@@ -52,71 +50,73 @@ export const CustomSwitch = ({isActive=true, label='', openHour='00:00', closeHo
         handleValueChange(id, open, close, enable)
     }
 
-    return(
+    return (
         <View style={styleActive}>
             <View style={styles.headSwitch}>
-                <Text32 text={label}/>
+                <Text32 text={label} />
                 <Switch
-                    trackColor={{false: '#3B4046', true: '#FED154'}}
-                    thumbColor={enable ? '#849EB9' : '#475264' }
+                    trackColor={{ false: '#3B4046', true: '#FED154' }}
+                    thumbColor={enable ? '#849EB9' : '#475264'}
                     value={enable}
                     onValueChange={handleToggle} />
 
             </View>
-            
+
             <View style={styles.openCell}>
-                < Text32 text={'Open'}/> 
+                < Text32 text={'Open'} />
                 < ButtonMediumComponent
                     label={openTime}
-                    onClick={()=> {
-                        setOpenShow(true)}} 
-                    disable={!enable}/>
+                    onClick={() => {
+                        setOpenShow(true)
+                    }}
+                    disable={!enable} />
             </View>
             <View style={styles.openCell}>
-                <Text32 text={'Close'}/> 
+                <Text32 text={'Close'} />
                 < ButtonMediumComponent
                     label={closeTime}
-                    onClick={()=> {
-                        setCloseShow(true)}}
+                    onClick={() => {
+                        setCloseShow(true)
+                    }}
                     disable={!enable} />
             </View>
 
 
-            {openShow && <RNDateTimePicker 
+            {openShow && <RNDateTimePicker
                 value={time}
                 mode={'time'}
                 display={'default'}
                 onChange={handleChange}
                 is24Hour={true}
-                
-                 />}
 
-            {closeShow && <RNDateTimePicker 
+            />}
+
+            {closeShow && <RNDateTimePicker
                 value={time}
                 mode={'time'}
                 display={'default'}
                 onChange={handleChange}
                 is24Hour={true}
-                
-                 />}
+
+            />}
         </View>
 
-        
+
     )
 }
 
 const styling = (theme) => StyleSheet.create({
     container: {
         // flex: 1,
-    //    marginHorizontal:theme?.spacing?.m,
+        //    marginHorizontal:theme?.spacing?.m,
         width: '100%',
-    //    alignSelf: "stretch",
-    //    marginBottom: theme?.spacing?.m,
+        //    alignSelf: "stretch",
+        //    marginBottom: theme?.spacing?.m,
         backgroundColor: theme?.pallete?.lightBlue,
         borderRadius: theme?.radius?.s,
     },
 
-    openCell:{
+    openCell: {
         flexDirection: "row",
         alignSelf: 'stretch',
         justifyContent: 'space-between',
@@ -125,13 +125,13 @@ const styling = (theme) => StyleSheet.create({
         marginVertical: theme?.spacing?.s
     },
 
-    outer:{
+    outer: {
         width: '100%',
         alignSelf: 'center',
         backgroundColor: theme?.pallete?.mediumBlue,
         padding: theme?.spacing?.s,
         paddingTop: -16,
-        borderRadius: theme?.radius?.s, 
+        borderRadius: theme?.radius?.s,
         marginVertical: theme?.spacing?.s
     },
 
@@ -144,8 +144,8 @@ const styling = (theme) => StyleSheet.create({
         marginVertical: theme?.spacing?.xxs
 
     },
-    
-    inactive:{
+
+    inactive: {
         opacity: 0.7
     }
 

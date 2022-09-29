@@ -3,7 +3,6 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { storage } from '../../apps/Storage';
-import { ButtonBigComponent } from '../../shared/components/ButtonBig';
 import { ImageWithDeleteSign } from '../../shared/components/ImageAddCatalog';
 import { InputTextActiveSmallSize } from '../../shared/components/Input';
 import { TextProfile } from '../../shared/components/Label';

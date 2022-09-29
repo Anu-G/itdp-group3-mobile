@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Animated, Image, StyleSheet, View } from 'react-native'
 import { Caption, CaptionColor, Title2 } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { checkErr } from '../../utils/CommonUtils';
 import { useSelector } from 'react-redux';
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, Octicons } from '@expo/vector-icons'
 import { ButtonComponent } from '../../shared/components/Button'
 import { useRoute } from '@react-navigation/native'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
+import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
+import { CategorizePageProfile } from '../CategorizePage/CategorizePageProfile'
 
 export const NonBusinessProfile = () => {
     const theme = useTheme()
@@ -17,6 +19,7 @@ export const NonBusinessProfile = () => {
     const route = useRoute();
     const { openId } = route?.params === undefined ? {} : route.params
     const [isLoading, setLoading] = useState(false)
+    const colorChange = new Animated.Value(1);
 
     // state
     const [profile, setProfile] = useState({
@@ -61,20 +64,63 @@ export const NonBusinessProfile = () => {
         }
     }
 
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence(
+                [Animated.timing(
+                    colorChange,
+                    {
+                        toValue: 0.4,
+                        duration: 1000,
+                        useNativeDriver: true
+                    }
+                ),
+                Animated.timing(
+                    colorChange,
+                    {
+                        toValue: 1,
+                        duration: 1000,
+                        useNativeDriver: true
+                    }
+                )]
+            )
+        ).start()
+    }, [colorChange])
+
+    const handleEditProfile = () => {
+        navigator.navigate(ROUTE.EDIT_PROFILE)
+    }
+
     return (
         <MainContainer>
             <View style={styles.container}>
                 <View style={styles.topProfile}>
-                    <View style={styles.headProfileLeft}>
-                        {profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32, marginBottom: 8 }} />}
-                        <Title2 label={profile.DisplayName} />
-                        <View style={styles.editProfileBtn}>
-                            {route.name === ROUTE.PROFILE &&
-                                <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} />}
-                        </View>
-                        <Caption text={profile.ProfileBio} />
+                    {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                        <SkeletonProfile />
+                    </Animated.View> : profile.ProfileImage !== '' &&
+                    <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}
+                    <View style={styles.topProfileRight}>
+                        {route.name === ROUTE.PROFILE_BUSINESS || route.name === ROUTE.PROFILE_NON_BUSINESS ? <>
+                            {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                                <SkeletonButton />
+                            </Animated.View> : <>
+                                <Octicons name='gear' size={24} onPress={handleEditProfile} color={theme?.state?.style?.colors?.button} />
+                                <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile} />
+                            </>}
+                        </> : <></>}
                     </View>
                 </View>
+                {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                    <SkeletonTitle style={{ marginVertical: 4 }} />
+                </Animated.View> : <Title2 label={profile.DisplayName} />}
+                {isLoading ? <>
+                    <Animated.View style={{ opacity: colorChange }}>
+                        <SkeletonCaption />
+                        <SkeletonCaption />
+                        <SkeletonCaptionShort />
+                    </Animated.View>
+                </> : <Caption text={profile.ProfileBio} />}
+                <CategorizePageProfile />
             </View>
         </MainContainer>
     )
@@ -83,24 +129,21 @@ export const NonBusinessProfile = () => {
 const styling = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 16,
-        marginBottom: 16,
-        marginLeft: 16,
-        marginRight: 16,
         alignSelf: 'stretch',
+        padding: 16
     },
     topProfile: {
-        flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'row',
+        alignContent: 'center'
     },
-    headProfileLeft: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    headProfile: {
-        flex: 1,
+    topProfileRight: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
+        width: '80%',
+        justifyContent: 'flex-end'
+    },
+    editProfileBtnCtn: {
+        marginLeft: 8,
+        alignSelf: 'auto'
     },
 })

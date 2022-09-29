@@ -20,7 +20,6 @@ const styling = (theme) => StyleSheet.create({
         alignSelf: 'stretch',
         flexDirection: 'row',
         justifyContent: 'center',
-        marginVertical: theme?.spacing?.xl
     },
     bigButtonText: theme?.text?.bigButtonText
 })

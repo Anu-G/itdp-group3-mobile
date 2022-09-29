@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Animated, Image, StyleSheet, View } from 'react-native'
+import { Animated, Image, Linking, StyleSheet, View } from 'react-native'
 import { Caption, CaptionColor, Title2 } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { checkErr } from '../../utils/CommonUtils';
 import { useSelector } from 'react-redux';
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, Octicons } from '@expo/vector-icons'
 import { ButtonComponent } from '../../shared/components/Button'
 import { SkeletonButton, SkeletonCaption, SkeletonCaptionShort, SkeletonCategory, SkeletonProfile, SkeletonTitle } from '../../shared/components/Skeleton/SkeletonElement'
 import { LinkModal } from '../../shared/components/LinkModal'
@@ -14,6 +14,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import { CategorizePageProfile } from '../CategorizePage/CategorizePageProfile'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
+import { style } from 'deprecated-react-native-prop-types/DeprecatedImagePropType'
 
 export const BusinessProfile = ({ navigation }) => {
     const theme = useTheme()
@@ -52,14 +53,14 @@ export const BusinessProfile = ({ navigation }) => {
     }
 
     const handleClickContact = () => {
-        window.open(`https://wa.me/${profile.PhoneNumber}`)
+        Linking.openURL(`https://wa.me/${profile.PhoneNumber}`)
     }
 
     const handleClickGmaps = () => {
         if (profile.GmapsLink.includes("http://") || profile.GmapsLink.includes("https://")) {
-            window.open(`${profile.GmapsLink}`, '_blank')
+            Linking.openURL(`${profile.GmapsLink}`, '_blank')
         } else {
-            window.open(`https://${profile.GmapsLink}`, '_blank')
+            Linking.openURL(`https://${profile.GmapsLink}`, '_blank')
         }
     }
 
@@ -160,113 +161,95 @@ export const BusinessProfile = ({ navigation }) => {
 
     return (
         <MainContainer>
-            <View style={styles.container}>
+            {showOurLinks && <LinkModal linksIn={profile.BusinessLinks} handleClickLinks={handleClickLinks} />}
+            <View style={styles.profileCtn}>
                 <View style={styles.topProfile}>
-                    {showOurLinks && <LinkModal linksIn={profile.BusinessLinks} handleClickLinks={handleClickLinks} />}
-                    <View style={styles.headProfileLeft}>
-                        <View style={styles.headProfile}>
-                            {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonProfile /></Animated.View> : <>{profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}</>}
-                            <View style={styles.editProfileBtn}>
-                                {route.name === ROUTE.PROFILE &&
-                                    <>
-                                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile}/>}
-                                    </>
-                                }
-                            </View>
-                        </View>
-                        <View style={{flex:1}}>
-                            {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonTitle /></Animated.View> : <Title2 label={profile.DisplayName} />}
-                            {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}><SkeletonCategory /></Animated.View> : <Caption text={profile.CategoryName} />}
-                        </View>
-                        
-                        <View style={styles.openHours}>
-                            {isLoading
-                                ?
-                                <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}><SkeletonCategory /></Animated.View>
-                                :
-                                <>
-                                    {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
-                                    <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
-                                    <Caption text={`Closes ${openHour} - ${closeHour}`} />
-                                </>
-                            }
-                        </View>
-                        <View style={styles.bio}>
-                            {isLoading ? 
-                                <>
-                                    <Animated.View style={{opacity:colorChange}}>
-                                        <SkeletonCaption/>
-                                        <SkeletonCaption/>
-                                        <SkeletonCaptionShort/>
-                                    </Animated.View>
-                                </> : <Caption text={profile.ProfileBio}/>}
-                        </View>
-                        <View style={styles.profileButtons}>
-                            {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn}/>}</>}
-                            {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn}/>}</>}
-                            {isLoading ? <Animated.View style={{opacity:colorChange}}><SkeletonButton/></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn}/>}</>}
-                        </View>
+                    {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                        <SkeletonProfile />
+                    </Animated.View> : profile.ProfileImage !== '' &&
+                    <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}
+                    <View style={styles.topProfileRight}>
+                        {route.name === ROUTE.PROFILE_BUSINESS || route.name === ROUTE.PROFILE_NON_BUSINESS ? <>
+                            {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                                <SkeletonButton />
+                            </Animated.View> : <>
+                                <Octicons name='gear' size={24} onPress={handleEditProfile} color={theme?.state?.style?.colors?.button} />
+                                <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile} />
+                            </>}
+                        </> : <></>}
                     </View>
-
-                    {/* {showOurLinks && <OurLinks handleX={handleClickLinks} links={profile.BusinessLinks} />} */}
-
-                    <CategorizePageProfile />
                 </View>
+                {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                    <SkeletonTitle style={{ marginVertical: 4 }} />
+                </Animated.View> : <Title2 label={profile.DisplayName} />}
+                {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}>
+                    <SkeletonCategory style={{ marginVertical: 4 }} />
+                </Animated.View> : <Caption text={profile.CategoryName} />}
+                <View style={styles.openHour}>
+                    {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}>
+                        <SkeletonCategory style={{ marginVertical: 4 }} />
+                    </Animated.View> : <>
+                        {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
+                        <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
+                        <Caption text={`${openHour} - ${closeHour}`} />
+                    </>
+                    }
+                </View>
+                {isLoading ? <>
+                    <Animated.View style={{ opacity: colorChange }}>
+                        <SkeletonCaption />
+                        <SkeletonCaption />
+                        <SkeletonCaptionShort />
+                    </Animated.View>
+                </> : <Caption text={profile.ProfileBio} />}
+                <View style={styles.profileBtn}>
+                    {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                        <SkeletonButton />
+                    </Animated.View> : <>
+                        {profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn} />}
+                    </>}
+                    {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn} />}</>}
+                    {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn} />}</>}
+                </View>
+                <CategorizePageProfile />
             </View>
         </MainContainer>
     )
 }
 
 const styling = (theme) => StyleSheet.create({
-    container: {
+    profileCtn: {
         flex: 1,
-        margin: theme?.spacing?.m,
         alignSelf: 'stretch',
+        padding: 16
     },
     topProfile: {
-        flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'row',
+        alignContent: 'center'
     },
-    headProfileLeft: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    headProfile: {
-        flex: 1,
+    topProfileRight: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: theme.spacing?.s,
+        width: '80%',
+        justifyContent: 'flex-end'
     },
-    editProfileBtn: {
-        flex: 1,
-        alignItems: 'flex-end',
-        width: "80%",
+    openHour: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    profileBtn: {
+        flexDirection: 'row'
     },
     editProfileBtnCtn: {
-        margin: 0,
+        marginLeft: 8,
         alignSelf: 'auto'
     },
-    openHours: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    bio:{
-        flex:2
-    },
-    circle :{
+    circle: {
         marginLeft: 5,
         marginRight: 5,
-    },
-    profileButtons: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        flexWrap: 'wrap',
     },
     profileButtonCtn: {
         margin: theme.spacing?.s,
         marginLeft: 0
-    }
+    },
 })
