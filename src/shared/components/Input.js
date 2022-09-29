@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useTheme } from "../context/ThemeContext"
 import { CaptionColor, TextProfile } from "./Label";
 
@@ -84,6 +84,15 @@ export const InputTextActiveSmallSize = ({ text, value, onChange, placeholder, k
    );
 }
 
+export const InputOnly = ({ id, label, handleOnChange, value, style }) => {
+   const theme = useTheme();
+   const styles = styling(theme.state.style);
+
+   <View style={styles.inputClassSrc} >
+      <Text style={styles.inputAreaSearch} placeholder={label} type={"text"} id={id} onChange={handleOnChange} value={value} />
+   </View>
+};
+
 const styling = (theme) => StyleSheet.create({
    inputContainer: {
       width: '100%',
@@ -122,6 +131,21 @@ const styling = (theme) => StyleSheet.create({
       marginBottom:theme?.spacing?.xxs,
       alignSelf:'center',
       ...theme?.text?.textComment
+   },
+   inputClassSrc: {
+      flex: 1,
+      flexDirection: 'column-reverse',
+      justifyContent: 'space-between',
+      color: '#f4f4f4',
+   },
+   inputAreaSearch: {
+      padding: 8,
+      height: 24,
+      borderRadius: 10,
+      backgroundColor: '#f4f4f4',
+      fontSize: 14,
+      fontWeight: 200,
+      color: '#3B4046',
    },
    placeholderColor: theme?.colors?.whiteTrp
 });
