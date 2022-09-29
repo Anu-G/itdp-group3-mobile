@@ -1,5 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -18,6 +18,7 @@ export const TimelineDetailPage = ({ navigation }) => {
     const styles = styling(theme.state.style)
     const route = useRoute()
 
+    const navigate = useNavigation();
     const [timelines, setTimelines] = useState([])
     const [accountId, setAccountId] = useState()
     const [isLoading, setLoading] = useState(false)
@@ -82,14 +83,8 @@ export const TimelineDetailPage = ({ navigation }) => {
         }
     }
 
-    const handleClickName = (id) => {
-        if (id === accountId) {
-            console.log(`PAGE PROFILE ID ${id}`);
-            // navigate.navigate(ROUTE.PROFILE)
-        } else {
-            console.log(`PAGE PROFILE ID ${id}`);
-            // navigate.navigate()
-        }
+    const handleClickName = (id, accType) => {
+        accType === 2 ? navigate.navigate(ROUTE.BUSINESS_PROFILE, { openId: id }) : navigate.navigate(ROUTE.NON_BUSINESS_PROFILE, { openId: id })
     }
 
     return (
@@ -127,6 +122,7 @@ export const TimelineDetailPage = ({ navigation }) => {
                                                 feedId={post.post_id}
                                                 handleComment={handleComment}
                                                 thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
+                                                accType={post.account_type}
                                             />}
                                     </>
                                 )

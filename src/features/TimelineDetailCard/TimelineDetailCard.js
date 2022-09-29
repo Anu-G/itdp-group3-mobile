@@ -12,7 +12,7 @@ import { useTheme } from '../../shared/context/ThemeContext'
 import { Swiper } from '../../shared/components/Swiper'
 import { useSelector } from 'react-redux'
 
-export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes }) => {
+export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes, accType }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
 
@@ -93,9 +93,9 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                 <View>
                     <View style={styles.profileHd}>
                         <View style={{ flex: 1 }}>
-                            <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId)} />
+                            <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId, accType)} />
                         </View>
-                        <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }} onPress={() => handleClickName(postAccId)}>
+                        <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
                             <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#F4F4F4', fontSize: 16 }}>{name}</Text>
                         </TouchableOpacity>
                         <View style={styles.optionBtn}>

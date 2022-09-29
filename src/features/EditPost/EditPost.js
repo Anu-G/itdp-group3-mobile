@@ -18,8 +18,7 @@ export const EditPost = ({ navigation }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
     const route = useRoute()
-    const {post, accId} = route.params
-    console.log(post,"HALLOOO");
+    const { post, accId } = route.params
     const navigate = useNavigation()
     const { profileService, postService, postImageService } = useDep()
     const [accountId, setAccountId] = useState()
@@ -73,7 +72,7 @@ export const EditPost = ({ navigation }) => {
                     setPickedImagePath(prevState => [...prevState, result.uri])
                     return
                 }
-                setPickedImagePath(prevState => [...prevState,...result.selected.map(res => res.uri)])
+                setPickedImagePath(prevState => [...prevState, ...result.selected.map(res => res.uri)])
             }
         } catch (err) {
             checkErr(err)
@@ -112,7 +111,7 @@ export const EditPost = ({ navigation }) => {
             navigate.navigate(ROUTE.MAIN, {
                 refresh: true
             })
-            
+
         } catch (err) {
             checkErr(err)
         } finally {
@@ -129,7 +128,7 @@ export const EditPost = ({ navigation }) => {
                 <View style={styles.rightContainer}>
                     <TextInput onChangeText={text => onChangeCaption(text)} value={caption} placeholder='Add some post...' placeholderTextColor={"#849EB9"} multiline={true} maxLength={280} textAlignVertical={'top'} style={styles.textArea} />
                     <View style={styles.charLength}>
-                        <TextTimeline text={`${charLength}/${maxLength}`} style={{color: '#849EB9'}}/>
+                        <TextTimeline text={`${charLength}/${maxLength}`} style={{ color: '#849EB9' }} />
                     </View>
                     <ImageHorizontalScroll images={pickedImagePath} />
                 </View>

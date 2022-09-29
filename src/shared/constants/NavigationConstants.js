@@ -20,6 +20,7 @@ export const ROUTE = {
    ADD_LINK: 'addLink',
    MANAGE_PRODUCT: 'manage-product',
    EDIT_PRODUCT: 'edit-product',
+   HOME_TAB: 'homeTab',
    TIMELINE: 'timeline',
    DETAIL_TIMELINE: 'detail-timeline',
    CATALOG: 'catalog',

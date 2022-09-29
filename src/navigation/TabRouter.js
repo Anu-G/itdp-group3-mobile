@@ -56,7 +56,7 @@ export const TabRouter = _ => {
       <Tab.Navigator initialRouteName={ROUTE.MAIN} screenOptions={({ route }) => ({
          tabBarIcon: ({ focused, color, size }) => {
             switch (route.name) {
-               case ROUTE.TIMELINE:
+               case ROUTE.HOME:
                   return (
                      <View style={style.iconCtn}>
                         <Entypo name="home" size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
@@ -84,7 +84,7 @@ export const TabRouter = _ => {
          tabBarLabel: () => null,
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
-            <Tab.Screen name={ROUTE.TIMELINE} component={TimelinePage} ></Tab.Screen>
+            <Tab.Screen name={ROUTE.HOME} component={TimelineStack} />
             <Tab.Screen name={ROUTE.SEARCH} component={TabStack} />
             <Tab.Screen name={ROUTE.PROFILE} component={user.roleId === 2 ? BusinessProfile : NonBusinessProfile} />
          </Tab.Group >
@@ -108,6 +108,18 @@ const TabStack = _ => {
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
+         </Stack.Group >
+      </Stack.Navigator>
+   )
+}
+
+const TimelineStack = _ => {
+   return (
+      <Stack.Navigator initialRouteName={ROUTE.TIMELINE} >
+         <Stack.Group screenOptions={{ headerShown: false }} >
+            <Stack.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
+            <Stack.Screen name={ROUTE.BUSINESS_PROFILE} component={BusinessProfile} />
+            <Stack.Screen name={ROUTE.NON_BUSINESS_PROFILE} component={NonBusinessProfile} />
          </Stack.Group >
       </Stack.Navigator>
    )

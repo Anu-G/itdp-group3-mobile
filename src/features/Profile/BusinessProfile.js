@@ -13,12 +13,13 @@ import { LinkModal } from '../../shared/components/LinkModal'
 import { useRoute } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import { CategorizePageProfile } from '../CategorizePage/CategorizePageProfile'
+import { ROUTE } from '../../shared/constants/NavigationConstants'
 
 export const BusinessProfile = ({ navigation }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
     const route = useRoute();
-    const { openId } = route.params
+    const { openId } = route?.params === undefined ? {} : route.params
     const [openStatus, setStatus] = useState(true)
 
     // state
@@ -71,13 +72,8 @@ export const BusinessProfile = ({ navigation }) => {
     const { profileService } = useDep()
 
     useEffect(() => {
-        if (openId && openId != user.accountId) {
-            setStatus(false)
-        } else {
-            setStatus(true)
-        }
         getUser()
-    }, [])
+    }, [openId])
 
     useEffect(() => {
         Animated.loop(
@@ -166,7 +162,7 @@ export const BusinessProfile = ({ navigation }) => {
                         <View style={styles.headProfile}>
                             {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonProfile /></Animated.View> : <>{profile.ProfileImage !== '' && <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}</>}
                             <View style={styles.editProfileBtn}>
-                                {openStatus &&
+                                {route.name === ROUTE.PROFILE &&
                                     <>
                                         {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} />}
                                     </>

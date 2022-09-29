@@ -64,8 +64,8 @@ export const TimelinePage = () => {
         }
     }
 
-    const handleClickName = (id) => {
-        navigation.navigate(ROUTE.PROFILE, { openId: id })
+    const handleClickName = (id, accType) => {
+        accType === 2 ? navigation.navigate(ROUTE.BUSINESS_PROFILE, { openId: id }) : navigation.navigate(ROUTE.NON_BUSINESS_PROFILE, { openId: id })
     }
 
     const setRefresh = async (postId) => {
@@ -124,6 +124,7 @@ export const TimelinePage = () => {
                                             feedId={post.post_id}
                                             handleComment={handleComment}
                                             thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
+                                            accType={post.account_type}
                                         />
                                     )
                                 })}
