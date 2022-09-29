@@ -19,6 +19,9 @@ import { EditProfile } from "../features/EditProfile/EditProfile";
 import { ManageProductComponent } from "../features/Manage Product/ManageProduct";
 import { SettingsEditProduct } from "../features/SettingsEditProduct/SettingsEditProduct";
 import { CatalogPage } from "../features/CategorizePage/CatalogPage";
+import { Account } from "../features/Account/Account";
+import { EditAccount } from "../features/Account/EditAccount";
+import { ChangePassword } from "../features/Account/ChangePassword";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -150,12 +153,24 @@ const ProfileStack = _ => {
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
             {/* =========================== ACCOUNT ============================== */}
-            {/* <Stack.Screen name={"ROUTE.ACCOUNT"} component={SettingAccount} options={({navigator})=>({
+            <Stack.Screen name={ROUTE.ACCOUNT} component={Account} options={({navigator})=>({
                headerTitle: 'Account',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
-            })} /> */}
+            })} />
+            <Stack.Screen name={ROUTE.EDIT_ACCOUNT} component={EditAccount} options={({navigator})=>({
+               headerTitle: 'Account',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            })} />
+            <Stack.Screen name={ROUTE.CHANGE_PASSWORD} component={ChangePassword} options={({navigator})=>({
+               headerTitle: 'Account',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            })} />
             {/* =========================== ACCOUNT ============================== */}
             <Stack.Screen name={ROUTE.MANAGE_PRODUCT} component={ManageProductComponent} options={({ navigation }) => ({
                headerTitle: 'Manage Product',

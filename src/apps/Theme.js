@@ -43,6 +43,7 @@ export const themeDark = {
       settingItemBorder: pallete.darkBlue,
       settingItemIcon: pallete.lightBlue,
       whiteTrp: pallete.whiteTrp,
+      white: pallete.white,
       tabBackground: pallete.darkBlue
    },
    pallete: {...pallete},

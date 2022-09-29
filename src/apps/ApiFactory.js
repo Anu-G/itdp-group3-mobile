@@ -23,6 +23,15 @@ export const apiClientFactory = (client) => {
       }
    }
 
+   const doPut = async ({ url, data }) => {
+      try {
+         const response = await client.put(url, data);
+         return response;
+      } catch (err) {
+         throw err;
+      }
+   }
+
    const doStoreFile = async ({ url, data }) => {
       try {
          const promiseFetch = []
@@ -89,5 +98,5 @@ export const apiClientFactory = (client) => {
       }
    }
 
-   return { doPost, doGet, doStoreFile, doStoreMultipleFiles }
+   return { doPost, doPut, doGet, doStoreFile, doStoreMultipleFiles }
 }
