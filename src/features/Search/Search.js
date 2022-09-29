@@ -1,0 +1,127 @@
+import { FontAwesome } from '@expo/vector-icons'
+import React, { useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { CategoryLabelActive } from '../../shared/components/CategoryLabel'
+import { InputOnly } from '../../shared/components/Input'
+import { MainContainer } from '../../shared/components/MainContainer'
+import { useDep } from '../../shared/context/DependencyContext'
+import { useTheme } from '../../shared/context/ThemeContext'
+import { checkErr } from '../../utils/CommonUtils'
+import { DetailProductCard } from '../DetailProductCard/DetailProductCard'
+import { SearchDetail } from './SearchDetail'
+
+export const Search = () => {
+    const theme = useTheme()
+    const styles = styling(theme)
+
+     // state
+     const [value, setValue] = useState('');
+     const [product, setProduct] = useState({})
+     const [products, setProducts] = useState([])
+     const [isActive, setIsActive] = useState(false)
+ 
+     const handleFormClose = () => {
+         setIsActive(prevState => false)
+         setProduct(prevState => { })
+     }
+ 
+     const handleFormOpen = (value) => {
+         setIsActive(prevState => true)
+         setProduct(prevState => value)
+     }
+ 
+     const handleChange = (event) => {
+         setValue(event.target.value)
+     }
+ 
+     // service
+     const { productService } = useDep();
+ 
+     const handleSearchClick = async (event) => {
+         event.preventDefault()
+         try {
+             const response = await productService.doGetProductSearch({
+                 "keyword": value
+             })
+             setProducts(prevstate => response.data.data)
+         } catch (err) {
+             checkErr(err)
+         } 
+     }
+
+  return (
+    <MainContainer>
+        <View style={styles.categorizePageSearch}>
+            {isActive && <DetailProductCard handleClick={handleFormClose} product={product}/> }
+            <View style={styles.categorizePageList}>
+                <View style={styles.searchHd}>
+                    <InputOnly label={'search'} handleOnChange={handleChange} id='search' value={value}/>
+                    <View style={styles.btnSearch} onCLick={handleSearchClick}>
+                    <FontAwesome name='magnifying-glass' size={20} color={'#1E2329'} />
+                    </View>
+                </View>
+
+                <View style={styles.searchCtnt}>
+                    <View style={styles.searchLabelCtg}>
+                        <CategoryLabelActive label={'Products'}/>
+                    </View>
+                    <View style={styles.searchRs}>
+                        <SearchDetail catalogItems={products} handleFormOpen={handleFormOpen}/>
+                    </View>
+                </View>
+            </View>
+        </View>
+    </MainContainer>
+  )
+}
+
+const styling = (theme) => StyleSheet.create({
+    categorizePageSearch: {
+        padding: 32,
+        maxWidth: 300,
+        minHeight: 100,
+        backgroundColor:'#1E2329',
+    },
+
+   categorizePageList: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+    searchHd: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 16,
+    },
+
+    btnSearch: {
+        height: 20,
+        width: 20,
+        backgroundColor: '#FED154',
+        borderRadius: 10,
+
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    searchCtnt: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems:'flex-start',
+        margin: 16,
+    },
+
+    searchLabelCtg: {
+        minWidth: 192,
+        maxWidth: 200,
+    },
+
+    // searchRs: {
+    //     minHeight: 300,
+    //     minWidth: 200,
+    //     backgroundColor: '#3B4046'
+    // }
+})

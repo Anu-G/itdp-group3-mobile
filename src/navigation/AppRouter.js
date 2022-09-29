@@ -15,17 +15,12 @@ import { WelcomePage } from "../features/WelcomePage/WelcomePage";
 import { TimelineDetailPage } from "../features/TimelineDetailPage/TimelineDetailPage";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
-import { SettingsAddFAQ } from "../features/SettingsAddFAQ/SettingsAddFAQ";
-import { CatalogPage } from "../features/CategorizePage/CatalogPage";
-import { NonBusinessProfile } from "../features/Profile/NonBusinessProfile";
-import { BusinessProfile } from "../features/Profile/BusinessProfile";
-import { ManageProductComponent } from "../features/Manage Product/ManageProduct";
-import { SettingsEditProduct } from "../features/SettingsEditProduct/SettingsEditProduct";
 import { DetailProductCard } from "../features/DetailProductCard/DetailProductCard";
 import { EditPost } from "../features/EditPost/EditPost";
 import { WelcomeStory1 } from "../features/WelcomePage/WelcomeStory1";
 import { WelcomeStory2 } from "../features/WelcomePage/WelcomeStory2";
 import { WelcomeStory3 } from "../features/WelcomePage/WelcomeStory3";
+import { Search } from "../features/Search/Search";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -51,7 +46,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={initialRoute} >
+      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
             <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
@@ -108,7 +103,20 @@ export const AppRouter = _ => {
             headerTitle: 'Edit Post',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
+         })} />
+
+         <Stack.Screen name={ROUTE.DETAIL_PRODUCT} component={DetailProductCard} options={({ navigation }) => ({
+            headerTitle: 'Detail Product',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
+         })} />
+         <Stack.Screen name={ROUTE.SEARCH} component={Search} options={({ navigation }) => ({
+            headerTitle: 'Search',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
          })} />
       </Stack.Navigator>
    )
