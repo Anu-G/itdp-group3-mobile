@@ -78,14 +78,14 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                     "feed_id": `${feedId}`
                 })
                 setIsLiked(prevState => false)
-                setRefresh(prevState => !prevState)
+                setRefresh(feedId)
             } else {
                 await timelineService.doPostTimelineLike({
                     "account_id": `${accId}`,
                     "feed_id": `${feedId}`
                 })
                 setIsLiked(prevState => true)
-                setRefresh(prevState => !prevState)
+                setRefresh(feedId)
             }
         } catch (e) {
             console.log(e);
@@ -133,8 +133,8 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                 <View>
                     <Swiper
                         images={images}
-                        swipeBottom={e => console.log('swipe bottom: ', e)}
-                        swipeTop={e => console.log('swipe top: ', e)}
+                        swipeBottom={e => { }}
+                        swipeTop={e => { }}
                         textSize={16}
                         styleImage={{ borderRadius: 8 }}
                     />
@@ -162,7 +162,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                     </View>
 
                     <View>
-                        <Caption text={`${date}\t${time}`} style={{ color: '#849EB9' }} />
+                        <Caption text={`${date}\t\t${time}`} style={{ color: '#849EB9' }} />
                     </View>
                 </View>
             </View>

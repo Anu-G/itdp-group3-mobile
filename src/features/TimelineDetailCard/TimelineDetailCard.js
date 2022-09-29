@@ -21,8 +21,8 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     const [comment, setComment] = useState('')
     const [isButtonSendActive, setIsButtonSendActive] = useState(false)
     const [readMore, setReadMore] = useState(true)
-    const [images, setImages] = useState([])
     const { timelineService } = useDep()
+    const [images, setImages] = useState([])
     const profile = useSelector((state) => state.profile);
 
     useEffect(() => {
@@ -67,14 +67,14 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                     "feed_id": `${feedId}`
                 })
                 setIsLiked(prevState => false)
-                setRefresh(prevState => !prevState)
+                setRefresh(feedId)
             } else {
                 await timelineService.doPostTimelineLike({
                     "account_id": `${accId}`,
                     "feed_id": `${feedId}`
                 })
                 setIsLiked(prevState => true)
-                setRefresh(prevState => !prevState)
+                setRefresh(feedId)
             }
         } catch (e) {
             console.log(e);
@@ -112,12 +112,11 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
 
                 <View>
                     <Swiper
-                        imageWidth={380}
-                        imageHeight={218}
                         images={images}
                         swipeBottom={e => { }}
                         swipeTop={e => { }}
                         textSize={16}
+                        styleImage={{ borderRadius: 8 }}
                     />
                 </View>
 
@@ -143,18 +142,14 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                     </View>
 
                     <View>
-                        <Caption text={`${date}\t${time}`} style={{ color: '#849EB9' }} />
+                        <Caption text={`${date}\t\t${time}`} style={{ color: '#849EB9' }} />
                     </View>
                 </View>
 
-                <KeyboardAwareScrollView
-                    style={{ height: 400 }}
-                    extraHeight={50}
-                    nestedScrollEnabled={true}
-                    enableOnAndroid={true}
-                >
-                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={avatar} />
-                </KeyboardAwareScrollView>
+
+                <View style={{ alignSelf: 'stretch' }}>
+                    <CommentExtActive comments={comments} handleCommentChange={handleCommentChange} value={comment} isButtonSendActive={isButtonSendActive} buttonLabel={'Send'} handleOnClickSend={handleOnClickSend} charLength={comment.length} maxLength={280} avatar={profile.profileImage} />
+                </View>
             </View>
         </MainContainer>
     )

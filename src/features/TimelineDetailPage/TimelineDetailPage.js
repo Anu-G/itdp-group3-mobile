@@ -2,7 +2,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import { useRoute } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useSelector } from 'react-redux'
 import { store } from '../../apps/Storage'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { SkeletonDetailTimelineCard } from '../../shared/components/Skeleton/SkeletonDetailTimelineCard'
@@ -20,8 +20,8 @@ export const TimelineDetailPage = ({ navigation }) => {
 
     const [timelines, setTimelines] = useState([])
     const [accountId, setAccountId] = useState()
-    const [refresh, setRefresh] = useState(false)
     const [isLoading, setLoading] = useState(false)
+    const user = useSelector((state) => state.auth);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -31,7 +31,7 @@ export const TimelineDetailPage = ({ navigation }) => {
 
     useEffect(() => {
         getTimeline()
-    }, [refresh, route.params?.feed_id])
+    }, [route.params?.feed_id])
 
     // service
     const { timelineService } = useDep()
@@ -47,14 +47,23 @@ export const TimelineDetailPage = ({ navigation }) => {
             if (response.data.data !== null) {
                 setTimelines(prevState => [response.data.data])
             }
-
-            const accId = await store.getData(KEY.ACCOUNT_ID)
-            setAccountId(accId)
-
         } catch (err) {
             checkErr(err)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const setRefresh = async (postId) => {
+        try {
+            const response = await timelineService.doGetDetailTimeline({
+                feed_id: `${postId}`,
+                page: 1,
+                page_lim: 1,
+            })
+            setTimelines(prevState => [response.data.data])
+        } catch (err) {
+            checkErr(err);
         }
     }
 
@@ -66,7 +75,7 @@ export const TimelineDetailPage = ({ navigation }) => {
                 comment_fill: detailComment.comment
             })
             if (response.data.data !== null) {
-                getTimeline()
+                setRefresh(detailComment.feedId)
             }
         } catch (err) {
             checkErr(err)
@@ -74,46 +83,56 @@ export const TimelineDetailPage = ({ navigation }) => {
     }
 
     const handleClickName = (id) => {
-        navigation.navigate(ROUTE.BUSINESS_PROFILE, { openId: id })
+        if (id === accountId) {
+            console.log(`PAGE PROFILE ID ${id}`);
+            // navigate.navigate(ROUTE.PROFILE)
+        } else {
+            console.log(`PAGE PROFILE ID ${id}`);
+            // navigate.navigate()
+        }
     }
 
     return (
         <MainContainer>
             <View style={styles.tlBg}>
                 <View style={styles.tlLst}>
-                    {isLoading ? <SkeletonDetailTimelineCard />
-                        :
-                        timelines.map((post, i) => {
-                            let dt = new Date(post.created_at.replace(' ', 'T'));
-                            let date = dt.getDate()
-                            let month = dt.getMonth() + 1
-                            let year = dt.getFullYear()
-                            let hour = (dt.getHours() < 10 ? '0' : '') + dt.getHours()
-                            let minutes = (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes()
-                            return (
-                                <View key={i}>
-                                    <TimelineDetailCard
-                                        key={i}
-                                        avatar={post.avatar}
-                                        caption={post.caption_post}
-                                        comments={post.detail_comment}
-                                        date={`${date}/${month}/${year}`}
-                                        links={post.detail_media_feed}
-                                        name={post.display_name}
-                                        place={post.place}
-                                        time={`${hour}:${minutes}`}
-                                        postLikes={post.total_like}
-                                        setRefresh={setRefresh}
-                                        accId={accountId}
-                                        postAccId={post.account_id}
-                                        handleClickName={handleClickName}
-                                        feedId={post.post_id}
-                                        handleComment={handleComment}
-                                        thisAccountLikes={post.detail_like.findIndex(like => like.account_id == accountId) != -1 ? true : false}
-                                    />
-                                </View>
-                            )
-                        })}
+                    <ScrollView>
+                        {isLoading ? <SkeletonDetailTimelineCard /> :
+                            timelines.map((post, i) => {
+                                let dt = new Date(post.created_at.replace(' ', 'T'));
+                                let date = dt.getDate()
+                                let month = dt.getMonth() + 1
+                                let year = dt.getFullYear()
+                                let hour = (dt.getHours() < 10 ? '0' : '') + dt.getHours()
+                                let minutes = (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes()
+                                return (
+                                    <>
+                                        {isLoading ? <SkeletonDetailTimelineCard />
+                                            :
+                                            <TimelineDetailCard
+                                                key={i}
+                                                avatar={post.avatar}
+                                                caption={post.caption_post}
+                                                comments={post.detail_comment}
+                                                date={`${date}/${month}/${year}`}
+                                                links={post.detail_media_feed}
+                                                name={post.display_name}
+                                                place={post.place}
+                                                time={`${hour}:${minutes}`}
+                                                postLikes={post.total_like}
+                                                setRefresh={setRefresh}
+                                                accId={user.accountId}
+                                                postAccId={post.account_id}
+                                                handleClickName={handleClickName}
+                                                feedId={post.post_id}
+                                                handleComment={handleComment}
+                                                thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
+                                            />}
+                                    </>
+                                )
+                            })
+                        }
+                    </ScrollView>
                 </View>
             </View>
         </MainContainer>

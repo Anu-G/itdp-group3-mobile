@@ -6,7 +6,7 @@ import { StyleSheet, View, Image, ScrollView, Dimensions, Text, StatusBar, Platf
 const windowWidth = Dimensions.get('screen').width
 
 export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, swipeBottom, swipeTop, styleImage }) => {
-    const width = Dimensions.get('window').width - 34
+    const width = Dimensions.get('screen').width - 34
     const height = width / 2
     const handleClick = (e, item) => {
         if (e.nativeEvent.contentOffset.y < 0) {

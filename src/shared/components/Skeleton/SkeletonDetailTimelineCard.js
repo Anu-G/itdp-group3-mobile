@@ -5,96 +5,96 @@ import { useTheme } from "../../context/ThemeContext"
 import { MainContainer } from "../MainContainer"
 import { SkeletonAvatarSmall, SkeletonCaption, SkeletonCaptionShort, SkeletonComment, SkeletonIcon24, SkeletonTimelineDate, SkeletonTimelineImage, SkeletonTimelineStatus, SkeletonTouchableOpacity } from "./SkeletonElement"
 
-export const SkeletonDetailTimelineCard = ({}) => {
+export const SkeletonDetailTimelineCard = ({ }) => {
     const theme = useTheme();
-    const styles = styling(theme.state.style,colorChange)
-    
+    const styles = styling(theme.state.style, colorChange)
+
     const colorChange = new Animated.Value(1)
 
-    useEffect(()=>{
+    useEffect(() => {
         Animated.loop(
             Animated.sequence(
                 [Animated.timing(
                     colorChange,
                     {
-                        toValue:0.4,
-                        duration:1000,
+                        toValue: 0.4,
+                        duration: 1000,
                         useNativeDriver: true
                     }
                 ),
                 Animated.timing(
                     colorChange,
                     {
-                        toValue:1,
-                        duration:1000,
+                        toValue: 1,
+                        duration: 1000,
                         useNativeDriver: true
                     }
                 )]
             )
         ).start()
-    },[colorChange])
+    }, [colorChange])
 
-    return(
+    return (
         <MainContainer>
             <View style={styles.timelineCtn}>
                 <View>
                     <View style={styles.profileHd}>
-                        <Animated.View style={{flex: 1, opacity:colorChange}}>
-                            <SkeletonAvatarSmall/>
+                        <Animated.View style={{ flex: 1, opacity: colorChange }}>
+                            <SkeletonAvatarSmall />
                         </Animated.View>
-                        <Animated.View style={{flex: 6, justifyContent:'center', opacity:colorChange}}>
-                            <SkeletonTouchableOpacity/>
+                        <Animated.View style={{ flex: 6, justifyContent: 'center', opacity: colorChange }}>
+                            <SkeletonTouchableOpacity />
                         </Animated.View>
-                        <Animated.View style={[styles.optionBtn, {opacity:colorChange}]}>
-                            <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />                
+                        <Animated.View style={[styles.optionBtn, { opacity: colorChange }]}>
+                            <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />
                         </Animated.View>
                     </View>
                 </View>
 
-                <Animated.View style={[styles.captionCtn, {opacity:colorChange}]}>
-                    <SkeletonCaption/>
-                    <SkeletonCaption/>
-                    <SkeletonCaptionShort/>
+                <Animated.View style={[styles.captionCtn, { opacity: colorChange }]}>
+                    <SkeletonCaption />
+                    <SkeletonCaption />
+                    <SkeletonCaptionShort />
                 </Animated.View>
 
-                <Animated.View style={{opacity:colorChange}}>
-                    <SkeletonTimelineImage/>
+                <Animated.View style={{ opacity: colorChange }}>
+                    <SkeletonTimelineImage />
                 </Animated.View>
 
                 <View style={styles.bottonCtn}>
                     <View style={styles.bottomLikeCommentCtn}>
                         <View style={styles.bottomBtn}>
-                            <Animated.View style={{flex: 1, flexDirection: 'row',opacity: colorChange}}>
-                                <SkeletonTimelineStatus/>
+                            <Animated.View style={{ flex: 1, flexDirection: 'row', opacity: colorChange }}>
+                                <SkeletonTimelineStatus />
                             </Animated.View>
                         </View>
 
                         <View style={styles.bottomBtn}>
                             <View style={styles.bottomBtn}>
-                                <Animated.View style={{flex: 1, flexDirection: 'row', opacity: colorChange}}>
-                                    <SkeletonTimelineStatus/>
+                                <Animated.View style={{ flex: 1, flexDirection: 'row', opacity: colorChange }}>
+                                    <SkeletonTimelineStatus />
                                 </Animated.View>
                             </View>
                         </View>
                     </View>
 
-                    <Animated.View style={{opacity:colorChange}}>
-                        <SkeletonTimelineDate/>
+                    <Animated.View style={{ opacity: colorChange }}>
+                        <SkeletonTimelineDate />
                     </Animated.View>
                 </View>
 
-                <Animated.View style={{alignSelf: 'stretch',opacity:colorChange,marginTop:16}}>
+                <Animated.View style={{ alignSelf: 'stretch', opacity: colorChange, marginTop: 16 }}>
                     <View style={styles.comment}>
-                        <SkeletonAvatarSmall/>
-                        <SkeletonComment/>
+                        <SkeletonAvatarSmall />
+                        <SkeletonComment />
                     </View>
                     <View style={styles.comment}>
-                        <SkeletonAvatarSmall/>
-                        <SkeletonComment/>
+                        <SkeletonAvatarSmall />
+                        <SkeletonComment />
                     </View>
                     <View style={styles.comment}>
-                        <SkeletonAvatarSmall/>
-                        <SkeletonComment/>
+                        <SkeletonAvatarSmall />
+                        <SkeletonComment />
                     </View>
                 </Animated.View>
             </View>
@@ -102,7 +102,7 @@ export const SkeletonDetailTimelineCard = ({}) => {
     )
 }
 
-const styling = (theme,colorChange) => StyleSheet.create({
+const styling = (theme, colorChange) => StyleSheet.create({
     timelineCtn: {
         padding: 16,
         borderWidth: 1,
@@ -127,7 +127,7 @@ const styling = (theme,colorChange) => StyleSheet.create({
         marginRight: 12
     },
     bottonCtn: {
-        flex: 1, 
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 12
@@ -149,7 +149,7 @@ const styling = (theme,colorChange) => StyleSheet.create({
         opacity: 0.8,
         marginLeft: 4
     },
-    xBtn : {
+    xBtn: {
         width: 28,
         height: 32,
         marginLeft: 0,
@@ -160,12 +160,12 @@ const styling = (theme,colorChange) => StyleSheet.create({
         justifyContent: 'flex-end',
         backgroundColor: 'orange'
     },
-    transition:{
-        opacity:colorChange
+    transition: {
+        opacity: colorChange
     },
-    comment:{
-        flexDirection:"row",
-        marginTop:16,
-        alignItems:"center",
+    comment: {
+        flexDirection: "row",
+        marginTop: 16,
+        alignItems: "center",
     }
 })

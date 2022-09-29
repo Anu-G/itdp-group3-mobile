@@ -20,7 +20,6 @@ export const TimelinePage = () => {
     const route = useRoute()
     const navigate = useNavigation()
     const [timelines, setTimelines] = useState([])
-    const [refresh, setRefresh] = useState(false)
     const [isLoading, setLoading] = useState(false)
     const navigation = useNavigation()
     const user = useSelector((state) => state.auth);
@@ -67,6 +66,22 @@ export const TimelinePage = () => {
 
     const handleClickName = (id) => {
         navigation.navigate(ROUTE.PROFILE, { openId: id })
+    }
+
+    const setRefresh = async (postId) => {
+        try {
+            const response = await timelineService.doGetDetailTimeline({
+                feed_id: `${postId}`,
+                page: 1,
+                page_lim: 1,
+            })
+            let refreshTimeline = [...timelines]
+            let i = timelines.findIndex(val => val.post_id == parseInt(postId))
+            refreshTimeline[i] = response.data.data
+            setTimelines(refreshTimeline)
+        } catch (err) {
+            checkErr(err);
+        }
     }
 
     return (

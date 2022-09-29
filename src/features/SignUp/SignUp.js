@@ -1,6 +1,6 @@
 import { StackActions, useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { Keyboard, Pressable, StyleSheet, View } from "react-native";
+import { Dimensions, Keyboard, Pressable, StyleSheet, View } from "react-native";
 import { ButtonMediumComponent } from "../../shared/components/ButtonMedium";
 import { InputTextPassword, InputTextWithError } from "../../shared/components/CustomTextInput/CustomTextInput";
 import { AuthExtLabel, Title1 } from "../../shared/components/Label";
@@ -209,7 +209,7 @@ const styling = (theme) => StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginVertical: theme?.spacing?.xl
+        marginVertical: theme?.spacing?.xl,
     },
     form: {
         flex: 7,

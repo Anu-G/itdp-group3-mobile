@@ -159,7 +159,7 @@ const styling = (theme) => StyleSheet.create({
     },
     passwordContainer: {
         borderBottomColor: theme?.colors?.inputBorder,
-        width: Dimensions.get('window').width - 52,
+        width: Dimensions.get('screen').width - 52,
         // marginBottom: theme?.spacing?.m,
         flexDirection: 'row',
         alignItems: "center",

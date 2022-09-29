@@ -91,7 +91,7 @@ export const SkeletonComment = ({ }) => {
 export const SkeletonTimelineImage = ({ }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
-    const width = Dimensions.get('window').width - 34
+    const width = Dimensions.get('screen').width - 34
     const height = width / 2
     return (
         <View style={[styles.skeleton, { width: width, height: height }]}></View>
