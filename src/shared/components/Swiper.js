@@ -35,7 +35,7 @@ export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, i
                                     />
                                 // <Video onError={error => {console.log(error)}} style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} useNativeControls={true} source={{ uri: item.url.replace(/\s+/g, '') }} resizeMode='contain'/>
                             :
-                                <Image style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} source={{ uri: item.url }} resizeMode={'contain'}/>
+                                <Image style={[{ height: height, width: imageWidth, backgroundColor:'white' }, styleImage]} source={{ uri: item.url }} resizeMode={'cover'}/>
                             }
                             <View style={styles.imageText}>
                                 <Text style={[

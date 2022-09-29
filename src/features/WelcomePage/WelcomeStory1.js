@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ButtonMediumComponent } from '../../shared/components/ButtonMedium'
 import { Caption, TextProfile } from '../../shared/components/Label'
@@ -11,11 +11,16 @@ export const WelcomeStory1 = () => {
     const theme = useTheme()
     const styles = styling(theme.state.styling)
     const navigation = useNavigation()
+    const timeRef = useRef(null)
 
     useEffect(() => {
-        setTimeout(() => {
+        timeRef.current = setTimeout(() => {
             navigation.navigate(ROUTE.WELCOME_STORY_2)
         }, 10000);
+
+        return () => {
+            clearTimeout(timeRef.current)
+        }
     },[])
 
     return (
@@ -25,7 +30,7 @@ export const WelcomeStory1 = () => {
                     <Image style={styles.image} source={require('../../../assets/animations/Product-hunt.gif')}/>
                     <TextProfile text={'Find your desire product'} style={styles.textProfile}/>
                     <Caption text={'Search any product you want or place you wish to come!'} style={styles.caption1}/>
-                    <ButtonMediumComponent label={'Next'} style={styles.button} onClick={() => navigation.navigate(ROUTE.WELCOME_STORY_2)}/>
+                    <ButtonMediumComponent label={'Next'} style={styles.button} onClick={() => {clearTimeout(timeRef.current);navigation.navigate(ROUTE.WELCOME_STORY_2)}}/>
                     <TouchableOpacity style={{marginTop: 8}} onPress={() => navigation.navigate(ROUTE.LOGIN)}>
                         <Caption text={'skip'} style={styles.caption2}/>
                     </TouchableOpacity>

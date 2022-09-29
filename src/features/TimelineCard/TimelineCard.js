@@ -1,7 +1,7 @@
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
 import { AvatarSmall } from '../../shared/components/ImageProfile'
 import { ImageViewTimeline, ImageViewTimelineMany } from '../../shared/components/ImageViewTimeline'
@@ -11,6 +11,7 @@ import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { Swiper } from '../../shared/components/Swiper'
+import { checkErr } from '../../utils/CommonUtils'
 
 export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes }) => {
     const theme = useTheme()
@@ -89,6 +90,17 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
         }
     }
 
+    const handleShare = async () => {
+        try {
+            await Share.share({
+                message: 'Check this post on TokTok App! https://itdp-group3-frontend-git-staging-anu-g.vercel.app/feeds'
+            })
+        } catch (err) {
+            console.log(err);
+            checkErr(err)
+        }
+    }
+
     const arrangeImagesFormat = () => {
         setImages(links.map((item,i) => {
             return {url: item, name: `${i+1}/${links.length}`}
@@ -107,7 +119,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                             <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#F4F4F4', fontSize: 16 }}>{name}</Text>
                         </TouchableOpacity>
                         <View style={styles.optionBtn}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={handleShare}>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />
                             </TouchableOpacity>
                         </View>
