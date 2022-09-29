@@ -17,6 +17,8 @@ import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useAuth } from "../shared/context/AuthContext";
 import { SettingsAddFAQ } from "../features/SettingsAddFAQ/SettingsAddFAQ";
 import { CatalogPage } from "../features/CategorizePage/CatalogPage";
+import { DetailProductCard } from "../features/DetailProductCard/DetailProductCard";
+import { Search } from "../features/Search/Search";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -42,7 +44,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={initialRoute} >
+      <Stack.Navigator initialRouteName={ROUTE.LOGIN} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
@@ -103,7 +105,20 @@ export const AppRouter = _ => {
             headerTitle: 'Catalog',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
+         })} />
+
+         <Stack.Screen name={ROUTE.DETAIL_PRODUCT} component={DetailProductCard} options={({ navigation }) => ({
+            headerTitle: 'Detail Product',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
+         })} />
+         <Stack.Screen name={ROUTE.SEARCH} component={Search} options={({ navigation }) => ({
+            headerTitle: 'Search',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" },
          })} />
       </Stack.Navigator >
    )
