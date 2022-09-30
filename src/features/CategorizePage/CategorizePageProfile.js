@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
 import { useSelector } from 'react-redux'
 import { CategoryLabelActive, CategoryLabelInactive } from '../../shared/components/CategoryLabel'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useTheme } from '../../shared/context/ThemeContext'
+import { TimelinePage } from '../TimelinePage/TimelinePage'
 import { CatalogPage } from './CatalogPage'
+import { CatalogPageAccount } from './CatalogPageAccount'
 import { FAQPage } from './FAQPage'
 import { FeedPage } from './FeedPage'
 
@@ -53,32 +56,64 @@ export const CategorizePageProfile = ({bisID}) => {
             answer: `Yes in but got you more nothing less good bubble word knock out balloon.`
         }
     ]
+
+    // const PostPage = () => (
+    //     <FeedPage/>
+    // )
     
-  return (
-   <MainContainer>
-    <View style={styles.categorizePageProfile}>
-        <View style={styles.categoryLabelBtnWrp}>
-            <View style={styles.categoryLabelBtn} onCLick={()=> handleClick(0)}>
-                {isActive[0] ? <CategoryLabelActive label={'Post'}/> : <CategoryLabelInactive label={'Post'}/>}
-            </View>
+    // const CatalogPage = () => (
+    //     <CatalogPage bisID={`${user.accountId}`}/>
+    // )
 
-            <View style={styles.categoryLabelBtn} onCLick={()=> handleClick(1)}>
-                {isActive[1] ? <CategoryLabelActive label={'Catalog'}/> : <CategoryLabelInactive label={'Catalog'}/>}
-            </View>
+    // const FAQPage = () => (
+    //     <FAQPage/>
+    // )
 
-            {FAQs ?
-            <View style={styles.categoryLabelBtn} onCLick={()=> handleClick(2)}>
-                {isActive[2] ? <CategoryLabelActive label={'FAQ'} /> : <CategoryLabelInactive label={'FAQ'} />}
-            </View> :
-            ''
+    // TABVIEW
+    const initialLayout = {width: Dimensions.get('window').width}
+
+    const [index, setIndex] = useState(0)
+    const [routes] = useState([
+        {key: 'first', title: 'Post'},
+        {key: 'second', title: 'Catalog'},
+        {key: 'third', title: 'FAQ'},
+    ])
+
+    // const renderScene = SceneMap({
+    //     first: PostPage,
+    //     second: CatalogPage,
+    //     third: FAQPage
+    // })
+
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+            case 'first':
+                return <TimelinePage byAccount={`${user.accountId}`}/>;
+            case 'second':
+                return <CatalogPageAccount/>
+            case 'third':
+                return <FAQPage bisID={`${user.accountId}`}/>;
+            default:
+                return <Text>Cannot load any scene</Text>;
         }
-        </View>
-        {isActive[0] ? <FeedPage /> : ''}
-        {isActive[1] ? <CatalogPage /> : ''}
-        {isActive[2] ? <FAQPage bisID={bisID}/> : ''}
-          
-    </View>
-   </MainContainer>
+    };
+
+    const renderTabBar = props => (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: '#FED154' }}
+          style={{ backgroundColor: '#1E2329', color: '#FED154', borderBottomWidth: 1, borderBottomColor: '#475264'}}
+        />
+    );
+
+  return (
+        <TabView 
+            navigationState={{index, routes}}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={initialLayout}
+            renderTabBar={renderTabBar}
+        />
   )
 }
 
@@ -95,5 +130,9 @@ const styling = (theme) => StyleSheet.create({
         width: 400,
         flex: 1,
         flexDirection: 'row'
+    },
+
+    scene: {
+        flex: 1,
     },
 })

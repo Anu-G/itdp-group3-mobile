@@ -11,7 +11,7 @@ import { Entypo } from '@expo/vector-icons';
 import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useSelector } from 'react-redux'
 
-export const TimelinePage = () => {
+export const TimelinePage = ({byAccount = null}) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
 
@@ -32,15 +32,25 @@ export const TimelinePage = () => {
     const getTimeline = async () => {
         setLoading(true)
         try {
-            const response = await timelineService.doGetTimeline({
-                page: 1,
-                page_lim: 200
-            })
+            let response 
+            if (byAccount !== null) {
+                response = await timelineService.doGetTimelineByAccount({
+                    account_id: byAccount,
+                    page: 1,
+                    page_lim: 200
+                })
+            } else {
+                response = await timelineService.doGetTimeline({
+                    page: 1,
+                    page_lim: 200
+                })    
+            }
             if (response.data.data !== null) {
                 setTimelines(response.data.data)
             }
 
         } catch (err) {
+            console.log(err);
             checkErr(err)
         } finally {
             setLoading(false)

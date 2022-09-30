@@ -2,17 +2,19 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useTheme } from '../context/ThemeContext';
+import { Caption, TextProfile } from './Label';
 
 export const QA = ({num, question, answer}) => {
     const theme = useTheme()
-    const styles = styling(theme)
+    const styles = styling(theme.state.style)
+    
   return (
     <View style={styles.QAWrp}>
         <View>
-            <Text text={`${num}. ${question}`}/>
+            <TextProfile text={`${num}. ${question}`} style={{color: 'white'}}/>
         </View>
         <View style={styles.answerCtn}>
-            <Text text={`${answer}`}/>
+            <Caption text={`${answer}`} style={{color: 'white'}}/>
         </View>
     </View>
   )
@@ -20,7 +22,7 @@ export const QA = ({num, question, answer}) => {
 
 const styling = (theme) => StyleSheet.create({
     QAWrp: {
-        width: 300,
+        marginBottom: 16
     },
     answerCtn: {
         paddingLeft: 16,

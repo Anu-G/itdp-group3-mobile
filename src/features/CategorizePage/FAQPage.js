@@ -13,36 +13,37 @@ export const FAQPage = ({bisID}) => {
     const {faqService} = useDep();
     const [faq, setFaq] = useState([]);
 
+    useEffect(() => {
+        getFAQ()
+    }, [])
+
     const getFAQ = async () => {
         try {
-            const response = await faqService.doGetFaq({
+            const response = await faqService.doGetFAQ({
                 "account_id": `${bisID}`
             })
             if (response.data.data !==null){
                 setFaq(response.data.data)
             }
         } catch (err) {
+            console.log(err);
             checkErr(err)
         }
     }
 
-    useEffect(() => {
-        getFAQ()
-    }, [])
-
   return (
     <MainContainer>
-        {faq.length == 0 ?
+        {faq.length === 0 ?
         <View style={styles.catalogCtnEmpty}>
             <Title2 label={'No Question(s) Yet'}/>
         </View>
         :
         <View style={styles.faqCtn}>
             {
-                faq.map((faq, faqi) => {
-                    return <View>
-                        <QA num={faqi +1} question={faq.question} answer={faq.answer}/>
-                    </View>
+                faq.map((item, faqi) => {
+                    return (<View key={faqi}>
+                        <QA num={faqi +1} question={item.question} answer={item.answer}/>
+                    </View>)
                 })
             }
         </View>
@@ -53,8 +54,15 @@ export const FAQPage = ({bisID}) => {
 
 const styling = (theme) => StyleSheet.create({
     faqCtn: {
-        minHeight: 100,
-        width: 300,
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         padding: 16,
     },
+    catalogCtnEmpty: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        marginTop: 16,
+    }
 })

@@ -53,10 +53,12 @@ export const FeedPage = ({ }) => {
             let response = await timelineService.doGetAccount({
                 account_id:`${id}`
             })
+            console.log(response.data.data);
             if (response.data.data !== null){
                 setFeeds(response.data.data)
             }
         } catch (err){
+            console.log(err);
             checkErr(err)
         }
     }
