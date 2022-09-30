@@ -96,11 +96,11 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                             <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId, accType)} />
                         </View>
                         <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
-                            <Text style={{ fontFamily: 'Poppins-SemiBold', color: '#F4F4F4', fontSize: 16 }}>{name}</Text>
+                            <Text style={styles.displayName}>{name}</Text>
                         </TouchableOpacity>
                         <View style={styles.optionBtn}>
                             <TouchableOpacity>
-                                <Ionicons name="ios-ellipsis-horizontal" size={24} color='#F4F4F4' />
+                                <Ionicons name="ios-ellipsis-horizontal" size={24} color={styles.iconCOlot.color} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -124,25 +124,25 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                     <View style={styles.bottomLikeCommentCtn}>
                         <View style={styles.bottomBtn}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <FontAwesome5 name="comment-dots" size={24} color='#F4F4F4' />
+                                <FontAwesome5 name="comment-dots" size={24} color={styles.iconCOlot.color} />
                                 <View style={styles.commentCountCtn}>
-                                    <Caption text={comments == null ? 0 : comments.length} style={{ color: '#849EB9' }} />
+                                    <Caption text={comments == null ? 0 : comments.length} style={styles.dateColor} />
                                 </View>
                             </View>
                         </View>
 
                         <View style={styles.bottomBtn}>
                             <TouchableOpacity onPress={handleLike} style={{ flex: 1, flexDirection: 'row' }}>
-                                {!isLiked ? <AntDesign name="hearto" size={22} color='#F4F4F4' /> : <AntDesign name="heart" size={22} color='#FE5454' />}
+                                {!isLiked ? <AntDesign name="hearto" size={22} color={styles.iconCOlot.color} /> : <AntDesign name="heart" size={22} color='#FE5454' />}
                                 <View style={styles.likeCountCtn}>
-                                    <Caption text={postLikes == null ? 0 : postLikes} style={{ color: '#849EB9' }} />
+                                    <Caption text={postLikes == null ? 0 : postLikes} style={styles.dateColor} />
                                 </View>
                             </TouchableOpacity>
                         </View>
                     </View>
 
                     <View>
-                        <Caption text={`${date}\t\t${time}`} style={{ color: '#849EB9' }} />
+                        <Caption text={`${date}\t\t${time}`} style={styles.dateColor} />
                     </View>
                 </View>
 
@@ -160,7 +160,7 @@ const styling = (theme) => StyleSheet.create({
     timelineCtn: {
         padding: 16,
         borderWidth: 1,
-        borderBottomColor: '#1E2329',
+        borderBottomColor: theme?.pallete?.mediumBlue,
         borderStyle: 'solid',
         alignSelf: 'stretch',
 
@@ -214,5 +214,16 @@ const styling = (theme) => StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
         backgroundColor: 'orange'
-    }
+    },
+    iconCOlot: {
+        color: theme?.pallete?.white
+    },
+    dateColor: {
+        color: theme?.pallete.lightBlue
+    },
+    displayName:{
+         fontFamily: 'Poppins-SemiBold', 
+         color:theme?.pallete?.white, 
+         fontSize: 16 
+    },
 })

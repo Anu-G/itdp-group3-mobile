@@ -35,12 +35,13 @@ const styling = (theme) => StyleSheet.create({
     navbarImageActive:{
         width:30,
         height:30,
-        borderColor:theme?.color?.button,
+        borderColor:theme?.colors?.button,
         borderWidth:1,
         borderRadius:50
     },
     navbarItemInactive:{
         color:theme?.colors?.navbarItem,
+        // color:'red',
     },
     navbarItemActive:{
         color:theme?.colors?.button,

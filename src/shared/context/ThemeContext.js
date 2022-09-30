@@ -20,7 +20,7 @@ export const useTheme = _ => {
 
 const initialState = {
    darkMode: true,
-   style: themeDark
+   style: themeLight
 }
 
 const themeReducer = (state = initialState, action) => {
