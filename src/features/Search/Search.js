@@ -1,8 +1,9 @@
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, Foundation } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
 import { CategoryLabelActive } from '../../shared/components/CategoryLabel'
-import { InputOnly } from '../../shared/components/Input'
+import { InputOnly, InputTextActiveSmallSize, SearchBar } from '../../shared/components/Input'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
@@ -55,9 +56,9 @@ export const Search = () => {
             {isActive && <DetailProductCard handleClick={handleFormClose} product={product}/> }
             <View style={styles.categorizePageList}>
                 <View style={styles.searchHd}>
-                    <InputOnly label={'search'} handleOnChange={handleChange} id='search' value={value}/>
+                    <TextInput style={styles.input} placeholder="Search" value={value} onChange={handleChange} />
                     <View style={styles.btnSearch} onCLick={handleSearchClick}>
-                    <FontAwesome name='magnifying-glass' size={20} color={'#1E2329'} />
+                    <Foundation name='magnifying-glass' size={20} color={'#1E2329'} />
                     </View>
                 </View>
 
@@ -77,9 +78,9 @@ export const Search = () => {
 
 const styling = (theme) => StyleSheet.create({
     categorizePageSearch: {
-        padding: 32,
-        maxWidth: 300,
-        minHeight: 100,
+        padding: 16,
+        maxWidth: 600,
+        minHeight: 200,
         backgroundColor:'#1E2329',
     },
 
@@ -89,17 +90,9 @@ const styling = (theme) => StyleSheet.create({
         alignItems: 'center',
     },
 
-    searchHd: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        margin: 16,
-    },
-
     btnSearch: {
         height: 20,
         width: 20,
-        backgroundColor: '#FED154',
         borderRadius: 10,
 
         flex: 1,
@@ -110,14 +103,33 @@ const styling = (theme) => StyleSheet.create({
     searchCtnt: {
         flex: 1,
         flexDirection: 'column',
-        alignItems:'flex-start',
+        alignItems:'center',
         margin: 16,
+        width: 200,
+        height: 80,
     },
 
     searchLabelCtg: {
         minWidth: 192,
         maxWidth: 200,
     },
+
+    input: {
+        fontSize: 14,
+        marginLeft: 10,
+        width: "90%",
+      },
+      searchHd: {
+        padding: 10,
+        height: 40,
+        borderRadius: 20,
+        flexDirection: "row",
+        width: "95%",
+        backgroundColor: "#3B4046",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        color: "#F4F4F4",
+      },
 
     // searchRs: {
     //     minHeight: 300,

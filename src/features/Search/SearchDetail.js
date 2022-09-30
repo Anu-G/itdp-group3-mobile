@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { ImagesViewProfile } from '../../shared/components/ImagesViewProfile'
 import { Caption, Title2 } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
@@ -10,7 +10,7 @@ export const SearchDetail = ({ catalogItems, handleFormOpen }) => {
     const styles = styling(theme)
   return (
     <MainContainer>
-        <View>
+        <View style={catalogItems == 0 ? styles.searchDetailEmpty : styles.searchDetail}>
             { !catalogItems ? <View style={styles.dtlSrchCtn}>
                 <Title2 label={'Keyword Not Found'}/>
             </View>
@@ -48,4 +48,14 @@ const styling = (theme) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    searchDetail:{
+        height: 100,
+        flex: 1,
+        justifyContent: 'center'
+    },
+    searchDetailEmpty: {
+        flex: 1,
+        justifyContent: 'center',
+        height: 100,
+    }
 })
