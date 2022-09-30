@@ -1,4 +1,4 @@
-import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 import { useState } from "react";
@@ -22,7 +22,8 @@ export const ManageProductComponent = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
+            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />,
+            headerRight: () => <TouchableOpacity style={{marginRight:theme.state.style.spacing.m}} onPress={handleAddProduct}><Entypo size={24} name='plus' color={'#F4F4F4'} /></TouchableOpacity>
         })
     }, [navigation])
 
@@ -49,6 +50,10 @@ export const ManageProductComponent = ({ navigation }) => {
         } catch (err) {
             console.log(err);
         }
+    }
+
+    const handleAddProduct = () => {
+        navigate.navigate(ROUTE.ADD_PRODUCT)
     }
 
     return (
