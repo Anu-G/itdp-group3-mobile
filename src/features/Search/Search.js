@@ -118,6 +118,7 @@ const styling = (theme) => StyleSheet.create({
         fontSize: 14,
         marginLeft: 10,
         width: "90%",
+        color: "#F4F4F4",
       },
       searchHd: {
         padding: 10,
@@ -128,7 +129,6 @@ const styling = (theme) => StyleSheet.create({
         backgroundColor: "#3B4046",
         alignItems: "center",
         justifyContent: "space-evenly",
-        color: "#F4F4F4",
       },
 
     // searchRs: {
