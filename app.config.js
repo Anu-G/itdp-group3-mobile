@@ -10,7 +10,7 @@ export default
       icon: "./assets/images/TokTokLogo.png",
       userInterfaceStyle: "light",
       splash: {
-        image: "./assets/images/TokTokSplash.png",
+        image: "./assets/images/Toktok-Logo.png",
         resizeMode: "contain",
         backgroundColor: "#FED154"
       },

@@ -23,6 +23,7 @@ import { WelcomeStory3 } from "../features/WelcomePage/WelcomeStory3";
 import { Search } from "../features/Search/Search";
 import { StaticPage } from "../features/StaticPage/StaticPage";
 import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
+import { SplashScreen } from "../features/SplashScreen/SplashScreen";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -57,6 +58,7 @@ export const AppRouter = _ => {
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
+            <Stack.Screen name={ROUTE.SPLASH_SCREEN} component={SplashScreen} />
          </Stack.Group >
 
          <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({

@@ -36,5 +36,7 @@ export const ROUTE = {
    CATALOG: 'catalog',
    SEARCH_INITIAL: 'searchInitial',
    EDIT_PROFILE: 'edit-profile',
-   DETAIL_PRODUCT: 'detailProduct'
+   DETAIL_PRODUCT: 'detailProduct',
+
+   SPLASH_SCREEN: 'splashScreen'
 }
