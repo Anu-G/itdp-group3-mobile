@@ -7,6 +7,7 @@ import { ImageWithDeleteSign } from '../../shared/components/ImageAddCatalog';
 import { InputTextActiveSmallSize } from '../../shared/components/Input';
 import { TextProfile } from '../../shared/components/Label';
 import { MainContainer } from '../../shared/components/MainContainer';
+import { Swiper } from '../../shared/components/Swiper';
 import { KEY } from '../../shared/constants/StoreConstants';
 import { useDep } from '../../shared/context/DependencyContext';
 import { useTheme } from '../../shared/context/ThemeContext';
@@ -21,6 +22,7 @@ export const SettingsAddProduct = ({ navigation }) => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState(0)
     const [pickedImagePath, setPickedImagePath] = useState([])
+    const [previewImagePath, setPreviewImagePath] = useState([])
     const [isCorrect, setIsCorrect] = useState(true)
     const [loading, setLoading] = useState(false)
     const user = useSelector((state) => state.auth);
@@ -35,6 +37,13 @@ export const SettingsAddProduct = ({ navigation }) => {
     useEffect(() => {
         getAccountId()
     }, [])
+
+    useEffect(()=>{
+        setPreviewImagePath([])
+        pickedImagePath.map((image,i) => {
+            setPreviewImagePath(prevState=>[...prevState,{url:image, name: `${i + 1}/${pickedImagePath.length}`}])
+        });
+    }, [pickedImagePath])
 
     const getAccountId = async () => {
         try {
@@ -60,7 +69,7 @@ export const SettingsAddProduct = ({ navigation }) => {
                     setPickedImagePath(prevState => [...prevState, result.uri])
                     return
                 }
-                setPickedImagePath(prevState => result.selected.map(res => res.uri))
+                setPickedImagePath(prevState => [...prevState, ...result.selected.map(res => res.uri)])
             }
         } catch (err) {
             checkErr(err)
@@ -100,13 +109,25 @@ export const SettingsAddProduct = ({ navigation }) => {
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Price'} value={price} onChange={setPrice} placeholder={'0,00'} keyboard={'number-pad'} />
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Description'} value={description} onChange={setDescription} placeholder={'Your product description'} />
                 <TextProfile text={'Image'} />
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <ScrollView 
+                    horizontal 
+                    showsHorizontalScrollIndicator={false} 
+                    contentContainerStyle={{flex:1}}
+                    style={{flex:1}} 
+                    >
                     <ImageWithDeleteSign source={"plus-icon"} handleClick={showImagePicker} />
                     {pickedImagePath.length !== 0 && pickedImagePath.length === 1 ?
                         <ImageWithDeleteSign source={pickedImagePath[0]} handleClick={() => handleDeleteImage(0)} />
                         :
                         pickedImagePath.map((image, i) => <ImageWithDeleteSign source={image} handleClick={() => handleDeleteImage(i)} key={i} />)}
                 </ScrollView>
+                <Swiper
+                    images={previewImagePath}
+                    swipeBottom={e => console.log('swipe bottom: ', e)}
+                    swipeTop={e => console.log('swipe top: ', e)}
+                    textSize={16}
+                    styleImage={{ borderRadius: 8}}
+                />
             </View>
         </MainContainer>
     )

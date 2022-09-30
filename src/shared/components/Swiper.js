@@ -1,13 +1,13 @@
 import { ResizeMode } from 'expo-av';
 import VideoPlayer from 'expo-video-player';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Image, ScrollView, Dimensions, Text, StatusBar, Platform } from 'react-native';
 
 const windowWidth = Dimensions.get('screen').width
 
-export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, swipeBottom, swipeTop, styleImage }) => {
-    const width = Dimensions.get('screen').width - 34
-    const height = width / 2
+export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, swipeBottom, swipeTop, styleImage, orientation = true }) => {
+    const width = Dimensions.get('window').width - 34
+    const height = width * 0.75
     const handleClick = (e, item) => {
         if (e.nativeEvent.contentOffset.y < 0) {
             swipeBottom(item)
@@ -17,7 +17,7 @@ export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, s
     }
 
     return (
-        <ScrollView horizontal={true} pagingEnabled={true} style={{ marginVertical: 0 }}>
+        <ScrollView horizontal={orientation} pagingEnabled={true} style={{ marginVertical: 0 }}>
             {images &&
                 images.map((item, index) => {
                     return (typeof item.url === 'string' && typeof item.name === 'string' ?

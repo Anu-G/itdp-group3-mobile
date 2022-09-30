@@ -2,11 +2,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Animated, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, Dimensions, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 import { TextTimeline } from '../../shared/components/Label';
 import { MainContainer } from '../../shared/components/MainContainer';
+import { Swiper } from '../../shared/components/Swiper';
 import { ROUTE } from '../../shared/constants/NavigationConstants';
 import { useDep } from '../../shared/context/DependencyContext';
 import { useTheme } from '../../shared/context/ThemeContext';
@@ -21,11 +22,15 @@ export const AddPost = ({ navigation }) => {
     const [profileImage, setProfileImage] = useState('')
     const [caption, setCaption] = useState('')
     const [pickedImagePath, setPickedImagePath] = useState([])
+    const [previewImagePath, setPreviewImagePath] = useState([])
     const [loading, setLoading] = useState(false)
     const [charLength, setCharLength] = useState(0)
     const maxLength = 280
     const profile = useSelector((state) => state.profile);
     const user = useSelector((state) => state.auth);
+
+    const width = Dimensions.get('window').width - 34
+    const height = width / 2
 
     //keyboard actions
 
@@ -56,6 +61,13 @@ export const AddPost = ({ navigation }) => {
         }
     }, [buttonBar])
 
+    useEffect(() => {
+        setPreviewImagePath([])
+        pickedImagePath.map((image, i) => {
+            setPreviewImagePath(prevState => [...prevState, { url: image, name: `${i + 1}/${pickedImagePath.length}` }])
+        });
+    }, [pickedImagePath])
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerBackImage: () => <Text style={{ color: "#F4F4F4", fontSize: 16 }}>Cancel</Text>,
@@ -73,21 +85,21 @@ export const AddPost = ({ navigation }) => {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsMultipleSelection: true,
-                aspect: [1, 1],
+                aspect: [2, 1],
                 quality: 1,
             });
 
             if (!result.cancelled) {
                 if (result.uri) {
-                    setPickedImagePath([])
                     setPickedImagePath(prevState => [...prevState, result.uri])
-                    return
+                } else {
+                    setPickedImagePath(prevState => [...prevState, ...result.selected.map(res => res.uri)])
                 }
-                setPickedImagePath([])
-                setPickedImagePath(prevState => result.selected.map(res => res.uri))
             }
         } catch (err) {
             checkErr(err)
+        } finally {
+
         }
     }
 
@@ -95,7 +107,7 @@ export const AddPost = ({ navigation }) => {
         try {
             let result = await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
-                aspect: [1, 1],
+                aspect: [2, 1],
                 quality: 1
             });
 
@@ -127,8 +139,6 @@ export const AddPost = ({ navigation }) => {
 
         } catch (err) {
             checkErr(err)
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -143,8 +153,17 @@ export const AddPost = ({ navigation }) => {
                     <View style={styles.charLength}>
                         <TextTimeline text={`${charLength}/${maxLength}`} style={{ color: '#849EB9' }} />
                     </View>
-                    <ImageHorizontalScroll images={pickedImagePath} />
+                    {/* <ImageHorizontalScroll images={pickedImagePath} /> */}
                 </View>
+            </View>
+            <View style={styles.previewContainer}>
+                <Swiper
+                    images={previewImagePath}
+                    swipeBottom={e => console.log('swipe bottom: ', e)}
+                    swipeTop={e => console.log('swipe top: ', e)}
+                    textSize={16}
+                    styleImage={{ borderRadius: 8 }}
+                />
             </View>
             <Animated.View style={[styles.downContainer, { bottom: buttonBar }]}>
                 <FontAwesome name='image' size={24} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
@@ -156,11 +175,17 @@ export const AddPost = ({ navigation }) => {
 
 const styling = (theme) => StyleSheet.create({
     upContainer: {
-        flex: 16,
+        flex: 1,
         flexDirection: 'row',
         marginTop: 16,
         marginLeft: 16,
         marginRight: 16
+    },
+    previewContainer: {
+        flex: 8,
+        justifyContent: 'flex-start',
+        marginLeft: 16,
+        marginRight: 16,
     },
     downContainer: {
         position: 'absolute',
