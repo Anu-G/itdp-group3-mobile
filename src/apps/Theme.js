@@ -67,17 +67,17 @@ export const themeDark = {
       },
       buttonText: {
          fontSize: 8,
-         color: pallete.dark,
+         color: pallete.mediumBlue,
          fontFamily: 'Poppins-Bold'
       },
       mediumButtonText: {
          fontSize: 12,
-         color: pallete.dark,
+         color: pallete.mediumBlue,
          fontFamily: 'Poppins-SemiBold',
       },
       bigButtonText: {
          fontSize: 12,
-         color: pallete.dark,
+         color: pallete.mediumBlue,
          fontFamily: 'Poppins-Bold'
       },
       text32: {
@@ -150,24 +150,44 @@ export const themeDark = {
 
 
 export const themeLight = {
+   
    colors: {
       background: pallete.white,
-      button: pallete.darkBlue,
+      button: pallete.yellow,
       inputBorder: pallete.yellow,
+      inputBorderInactive: pallete.lightBlue,
+      searchPlaceholder: pallete.lightBlue,
+      searchBackground: pallete.darkBlue,
+      navbarItem: pallete.mediumBlue,
+      navbarBackground: pallete.darkBlue,
+      settingItemBorder: pallete.darkBlue,
+      settingItemIcon: pallete.lightBlue,
       whiteTrp: pallete.whiteTrp,
-      tabBackground: pallete.mediumBlue
+      white: pallete.dark,
+      tabBackground: pallete.lightBlue
+   },
+   pallete: { 
+         yellow: '#E5BC4C',
+         dark: '#f4f4f4',
+         white: '#1E2329',
+         lightBlue: '#475264',
+         mediumBlue: '#849EB9',
+         darkBlue: '#3B4046',
+         red: '#FE5454',
+         green: '#54FE98',
+         whiteTrp: '#afafaf'
    },
    spacing: { ...spacing },
    radius: { ...radius },
    text: {
       subtitle: {
          fontSize: 18,
-         color: pallete.dark,
+         color: pallete.white,
          fontFamily: 'Poppins-Medium'
       },
       title1: {
          fontSize: 28,
-         color: pallete.dark,
+         color: pallete.white,
          fontFamily: 'Poppins-Bold'
       },
       title2: {
@@ -176,13 +196,29 @@ export const themeLight = {
          fontFamily: 'Poppins-Bold'
       },
       buttonText: {
-         fontSize: 18,
-         color: pallete.yellow,
+         fontSize: 8,
+         color: pallete.mediumBlue,
+         fontFamily: 'Poppins-Bold'
+      },
+      mediumButtonText: {
+         fontSize: 12,
+         color: pallete.mediumBlue,
+         fontFamily: 'Poppins-SemiBold',
+      },
+      bigButtonText: {
+         fontSize: 12,
+         color: pallete.mediumBlue,
          fontFamily: 'Poppins-Bold'
       },
       text32: {
          fontSize: 16,
          color: pallete.dark,
+         fontFamily: 'Poppins-Regular',
+      },
+      //** */
+      text32yellow: {
+         fontSize: 16,
+         color: pallete.yellow,
          fontFamily: 'Poppins-Regular',
       },
       caption: {
@@ -199,11 +235,46 @@ export const themeLight = {
          fontSize: 14,
          color: pallete.red,
          fontFamily: 'Poppins-Regular'
+      },
+      textTimeline: {
+         fontSize: 10,
+         color: pallete.dark,
+         fontFamily: 'Poppins-Regular'
+      },
+      textProfile: {
+         fontSize: 16,
+         color: pallete.dark,
+         fontFamily: 'Poppins-SemiBold'
+      },
+      textSetting: {
+         fontSize: 12,
+         color: pallete.dark,
+         fontFamily: 'Poppins-SemiBold'
+      },
+      textComment: {
+         fontSize: 12,
+         color: pallete.dark,
+         fontFamily: 'Poppins-Regular'
+      },
+      text13regYellow: {
+         fontSize: 13,
+         color: '#e5bc4c',
+         fontFamily: 'Poppins-SemiBold'
+      },
+      mainTitle: {
+         fontSize: 36,
+         color: pallete.dark,
+         fontFamily: 'Poppins-SemiBold'
+      },
+      text14SemiBold: {
+         fontSize: 14,
+         color: pallete.dark,
+         fontFamily: 'Poppins-SemiBold'
       }
    },
    tabIcon: {
       size: 28,
       activeColor: pallete.yellow,
-      inactiveColor: pallete.white
+      inactiveColor: pallete.mediumBlue
    }
 }
