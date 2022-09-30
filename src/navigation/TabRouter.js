@@ -147,59 +147,60 @@ const TimelineStack = _ => {
 }
 
 const ProfileStack = _ => {
+   const theme = useTheme();
    const user = useSelector((state) => state.auth);
    return (
       <Stack.Navigator initialRouteName={user.roleId === 2 ? ROUTE.PROFILE_BUSINESS : ROUTE.PROFILE_NON_BUSINESS}>
          <Stack.Group>
             <Stack.Screen name={ROUTE.PROFILE_BUSINESS} component={BusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: "rgb(71,82,100)", height: 48 },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 48 },
             })} />
             <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={NonBusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: "rgb(71,82,100)", height: 48 }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 48 }
             })} />
             <Stack.Screen name={ROUTE.SETTINGS_ACCOUNT} component={EditProfile} options={({ navigator }) => ({
                headerTitle: 'Settings',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
             <Stack.Screen name={ROUTE.EDIT_ACCOUNT} component={Account} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
             <Stack.Screen name={ROUTE.CHANGE_PASSWORD} component={ChangePassword} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
             <Stack.Screen name={ROUTE.STATIC_PAGE} component={StaticPage} options={({ navigator }) => ({
                headerTitle: 'Support',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
             <Stack.Screen name={ROUTE.HELP_CENTER} component={HelpCenter} options={({ navigation }) => ({
                headerTitle: 'Help Center',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
             <Stack.Screen name={ROUTE.MANAGE_PRODUCT} component={ManageProductComponent} options={({ navigation }) => ({
                headerTitle: 'Manage Product',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
             <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
                headerTitle: 'Add',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
             <Stack.Screen name={ROUTE.EDIT_PROFILE} component={user.roleId === 2 ? SettingsProfileBusiness : SettingsProfileNonBusiness} options={({ navigation }) => ({
                headerTitle: 'Edit Profile',
@@ -212,7 +213,7 @@ const ProfileStack = _ => {
                headerTitle: 'Edit Product',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
          </Stack.Group>
       </Stack.Navigator>

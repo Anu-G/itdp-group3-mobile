@@ -42,7 +42,7 @@ export const SettingsProfileBusiness = ({ navigation }) => {
         navigation.setOptions({
             headerLeft: () => (
                 <TouchableOpacity style={{ margin: 16 }} onPress={() => navigation.goBack()}>
-                    <Text style={{ color: '#f4f4f4', fontSize: 16 }}>Cancel</Text>
+                    <Text style={{ color: theme?.state?.style?.text?.caption?.color, fontSize: 16 }}>Cancel</Text>
                 </TouchableOpacity>
 
             ),

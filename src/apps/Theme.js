@@ -11,10 +11,10 @@ const pallete = {
 }
 
 const spacing = {
-   xxs:2,
+   xxs: 2,
    xs: 4,
    s: 8,
-   ssm:10,
+   ssm: 10,
    sm: 12,
    m: 16,
    l: 24,
@@ -46,7 +46,7 @@ export const themeDark = {
       white: pallete.white,
       tabBackground: pallete.darkBlue
    },
-   pallete: {...pallete},
+   pallete: { ...pallete },
    spacing: { ...spacing },
    radius: { ...radius },
    text: {
@@ -150,7 +150,7 @@ export const themeDark = {
 
 
 export const themeLight = {
-   
+
    colors: {
       background: pallete.white,
       button: pallete.yellow,
@@ -166,16 +166,16 @@ export const themeLight = {
       white: pallete.dark,
       tabBackground: pallete.lightBlue
    },
-   pallete: { 
-         yellow: '#E5BC4C',
-         dark: '#f4f4f4',
-         white: '#1E2329',
-         lightBlue: '#475264',
-         mediumBlue: '#849EB9',
-         darkBlue: '#3B4046',
-         red: '#FE5454',
-         green: '#54FE98',
-         whiteTrp: '#afafaf'
+   pallete: {
+      yellow: '#E5BC4C',
+      dark: '#f4f4f4',
+      white: '#1E2329',
+      lightBlue: '#475264',
+      mediumBlue: '#849EB9',
+      darkBlue: '#3B4046',
+      red: '#FE5454',
+      green: '#54FE98',
+      whiteTrp: '#afafaf'
    },
    spacing: { ...spacing },
    radius: { ...radius },
@@ -187,7 +187,7 @@ export const themeLight = {
       },
       title1: {
          fontSize: 28,
-         color: pallete.white,
+         color: pallete.dark,
          fontFamily: 'Poppins-Bold'
       },
       title2: {

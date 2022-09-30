@@ -10,7 +10,7 @@ export default
       icon: "./assets/images/TokTokLogo.png",
       userInterfaceStyle: "light",
       splash: {
-        image: "./assets/images/TokTokSplash.png",
+        image: "./assets/images/Toktok-Logo.png",
         resizeMode: "contain",
         backgroundColor: "#FED154"
       },
@@ -35,7 +35,7 @@ export default
       web: {
         favicon: "./assets/images/favicon.png"
       },
-      owner: "christiane",
+      owner: "mnugrohofitrianto",
       extra: {
         baseURL: process.env.BASE_URL,
         eas: {
