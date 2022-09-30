@@ -11,7 +11,7 @@ import { Entypo } from '@expo/vector-icons';
 import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useSelector } from 'react-redux'
 
-export const TimelinePage = ({byAccount = null}) => {
+export const TimelinePage = ({ byAccount = null }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
 
@@ -32,7 +32,7 @@ export const TimelinePage = ({byAccount = null}) => {
     const getTimeline = async () => {
         setLoading(true)
         try {
-            let response 
+            let response
             if (byAccount !== null) {
                 response = await timelineService.doGetTimelineByAccount({
                     account_id: byAccount,
@@ -43,7 +43,7 @@ export const TimelinePage = ({byAccount = null}) => {
                 response = await timelineService.doGetTimeline({
                     page: 1,
                     page_lim: 200
-                })    
+                })
             }
             if (response.data.data !== null) {
                 setTimelines(response.data.data)
@@ -92,6 +92,13 @@ export const TimelinePage = ({byAccount = null}) => {
         }
     }
 
+    const [isTimeline, setIsTimeline] = useState(false)
+    useEffect(_ => {
+        if (route.name === ROUTE.TIMELINE) {
+            setIsTimeline(true)
+        }
+    }, [route])
+
     return (
         <MainContainer>
             <View style={styles.tlBg}>
@@ -100,7 +107,7 @@ export const TimelinePage = ({byAccount = null}) => {
                         {isLoading
                             ?
                             <>
-                                <View style={{ marginTop: 48 }}>
+                                <View style={isTimeline && { marginTop: 48 }}>
                                     <SkeletonTimelineCard />
                                 </View>
                                 <SkeletonTimelineCard />
@@ -119,6 +126,7 @@ export const TimelinePage = ({byAccount = null}) => {
                                         <TimelineCard
                                             key={i}
                                             index={i}
+                                            isHome={isTimeline}
                                             avatar={post.avatar}
                                             caption={post.caption_post}
                                             comments={post.detail_comment}
