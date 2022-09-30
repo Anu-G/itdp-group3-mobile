@@ -27,6 +27,7 @@ import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
 import { Home } from "../features/Home/Home";
 import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
 import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
+import { Search } from "../features/Search/Search";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -98,7 +99,7 @@ export const TabRouter = _ => {
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.HOME} component={TimelineStack} />
-            <Tab.Screen name={ROUTE.SEARCH} component={Home} />
+            <Tab.Screen name={ROUTE.SEARCH} component={Search} />
             <Tab.Screen name={ROUTE.PROFILE} component={ProfileStack} />
          </Tab.Group >
       </Tab.Navigator >

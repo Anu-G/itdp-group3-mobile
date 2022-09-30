@@ -1,6 +1,6 @@
 import { FontAwesome, Foundation } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { CategoryLabelActive } from '../../shared/components/CategoryLabel'
 import { InputOnly, InputTextActiveSmallSize, SearchBar } from '../../shared/components/Input'
@@ -15,76 +15,74 @@ export const Search = () => {
     const theme = useTheme()
     const styles = styling(theme)
 
-     // state
-     const [value, setValue] = useState('');
-     const [product, setProduct] = useState({})
-     const [products, setProducts] = useState([])
-     const [isActive, setIsActive] = useState(false)
- 
-     const handleFormClose = () => {
-         setIsActive(prevState => false)
-         setProduct(prevState => { })
-     }
- 
-     const handleFormOpen = (value) => {
-         setIsActive(prevState => true)
-         setProduct(prevState => value)
-     }
- 
-     const handleChange = (event) => {
-         setValue(event.target.value)
-     }
- 
-     // service
-     const { productService } = useDep();
- 
-     const handleSearchClick = async (event) => {
-         event.preventDefault()
-         try {
-             const response = await productService.doGetProductSearch({
-                 "keyword": value
-             })
-             setProducts(prevstate => response.data.data)
-         } catch (err) {
-             checkErr(err)
-         } 
-     }
+    // state
+    const [value, setValue] = useState('');
+    const [product, setProduct] = useState({})
+    const [products, setProducts] = useState([])
+    const [isActive, setIsActive] = useState(false)
 
-  return (
-    <MainContainer>
-        <View style={styles.categorizePageSearch}>
-            {isActive && <DetailProductCard handleClick={handleFormClose} product={product}/> }
-            <View style={styles.categorizePageList}>
-                <View style={styles.searchHd}>
-                    <TextInput style={styles.input} placeholder="Search" value={value} onChange={handleChange} />
-                    <View style={styles.btnSearch} onCLick={handleSearchClick}>
-                    <Foundation name='magnifying-glass' size={20} color={'#1E2329'} />
-                    </View>
-                </View>
+    const handleFormClose = () => {
+        setIsActive(prevState => false)
+        setProduct(prevState => { })
+    }
 
-                <View style={styles.searchCtnt}>
-                    <View style={styles.searchLabelCtg}>
-                        <CategoryLabelActive label={'Products'}/>
+    const handleFormOpen = (value) => {
+        setIsActive(prevState => true)
+        setProduct(prevState => value)
+    }
+
+    const handleChange = (text) => {
+        setValue(text)
+    }
+
+    // service
+    const { productService } = useDep();
+
+    const handleSearchClick = async (event) => {
+        event.preventDefault()
+        try {
+            const response = await productService.doGetProductSearch({
+                "keyword": value
+            })
+            setProducts(prevstate => response.data.data)
+        } catch (err) {
+            checkErr(err)
+        }
+    }
+
+    return (
+        <MainContainer>
+            <View style={styles.categorizePageSearch}>
+                {isActive && <DetailProductCard handleClick={handleFormClose} product={product} />}
+                <View style={styles.categorizePageList}>
+                    <View style={styles.searchHd}>
+                        <TextInput style={styles.input} placeholder="Search" value={value} onChangeText={handleChange} />
+                        <TouchableOpacity style={styles.btnSearch} onPress={handleSearchClick}>
+                            <Foundation name='magnifying-glass' size={20} color={'#1E2329'} />
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.searchRs}>
-                        <SearchDetail catalogItems={products} handleFormOpen={handleFormOpen}/>
+
+                    <View style={styles.searchCtnt}>
+                        {/* <View style={styles.searchLabelCtg}>
+                            <CategoryLabelActive label={'Products'} />
+                        </View> */}
+                        <View style={styles.searchRs}>
+                            <SearchDetail catalogItems={products} handleFormOpen={handleFormOpen} />
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
-    </MainContainer>
-  )
+        </MainContainer>
+    )
 }
 
 const styling = (theme) => StyleSheet.create({
     categorizePageSearch: {
         padding: 16,
-        maxWidth: 600,
-        minHeight: 200,
-        backgroundColor:'#1E2329',
+        flex: 1,
     },
 
-   categorizePageList: {
+    categorizePageList: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
@@ -103,7 +101,7 @@ const styling = (theme) => StyleSheet.create({
     searchCtnt: {
         flex: 1,
         flexDirection: 'column',
-        alignItems:'center',
+        alignItems: 'center',
         margin: 16,
         width: 200,
         height: 80,
@@ -118,8 +116,8 @@ const styling = (theme) => StyleSheet.create({
         fontSize: 14,
         marginLeft: 10,
         width: "90%",
-      },
-      searchHd: {
+    },
+    searchHd: {
         padding: 10,
         height: 40,
         borderRadius: 20,
@@ -129,7 +127,7 @@ const styling = (theme) => StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-evenly",
         color: "#F4F4F4",
-      },
+    },
 
     // searchRs: {
     //     minHeight: 300,

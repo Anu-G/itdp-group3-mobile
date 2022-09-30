@@ -8,31 +8,31 @@ import { useTheme } from '../../shared/context/ThemeContext'
 export const SearchDetail = ({ catalogItems, handleFormOpen }) => {
     const theme = useTheme()
     const styles = styling(theme)
-  return (
-    <MainContainer>
-        <View style={catalogItems == 0 ? styles.searchDetailEmpty : styles.searchDetail}>
-            { !catalogItems ? <View style={styles.dtlSrchCtn}>
-                <Title2 label={'Keyword Not Found'}/>
-            </View>
-            :
-            <View style={styles.dtlSrchCtn}>
-                {
-                    catalogItems.map(item => {
-                        return (
-                            <View style={styles.itemCell} key={item.key}>
-                                <ImagesViewProfile link={item.detail_media_products[0]} handleClick={_ => handleFormOpen(item)}/>
-                                <Title2 label={item.product_name}/>
-                                <Caption text={item.price}/>
-                                <Caption text={item.profile_name}/>
-                            </View>
-                        )
-                    })
+    return (
+        <MainContainer>
+            <View style={catalogItems == 0 ? styles.searchDetailEmpty : styles.searchDetail}>
+                {!catalogItems ? <View style={styles.dtlSrchCtn}>
+                    <Title2 label={'Keyword Not Found'} />
+                </View>
+                    :
+                    <View style={styles.dtlSrchCtn}>
+                        {
+                            catalogItems.map(item => {
+                                return (
+                                    <View style={styles.itemCell} key={item.key}>
+                                        <ImagesViewProfile link={item.detail_media_products[0]} handleClick={_ => handleFormOpen(item)} />
+                                        <Title2 label={item.product_name} />
+                                        <Caption text={item.price} />
+                                        <Caption text={item.profile_name} />
+                                    </View>
+                                )
+                            })
+                        }
+                    </View>
                 }
             </View>
-            }
-        </View>
-    </MainContainer>
-  )
+        </MainContainer>
+    )
 }
 
 const styling = (theme) => StyleSheet.create({
@@ -48,10 +48,9 @@ const styling = (theme) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    searchDetail:{
-        height: 100,
+    searchDetail: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     searchDetailEmpty: {
         flex: 1,
