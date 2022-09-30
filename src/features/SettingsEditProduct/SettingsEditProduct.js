@@ -3,7 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { ImageWithDeleteSign } from '../../shared/components/ImageProfile';
+import { ImageWithDeleteSign } from '../../shared/components/ImageAddCatalog';
 import { InputTextActiveSmallSize } from '../../shared/components/Input';
 import { TextProfile } from '../../shared/components/Label';
 import { MainContainer } from '../../shared/components/MainContainer';
@@ -35,6 +35,7 @@ export const SettingsEditProduct = ({ navigation }) => {
 
     useEffect(() => {
         getAccountId()
+        console.log(oParams);
     }, [])
 
     const getAccountId = async () => {

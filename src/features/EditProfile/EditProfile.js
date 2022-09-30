@@ -22,7 +22,7 @@ export const EditProfile = ({navigation}) => {
         <MainContainer>
             <View style={styles.container}>
                 <SettingItemComponent label="Account" handlePress={()=>navigator.navigate(ROUTE.ACCOUNT)}/>
-                <SettingItemComponent label="Catalog" handlePress={()=>navigator.navigate(ROUTE.CATALOG)}/>
+                <SettingItemComponent label="Catalog" handlePress={()=>navigator.navigate(ROUTE.MANAGE_PRODUCT)}/>
                 <SettingItemComponent label="FAQ" handlePress={()=>navigator.navigate(ROUTE.ADD_FAQ)}/>
                 <SettingItemComponent label="Support" handlePress={()=>"navigator.navigate(ROUTE.SUPPORT)"}/>
             </View>

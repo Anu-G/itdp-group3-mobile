@@ -29,8 +29,7 @@ export const ActivateModalComponent = ({handleShowActivate}) => {
     }
 
     const handleOnActivate = () => {
-        setLogoutReq(true)
-        // onActivate()
+        onActivate()
     }
     
     return (
