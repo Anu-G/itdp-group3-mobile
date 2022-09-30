@@ -28,12 +28,12 @@ export const SettingsOpenHour = () => {
     }
 
     const saveChanges = () => {
-        navigation.navigate(ROUTE.SETTINGS_BUSINESS, {
+        navigation.replace(ROUTE.SETTINGS_BUSINESS, {
             openHour: openHour.filter(item => item.active === true)
         })
     }
 
-    return(
+    return (
         <>
             <ScrollView style={styles.container}>
                 <View style={styles.inside}>
@@ -45,9 +45,9 @@ export const SettingsOpenHour = () => {
                         key={0} />
                     <CustomSwitch label={'Tuesday'}/> */}
 
-                    {openHour.map((item)=>{
-                        return(
-                            <CustomSwitch 
+                    {openHour.map((item) => {
+                        return (
+                            <CustomSwitch
                                 closeHour={item.closeTime}
                                 isActive={item.active}
                                 label={item.day}
@@ -59,7 +59,7 @@ export const SettingsOpenHour = () => {
                         )
                     })}
 
-                    <ButtonMediumComponent label={'Save'} onClick={saveChanges}/>
+                    <ButtonMediumComponent label={'Save'} onClick={saveChanges} />
 
                 </View>
             </ScrollView>
@@ -70,7 +70,7 @@ export const SettingsOpenHour = () => {
 const styling = (theme) => StyleSheet.create({
     container: {
         // margin: theme?.spacing?.m,
-        width:'100%', 
+        width: '100%',
     },
     inside: {
         margin: theme?.spacing?.m,

@@ -156,6 +156,9 @@ export const BusinessProfile = ({ navigation }) => {
     }
 
     const handleEditProfile = () => {
+        navigator.navigate(ROUTE.EDIT_PROFILE)
+    }
+    const handleAccountSetting = () => {
         navigator.navigate(ROUTE.SETTINGS_ACCOUNT)
     }
 
@@ -173,7 +176,7 @@ export const BusinessProfile = ({ navigation }) => {
                             {isLoading ? <Animated.View style={{ opacity: colorChange }}>
                                 <SkeletonButton />
                             </Animated.View> : <>
-                                <Octicons name='gear' size={24} onPress={handleEditProfile} color={theme?.state?.style?.colors?.button} />
+                                <Octicons name='gear' size={24} onPress={handleAccountSetting} color={theme?.state?.style?.colors?.button} />
                                 <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile} />
                             </>}
                         </> : <></>}

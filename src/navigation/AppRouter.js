@@ -76,15 +76,13 @@ export const AppRouter = _ => {
             headerTitleStyle: { color: "white" },
             headerStyle: { backgroundColor: "rgb(71,82,100)" }
          })} />
-
-         <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({ navigation }) => ({
-            headerTitle: 'Add',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" }
-         })} />
          <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} options={({ navigation }) => ({
             headerTitle: 'Edit Profile',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+         })} />
+         <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} options={({ navigation }) => ({
+            headerTitle: 'Manage Business Hours',
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
          })} />
@@ -93,7 +91,6 @@ export const AppRouter = _ => {
             headerTitleAlign: "center",
             headerTitleStyle: { color: "white" },
          })} />
-
          <Stack.Group screenOptions={{ presentation: "modal", }}>
             <Stack.Screen name={ROUTE.ADD_LINK} component={AddLink} options={({ navigation }) => ({
                headerTitle: 'Add Link',
@@ -101,6 +98,15 @@ export const AppRouter = _ => {
             })}
             />
          </Stack.Group>
+
+         {/* ===================================================================================== */}
+
+         <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({ navigation }) => ({
+            headerTitle: 'Add',
+            headerTitleAlign: "center",
+            headerTitleStyle: { color: "white" },
+            headerStyle: { backgroundColor: "rgb(71,82,100)" }
+         })} />
          <Stack.Screen name={ROUTE.EDIT_POST} component={EditPost} options={({ navigation }) => ({
             headerTitle: 'Edit Post',
             headerTitleAlign: "center",

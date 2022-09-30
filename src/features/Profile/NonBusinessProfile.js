@@ -88,6 +88,9 @@ export const NonBusinessProfile = ({ navigation }) => {
     }, [colorChange])
 
     const handleEditProfile = () => {
+        navigation.navigate(ROUTE.EDIT_PROFILE)
+    }
+    const handleAccountSetting = () => {
         navigation.navigate(ROUTE.SETTINGS_ACCOUNT)
     }
 
@@ -110,7 +113,7 @@ export const NonBusinessProfile = ({ navigation }) => {
                             {isLoading ? <Animated.View style={{ opacity: colorChange }}>
                                 <SkeletonButton />
                             </Animated.View> : <>
-                                <Octicons name='gear' size={24} onPress={handleEditProfile} color={theme?.state?.style?.colors?.button} />
+                                <Octicons name='gear' size={24} onPress={handleAccountSetting} color={theme?.state?.style?.colors?.button} />
                                 <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile} />
                             </>}
                         </> : <></>}

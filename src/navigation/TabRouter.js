@@ -24,6 +24,9 @@ import { EditAccount } from "../features/Account/EditAccount";
 import { ChangePassword } from "../features/Account/ChangePassword";
 import { StaticPage } from "../features/StaticPage/StaticPage";
 import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
+import { Home } from "../features/Home/Home";
+import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
+import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -95,7 +98,7 @@ export const TabRouter = _ => {
       })}>
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.HOME} component={TimelineStack} />
-            <Tab.Screen name={ROUTE.SEARCH} component={TabStack} />
+            <Tab.Screen name={ROUTE.SEARCH} component={Home} />
             <Tab.Screen name={ROUTE.PROFILE} component={ProfileStack} />
          </Tab.Group >
       </Tab.Navigator >
@@ -191,6 +194,17 @@ const ProfileStack = _ => {
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
+            <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
+               headerTitle: 'Add',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+               headerStyle: { backgroundColor: "rgb(71,82,100)" }
+            })} />
+            <Stack.Screen name={ROUTE.EDIT_PROFILE} component={user.roleId === 2 ? SettingsProfileBusiness : SettingsProfileNonBusiness} options={({ navigation }) => ({
+               headerTitle: 'Edit Profile',
+               headerTitleAlign: "center",
+               headerTitleStyle: { color: "white" },
+            })} />
 
             {/* =========================== ACCOUNT ============================== */}
             <Stack.Screen name={ROUTE.EDIT_PRODUCT} component={SettingsEditProduct} options={({ navigation }) => ({
@@ -199,20 +213,6 @@ const ProfileStack = _ => {
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: "rgb(71,82,100)" }
             })} />
-            <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
-               headerTitle: 'Add',
-               headerTitleAlign: "center",
-               headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
-            })} />
-            {/* =========================== Catalog ============================== */}
-            <Stack.Screen name={ROUTE.CATALOG} component={CatalogPage} options={({ navigation }) => ({
-               headerTitle: 'Catalog',
-               headerTitleAlign: "center",
-               headerTitleStyle: { color: "white" },
-               headerStyle: { backgroundColor: "rgb(71,82,100)" }
-            })} />
-            {/* =========================== Catalog ============================== */}
          </Stack.Group>
       </Stack.Navigator>
    )

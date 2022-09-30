@@ -22,19 +22,19 @@ export const ROUTE = {
    PROFILE_NON_BUSINESS: 'profileNonBusiness',
    STATIC_PAGE: 'staticPage',
    HELP_CENTER: 'help_center',
-
-   EDIT_POST: 'edit-post',
-   ADD_PRODUCT: 'add-product',
    ADD_FAQ: 'add-faq',
-   SETTINGS_BUSINESS: 'settingsBusiness',
-   NOTIFICATION: 'notification',
+   EDIT_PROFILE: 'edit-profile',
    SETTINGS_OPEN_HOUR: 'settingsOpenHour',
    SETTINGS_LINKS: 'settingsLinks',
    ADD_LINK: 'addLink',
+
+   EDIT_POST: 'edit-post',
+   ADD_PRODUCT: 'add-product',
+   SETTINGS_BUSINESS: 'settingsBusiness',
+   NOTIFICATION: 'notification',
    MANAGE_PRODUCT: 'manage-product',
    EDIT_PRODUCT: 'edit-product',
    CATALOG: 'catalog',
    SEARCH_INITIAL: 'searchInitial',
-   EDIT_PROFILE: 'edit-profile',
    DETAIL_PRODUCT: 'detailProduct'
 }
