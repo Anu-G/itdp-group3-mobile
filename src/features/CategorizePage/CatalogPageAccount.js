@@ -1,7 +1,7 @@
 import { Entypo, FontAwesome } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { ImagesViewProfile } from '../../shared/components/ImagesViewProfile'
 import { Caption, Title1 } from '../../shared/components/Label'
@@ -11,7 +11,7 @@ import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { checkErr } from '../../utils/CommonUtils'
 
-export const CatalogPage = ({ navigation }) => {
+export const CatalogPageAccount = () => {
     const theme = useTheme()
     const styles = styling(theme)
     const navigate = useNavigation()
@@ -20,13 +20,6 @@ export const CatalogPage = ({ navigation }) => {
     const [products, setProducts] = useState([])
     const [accountId, setAccountId] = useState()
     const [refresh, setRefresh] = useState(false)
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#849EB9'} style={{ marginLeft: 4 }}/>,
-            headerRight: () => (<TouchableOpacity style={{ marginRight: 16 }} onPress={() => navigate.navigate(ROUTE.ADD_PRODUCT)}><Entypo name="plus" size={32} color="#FED154" /></TouchableOpacity>)
-        })
-    })
 
     useEffect(() => {
         getProducts()
@@ -78,7 +71,7 @@ export const CatalogPage = ({ navigation }) => {
             <View>
                 <View style={styles.itemCellCtn}>
                     <TouchableOpacity onPress={() => handleClickDetailProduct(item.product_id)}>
-                        <View style={{backgroundColor:'#3B4046', flex: 1, justifyContent: 'center', alignItems:'center', borderRadius: 4}}>
+                        <View style={{backgroundColor:'#3B4046', width: Dimensions.get('window').width * 0.39, height: Dimensions.get('window').height * 0.28, justifyContent: 'center', alignItems:'center', borderRadius: 4}}>
                             <ImagesViewProfile link={item.detail_media_products[0]}/>
                             <View style={{paddingRight:12, paddingLeft:12}}>
                                 <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{color: '#F4F4F4', fontSize: 16}}/>
@@ -124,7 +117,6 @@ const styling = (theme) => StyleSheet.create({
         marginBottom: 16,
         marginLeft: 16,
         marginRight: 16,
-        alignSelf: 'stretch',
     },
     catalogCtnEmpty: {
         flex:1,
@@ -133,8 +125,6 @@ const styling = (theme) => StyleSheet.create({
     },
     itemCellCtn: {
         flex: 1,
-        alignItems: 'center',
-        alignSelf: 'stretch',
         paddingRight: 16, 
         paddingVertical: 8,
     },

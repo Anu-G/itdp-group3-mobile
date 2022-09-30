@@ -179,8 +179,8 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
 const styling = (theme) => StyleSheet.create({
     timelineCtn: {
         padding: 16,
-        borderWidth: 1,
-        borderBottomColor: '#1E2329',
+        borderBottomWidth: 1,
+        borderBottomColor: 'black',
         borderStyle: 'solid',
         alignSelf: 'stretch',
 
