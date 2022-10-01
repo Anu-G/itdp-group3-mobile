@@ -44,7 +44,8 @@ export const themeDark = {
       settingItemIcon: pallete.lightBlue,
       whiteTrp: pallete.whiteTrp,
       white: pallete.white,
-      tabBackground: pallete.darkBlue
+      tabBackground: pallete.darkBlue,
+      timelineBorder: pallete.mediumBlue
    },
    pallete: { ...pallete },
    spacing: { ...spacing },
@@ -164,7 +165,8 @@ export const themeLight = {
       settingItemIcon: pallete.lightBlue,
       whiteTrp: pallete.whiteTrp,
       white: pallete.dark,
-      tabBackground: pallete.lightBlue
+      tabBackground: pallete.lightBlue,
+      timelineBorder: pallete.darkBlue
    },
    pallete: {
       yellow: '#E5BC4C',
@@ -202,12 +204,12 @@ export const themeLight = {
       },
       mediumButtonText: {
          fontSize: 12,
-         color: pallete.mediumBlue,
+         color: pallete.dark,
          fontFamily: 'Poppins-SemiBold',
       },
       bigButtonText: {
          fontSize: 12,
-         color: pallete.mediumBlue,
+         color: pallete.dark,
          fontFamily: 'Poppins-Bold'
       },
       text32: {
@@ -259,7 +261,8 @@ export const themeLight = {
       text13regYellow: {
          fontSize: 13,
          color: '#e5bc4c',
-         fontFamily: 'Poppins-SemiBold'
+         fontFamily: 'Poppins-SemiBold',
+
       },
       mainTitle: {
          fontSize: 36,

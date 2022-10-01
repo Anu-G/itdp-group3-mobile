@@ -26,6 +26,12 @@ export const TimelinePage = ({ byAccount = null }) => {
         getTimeline()
     }, [])
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => null,
+        })
+    }, [navigation])
+
     // service
     const { timelineService } = useDep()
 
@@ -107,7 +113,7 @@ export const TimelinePage = ({ byAccount = null }) => {
                         {isLoading
                             ?
                             <>
-                                <View style={isTimeline && { marginTop: 48 }}>
+                                <View style={isTimeline && { marginTop: 56 }}>
                                     <SkeletonTimelineCard />
                                 </View>
                                 <SkeletonTimelineCard />
@@ -157,7 +163,7 @@ export const TimelinePage = ({ byAccount = null }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </MainContainer>
+        </MainContainer >
     )
 }
 
@@ -168,10 +174,6 @@ const styling = (theme) => StyleSheet.create({
         alignSelf: 'stretch',
     },
     tlLst: {
-        paddingTop: 0,
-        paddingRight: 0,
-        paddingBottom: 2,
-        paddingLeft: 0,
         flex: 1,
         flexDirection: 'column',
         borderRadius: 20,

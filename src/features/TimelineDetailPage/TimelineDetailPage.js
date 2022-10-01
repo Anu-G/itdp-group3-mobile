@@ -24,9 +24,15 @@ export const TimelineDetailPage = ({ navigation }) => {
     const [isLoading, setLoading] = useState(false)
     const user = useSelector((state) => state.auth);
 
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
+    //     })
+    // }, [navigation])
+
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
+            headerLeft: () => null,
         })
     }, [navigation])
 
@@ -142,10 +148,6 @@ const styling = (theme) => StyleSheet.create({
         alignSelf: 'stretch',
     },
     tlLst: {
-        paddingTop: 0,
-        paddingRight: 0,
-        paddingBottom: 2,
-        paddingLeft: 0,
         flex: 1,
         flexDirection: 'column',
         borderRadius: 20,

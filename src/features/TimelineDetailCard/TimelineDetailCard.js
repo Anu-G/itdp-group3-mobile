@@ -159,9 +159,9 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
 const styling = (theme) => StyleSheet.create({
     timelineCtn: {
         padding: 16,
-        borderWidth: 1,
+        // borderWidth: 1,
         borderBottomColor: theme?.pallete?.mediumBlue,
-        borderStyle: 'solid',
+        // borderStyle: 'solid',
         alignSelf: 'stretch',
 
         flex: 1,
@@ -221,9 +221,9 @@ const styling = (theme) => StyleSheet.create({
     dateColor: {
         color: theme?.pallete.lightBlue
     },
-    displayName:{
-         fontFamily: 'Poppins-SemiBold', 
-         color:theme?.pallete?.white, 
-         fontSize: 16 
+    displayName: {
+        fontFamily: 'Poppins-SemiBold',
+        color: theme?.pallete?.white,
+        fontSize: 16
     },
 })

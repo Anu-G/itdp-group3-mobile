@@ -1,7 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { AddPost } from "../features/AddPost/AddPost";
-import { useTheme } from "react-native-paper";
 import { Login } from "../features/Login/Login";
 import { MainPage } from "../features/MainPage/MainPage";
 import { AddLink } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsLink/AddLink/AddLink";
@@ -24,6 +23,7 @@ import { Search } from "../features/Search/Search";
 import { StaticPage } from "../features/StaticPage/StaticPage";
 import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
 import { SplashScreen } from "../features/SplashScreen/SplashScreen";
+import { useTheme } from "../shared/context/ThemeContext";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -58,7 +58,6 @@ export const AppRouter = _ => {
             <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
             <Stack.Screen name={ROUTE.LOGIN} component={Login} />
             <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
-            <Stack.Screen name={ROUTE.SPLASH_SCREEN} component={SplashScreen} />
          </Stack.Group >
 
          <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({

@@ -96,13 +96,13 @@ export const NonBusinessProfile = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <></>
+            headerLeft: () => null,
         })
     }, [navigation])
 
     return (
         <MainContainer>
-            <View style={styles.container}>
+            <View style={[styles.container, route.name === ROUTE.NON_BUSINESS_PROFILE && { marginTop: 56 }]}>
                 <View style={styles.topProfile}>
                     {isLoading ? <Animated.View style={{ opacity: colorChange }}>
                         <SkeletonProfile />

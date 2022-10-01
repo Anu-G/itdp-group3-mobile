@@ -88,6 +88,12 @@ export const TabRouter = _ => {
                         <Image source={profile.profileImage === '' ? require('../../assets/images/user-default.png') : { uri: profile.profileImage }} style={style.imageStyle} />
                      </View>
                   )
+               case ROUTE.STATIC_PAGE:
+                  return (
+                     <View style={style.iconCtn}>
+                        <Entypo name='help-with-circle' size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
+                     </View>
+                  )
                default:
                   <AntDesign name="exclamationcircleo" size={style.tabIcon.size} color={color} />
             }
@@ -100,7 +106,8 @@ export const TabRouter = _ => {
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.HOME} component={TimelineStack} />
             <Tab.Screen name={ROUTE.SEARCH} component={Search} />
-            <Tab.Screen name={ROUTE.PROFILE} component={ProfileStack} />
+            {user.roleId !== 0 && <Tab.Screen name={ROUTE.PROFILE} component={ProfileStack} />}
+            {user.roleId === 0 && <Tab.Screen name={ROUTE.HELP_CENTER_ANON} component={StaticPage} />}
          </Tab.Group >
       </Tab.Navigator >
    )
@@ -130,18 +137,18 @@ const TabStack = _ => {
 const TimelineStack = _ => {
    return (
       <Stack.Navigator initialRouteName={ROUTE.TIMELINE} >
-         <Stack.Screen name={ROUTE.TIMELINE} component={TimelinePage} options={{
+         <Stack.Group screenOptions={{
             headerTitle: 'LogoTokTok',
-            headerStyle: { height: 48 },
+            headerStyle: { height: 56 },
             headerTransparent: true,
             headerBackground: () =>
-               <View style={{ backgroundColor: 'rgba(71,82,100,0.9)', height: 48 }}></View>
-         }} />
-
-         <Stack.Group screenOptions={{ headerShown: false }} >
+               // change to logo with blurry background
+               <View style={{ backgroundColor: 'rgba(71,82,100,0.9)', height: 56 }}></View>
+         }}>
+            <Stack.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
             <Stack.Screen name={ROUTE.BUSINESS_PROFILE} component={BusinessProfile} />
             <Stack.Screen name={ROUTE.NON_BUSINESS_PROFILE} component={NonBusinessProfile} />
-         </Stack.Group >
+         </Stack.Group>
       </Stack.Navigator>
    )
 }
@@ -154,11 +161,11 @@ const ProfileStack = _ => {
          <Stack.Group>
             <Stack.Screen name={ROUTE.PROFILE_BUSINESS} component={BusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 48 },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 56 },
             })} />
             <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={NonBusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 48 }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 56 }
             })} />
             <Stack.Screen name={ROUTE.SETTINGS_ACCOUNT} component={EditProfile} options={({ navigator }) => ({
                headerTitle: 'Settings',
@@ -178,12 +185,12 @@ const ProfileStack = _ => {
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
             })} />
-            <Stack.Screen name={ROUTE.STATIC_PAGE} component={StaticPage} options={({ navigator }) => ({
+            {/* <Stack.Screen name={ROUTE.STATIC_PAGE} component={StaticPage} options={({ navigator }) => ({
                headerTitle: 'Support',
                headerTitleAlign: "center",
                headerTitleStyle: { color: "white" },
                headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
-            })} />
+            })} /> */}
             <Stack.Screen name={ROUTE.HELP_CENTER} component={HelpCenter} options={({ navigation }) => ({
                headerTitle: 'Help Center',
                headerTitleAlign: "center",
@@ -225,6 +232,7 @@ const styling = (theme) => StyleSheet.create({
    tabBar: {
       backgroundColor: theme?.colors?.tabBackground,
       minHeight: 64,
+      borderTopWidth: 0,
    },
    tabShadow: {
       shadowColor: "#000000",

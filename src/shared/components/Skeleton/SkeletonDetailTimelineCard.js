@@ -105,9 +105,9 @@ export const SkeletonDetailTimelineCard = ({ }) => {
 const styling = (theme, colorChange) => StyleSheet.create({
     timelineCtn: {
         padding: 16,
-        borderWidth: 1,
-        borderBottomColor: '#1E2329',
-        borderStyle: 'solid',
+        // borderWidth: 1,
+        // borderBottomColor: '#1E2329',
+        // borderStyle: 'solid',
         alignSelf: 'stretch',
 
         flex: 1,

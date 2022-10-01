@@ -20,13 +20,15 @@ export const ROUTE = {
    SETTINGS_NON_BUSINESS: 'settingsNonBusiness',
    PROFILE_BUSINESS: 'profileBusiness',
    PROFILE_NON_BUSINESS: 'profileNonBusiness',
-   STATIC_PAGE: 'staticPage',
-   HELP_CENTER: 'help_center',
    ADD_FAQ: 'add-faq',
    EDIT_PROFILE: 'edit-profile',
    SETTINGS_OPEN_HOUR: 'settingsOpenHour',
    SETTINGS_LINKS: 'settingsLinks',
    ADD_LINK: 'addLink',
+   STATIC_PAGE: 'staticPage',
+   HELP_CENTER: 'help_center',
+
+   HELP_CENTER_ANON: 'helpCenterAnon',
 
    EDIT_POST: 'edit-post',
    ADD_PRODUCT: 'add-product',

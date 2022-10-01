@@ -11,7 +11,7 @@ import { CatalogPageAccount } from './CatalogPageAccount'
 import { FAQPage } from './FAQPage'
 import { FeedPage } from './FeedPage'
 
-export const CategorizePageProfile = ({bisID}) => {
+export const CategorizePageProfile = ({ bisID }) => {
     const theme = useTheme()
     const styles = styling(theme)
     // state
@@ -60,7 +60,7 @@ export const CategorizePageProfile = ({bisID}) => {
     // const PostPage = () => (
     //     <FeedPage/>
     // )
-    
+
     // const CatalogPage = () => (
     //     <CatalogPage bisID={`${user.accountId}`}/>
     // )
@@ -70,13 +70,13 @@ export const CategorizePageProfile = ({bisID}) => {
     // )
 
     // TABVIEW
-    const initialLayout = {width: Dimensions.get('window').width}
+    const initialLayout = { width: Dimensions.get('window').width }
 
     const [index, setIndex] = useState(0)
     const [routes] = useState([
-        {key: 'first', title: 'Post'},
-        {key: 'second', title: 'Catalog'},
-        {key: 'third', title: 'FAQ'},
+        { key: 'first', title: 'Post' },
+        { key: 'second', title: 'Catalog' },
+        { key: 'third', title: 'FAQ' },
     ])
 
     // const renderScene = SceneMap({
@@ -88,11 +88,11 @@ export const CategorizePageProfile = ({bisID}) => {
     const renderScene = ({ route }) => {
         switch (route.key) {
             case 'first':
-                return <TimelinePage byAccount={`${user.accountId}`}/>;
+                return <TimelinePage byAccount={`${user.accountId}`} />;
             case 'second':
-                return <CatalogPageAccount/>
+                return <CatalogPageAccount />
             case 'third':
-                return <FAQPage bisID={`${user.accountId}`}/>;
+                return <FAQPage bisID={`${user.accountId}`} />;
             default:
                 return <Text>Cannot load any scene</Text>;
         }
@@ -100,21 +100,21 @@ export const CategorizePageProfile = ({bisID}) => {
 
     const renderTabBar = props => (
         <TabBar
-          {...props}
-          indicatorStyle={{ backgroundColor: '#FED154' }}
-          style={{ backgroundColor: '#1E2329', color: '#FED154', borderBottomWidth: 1, borderBottomColor: '#475264'}}
+            {...props}
+            indicatorStyle={{ backgroundColor: '#FED154' }}
+            style={{ backgroundColor: '#1E2329', color: '#FED154' }}
         />
     );
 
-  return (
-        <TabView 
-            navigationState={{index, routes}}
+    return (
+        <TabView
+            navigationState={{ index, routes }}
             renderScene={renderScene}
             onIndexChange={setIndex}
             initialLayout={initialLayout}
             renderTabBar={renderTabBar}
         />
-  )
+    )
 }
 
 const styling = (theme) => StyleSheet.create({

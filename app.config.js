@@ -11,7 +11,6 @@ export default
       userInterfaceStyle: "light",
       splash: {
         image: "./assets/images/Toktok-Logo.png",
-        resizeMode: "contain",
         backgroundColor: "#FED154"
       },
       updates: {

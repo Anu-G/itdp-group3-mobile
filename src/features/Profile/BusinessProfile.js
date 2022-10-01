@@ -66,7 +66,7 @@ export const BusinessProfile = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <></>
+            headerLeft: () => null,
         })
     }, [navigation])
 
@@ -165,56 +165,60 @@ export const BusinessProfile = ({ navigation }) => {
     return (
         <MainContainer>
             {showOurLinks && <LinkModal linksIn={profile.BusinessLinks} handleClickLinks={handleClickLinks} />}
-            <View style={styles.profileCtn}>
-                <View style={styles.topProfile}>
-                    {isLoading ? <Animated.View style={{ opacity: colorChange }}>
-                        <SkeletonProfile />
-                    </Animated.View> : profile.ProfileImage !== '' &&
-                    <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}
-                    <View style={styles.topProfileRight}>
-                        {route.name === ROUTE.PROFILE_BUSINESS || route.name === ROUTE.PROFILE_NON_BUSINESS ? <>
-                            {isLoading ? <Animated.View style={{ opacity: colorChange }}>
-                                <SkeletonButton />
-                            </Animated.View> : <>
-                                <Octicons name='gear' size={24} onPress={handleAccountSetting} color={theme?.state?.style?.colors?.button} />
-                                <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile} />
-                            </>}
-                        </> : <></>}
+            <View style={[styles.profileCtn, route.name === ROUTE.BUSINESS_PROFILE && { marginTop: 56 }]}>
+                <View style={styles.profileInfoCtn}>
+                    <View style={styles.topProfile}>
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                            <SkeletonProfile />
+                        </Animated.View> : profile.ProfileImage !== '' &&
+                        <Image source={{ uri: profile.ProfileImage }} style={{ width: 64, height: 64, borderRadius: 32 }} />}
+                        <View style={styles.topProfileRight}>
+                            {route.name === ROUTE.PROFILE_BUSINESS || route.name === ROUTE.PROFILE_NON_BUSINESS ? <>
+                                {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                                    <SkeletonButton />
+                                </Animated.View> : <>
+                                    <Octicons name='gear' size={24} onPress={handleAccountSetting} color={theme?.state?.style?.colors?.button} />
+                                    <ButtonComponent label={'Edit Profile'} style={styles.editProfileBtnCtn} onClick={handleEditProfile} />
+                                </>}
+                            </> : <></>}
+                        </View>
                     </View>
-                </View>
-                {isLoading ? <Animated.View style={{ opacity: colorChange }}>
-                    <SkeletonTitle style={{ marginVertical: 4 }} />
-                </Animated.View> : <Title2 label={profile.DisplayName} />}
-                {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}>
-                    <SkeletonCategory style={{ marginVertical: 4 }} />
-                </Animated.View> : <Caption text={profile.CategoryName} />}
-                <View style={styles.openHour}>
+                    {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                        <SkeletonTitle style={{ marginVertical: 4 }} />
+                    </Animated.View> : <Title2 label={profile.DisplayName} />}
                     {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}>
                         <SkeletonCategory style={{ marginVertical: 4 }} />
-                    </Animated.View> : <>
-                        {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
-                        <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
-                        <Caption text={`${openHour} - ${closeHour}`} />
-                    </>
-                    }
+                    </Animated.View> : <Caption text={profile.CategoryName} />}
+                    <View style={styles.openHour}>
+                        {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}>
+                            <SkeletonCategory style={{ marginVertical: 4 }} />
+                        </Animated.View> : <>
+                            {isOpen ? <CaptionColor text={'OPEN'} /> : <CaptionColor text={'CLOSED'} />}
+                            <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
+                            <Caption text={`${openHour} - ${closeHour}`} />
+                        </>
+                        }
+                    </View>
+                    {isLoading ? <>
+                        <Animated.View style={{ opacity: colorChange }}>
+                            <SkeletonCaption />
+                            <SkeletonCaption />
+                            <SkeletonCaptionShort />
+                        </Animated.View>
+                    </> : <Caption text={profile.ProfileBio} />}
+                    <View style={styles.profileBtn}>
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}>
+                            <SkeletonButton />
+                        </Animated.View> : <>
+                            {profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn} />}
+                        </>}
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn} />}</>}
+                        {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn} />}</>}
+                    </View>
                 </View>
-                {isLoading ? <>
-                    <Animated.View style={{ opacity: colorChange }}>
-                        <SkeletonCaption />
-                        <SkeletonCaption />
-                        <SkeletonCaptionShort />
-                    </Animated.View>
-                </> : <Caption text={profile.ProfileBio} />}
-                <View style={styles.profileBtn}>
-                    {isLoading ? <Animated.View style={{ opacity: colorChange }}>
-                        <SkeletonButton />
-                    </Animated.View> : <>
-                        {profile.PhoneNumber !== '' && <ButtonComponent label={'Contact Us'} onClick={handleClickContact} style={styles.profileButtonCtn} />}
-                    </>}
-                    {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.BusinessLinks !== '' && <ButtonComponent label={'Our Link(s)'} onClick={handleClickLinks} style={styles.profileButtonCtn} />}</>}
-                    {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn} />}</>}
+                <View style={{ flex: 1, alignSelf: 'stretch' }}>
+                    <CategorizePageProfile />
                 </View>
-                <CategorizePageProfile />
             </View>
         </MainContainer>
     )
@@ -223,8 +227,11 @@ export const BusinessProfile = ({ navigation }) => {
 const styling = (theme) => StyleSheet.create({
     profileCtn: {
         flex: 1,
-        alignSelf: 'stretch',
-        padding: 16
+        alignSelf: 'stretch'
+    },
+    profileInfoCtn: {
+        padding: 16,
+        paddingBottom: 0
     },
     topProfile: {
         flexDirection: 'row',

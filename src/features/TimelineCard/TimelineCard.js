@@ -112,7 +112,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
 
     return (
         <MainContainer>
-            <View style={[styles.timelineCtn, isHome && index === 0 && { marginTop: 48 }]}>
+            <View style={[styles.timelineCtn, isHome && index === 0 && { marginTop: 56 }]}>
                 <View>
                     <View style={styles.profileHd}>
                         <View style={{ flex: 1 }}>
@@ -179,8 +179,8 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
 const styling = (theme) => StyleSheet.create({
     timelineCtn: {
         padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: 'black',
+        borderBottomWidth: 0.5,
+        borderBottomColor: theme?.colors?.timelineBorder,
         borderStyle: 'solid',
         alignSelf: 'stretch',
 
@@ -241,9 +241,9 @@ const styling = (theme) => StyleSheet.create({
     dateColor: {
         color: theme?.pallete.lightBlue
     },
-    displayName:{
-         fontFamily: 'Poppins-SemiBold', 
-         color:theme?.pallete?.white, 
-         fontSize: 16 
+    displayName: {
+        fontFamily: 'Poppins-SemiBold',
+        color: theme?.pallete?.white,
+        fontSize: 16
     },
 })
