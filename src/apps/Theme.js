@@ -45,7 +45,8 @@ export const themeDark = {
       whiteTrp: pallete.whiteTrp,
       white: pallete.white,
       tabBackground: pallete.darkBlue,
-      timelineBorder: pallete.mediumBlue
+      timelineBorder: pallete.mediumBlue,
+      headerColor: 'rgba(30, 35, 41, 0.8)'
    },
    pallete: { ...pallete },
    spacing: { ...spacing },
@@ -166,7 +167,8 @@ export const themeLight = {
       whiteTrp: pallete.whiteTrp,
       white: pallete.dark,
       tabBackground: pallete.lightBlue,
-      timelineBorder: pallete.darkBlue
+      timelineBorder: pallete.darkBlue,
+      headerColor: 'rgba(244, 244, 244, 0.8)'
    },
    pallete: {
       yellow: '#E5BC4C',
@@ -177,7 +179,8 @@ export const themeLight = {
       darkBlue: '#3B4046',
       red: '#FE5454',
       green: '#54FE98',
-      whiteTrp: '#afafaf'
+      whiteTrp: '#afafaf',
+      headerColor: 'rgba(244, 244, 244, 0.8)',
    },
    spacing: { ...spacing },
    radius: { ...radius },

@@ -1,3 +1,4 @@
+import { style } from 'deprecated-react-native-prop-types/DeprecatedImagePropType'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
@@ -102,8 +103,10 @@ export const CategorizePageProfile = ({ bisID }) => {
         <TabBar
             {...props}
             indicatorStyle={{ backgroundColor: '#FED154' }}
-            style={{ backgroundColor: '#1E2329', color: '#FED154' }}
-        />
+            style={[{ backgroundColor: '#1E2329', color: '#FED154' }, styles.backgroundColor]}
+            activeColor={styles.textColor}
+            inactiveColor={styles.textColorInactive}
+            />
     );
 
     return (
@@ -135,4 +138,16 @@ const styling = (theme) => StyleSheet.create({
     scene: {
         flex: 1,
     },
+    backgroundColor:{
+        backgroundColor: theme?.colors?.backgroundColor,
+        fontWeight: 'bold',
+        // borderBottomColor: theme?.pallete?.lightBlue,
+        // borderBottomWidth: 1
+    },
+    textColor:{
+        color: theme?.pallete?.white
+    },
+    textColorInactive:{
+        color: theme?.pallete?.mediumBlue
+    }
 })

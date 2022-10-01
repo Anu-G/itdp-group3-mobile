@@ -1,6 +1,6 @@
 import { AntDesign, Entypo, Foundation } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
+import { Button, Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -134,17 +134,49 @@ const TabStack = _ => {
    )
 }
 
+const TitleLogo = () => {
+   return(
+      <Image
+         style={{
+            height: 48,
+            width: 103,
+            borderRadius: 4
+         }}
+         source={require('../../assets/images/Toktok-Logo-Wide-2.png')} />
+   )
+}
+
 const TimelineStack = _ => {
+   const theme = useTheme();
+   const style = styling(theme.state.style);
    return (
       <Stack.Navigator initialRouteName={ROUTE.TIMELINE} >
          <Stack.Group screenOptions={{
-            headerTitle: 'LogoTokTok',
+            headerTitle: '',
+            headerTitleStyle: {
+               letterSpacing: 4,
+               fontWeight: '900',
+               color: '#FED154'
+            },
+            // headerShown: false,
+            headerShadowVisible: true,
             headerStyle: { height: 56 },
             headerTransparent: true,
             headerBackground: () =>
-               // change to logo with blurry background
-               <View style={{ backgroundColor: 'rgba(71,82,100,0.9)', height: 56 }}></View>
-         }}>
+               <View style={[{ 
+                  // backgroundColor: '#FED154', 
+                  height: 56 , }, 
+                  style.headerBackground]}>
+                     {/* <Text style={{
+                        fontWeight: "bold",
+                        letterSpacing: 4,
+
+                     }}>TokTok</Text> */}
+                     <TitleLogo />
+                  </View>
+            }
+            
+         }>
             <Stack.Screen name={ROUTE.TIMELINE} component={TimelinePage} />
             <Stack.Screen name={ROUTE.BUSINESS_PROFILE} component={BusinessProfile} />
             <Stack.Screen name={ROUTE.NON_BUSINESS_PROFILE} component={NonBusinessProfile} />
@@ -275,5 +307,12 @@ const styling = (theme) => StyleSheet.create({
       alignContent: "center",
       justifyContent: "center",
       alignItems: "center",
+   },
+   headerBackground:{
+      backgroundColor: 'rgba(244, 244, 244, 0.8)',
+      alignItems: "center",
+      justifyContent: "center",
+      // opacity: 0.8,
+      
    }
 })

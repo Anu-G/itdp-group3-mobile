@@ -23,10 +23,10 @@ export const EditProfile = ({ navigation }) => {
     return (
         <MainContainer>
             <View style={styles.container}>
-                <SettingItemComponent label="Account" handlePress={() => navigator.navigate(ROUTE.EDIT_ACCOUNT)} />
-                {user.roleId === 2 && <SettingItemComponent label="Catalog" handlePress={() => navigator.navigate(ROUTE.MANAGE_PRODUCT)} />}
-                {user.roleId === 2 && <SettingItemComponent label="FAQ" handlePress={() => navigator.navigate(ROUTE.ADD_FAQ)} />}
-                <SettingItemComponent label="Support" handlePress={() => navigator.navigate(ROUTE.STATIC_PAGE)} />
+                <SettingItemComponent label="Account" handlePress={() => navigator.navigate(ROUTE.EDIT_ACCOUNT)} iconName={'person'} iconStatus={true} />
+                {user.roleId === 2 && <SettingItemComponent label="Catalog" handlePress={() => navigator.navigate(ROUTE.MANAGE_PRODUCT)} iconName={'book'} iconStatus={true} />}
+                {user.roleId === 2 && <SettingItemComponent label="FAQ" handlePress={() => navigator.navigate(ROUTE.ADD_FAQ)} iconName={'help-outline'} iconStatus={true} />}
+                <SettingItemComponent label="Support" handlePress={() => navigator.navigate(ROUTE.STATIC_PAGE)} iconName={'information'} iconStatus={true} />
             </View>
         </MainContainer>
     )
