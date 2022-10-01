@@ -1,6 +1,6 @@
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
@@ -92,12 +92,17 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
             <View style={styles.timelineCtn}>
                 <View>
                     <View style={styles.profileHd}>
-                        <View style={{ flex: 1 }}>
-                            <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId, accType)} />
+                        <View style={{ flexDirection: 'row', alignItems: 'stretch', width: '90%', }}>
+                            <View style={{ flex: 1 }}>
+                                <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId, accType)} />
+                            </View>
+                            <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', flexDirection: 'row', alignSelf: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
+                                {/* conditioningnya */}
+                                <Image style={{ marginHorizontal: 4 }} source={require('../../../assets/images/Business-Badge.png')} />
+                                <Text style={styles.displayName}>{name}</Text>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
-                            <Text style={styles.displayName}>{name}</Text>
-                        </TouchableOpacity>
+
                         <View style={styles.optionBtn}>
                             <TouchableOpacity>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color={styles.iconCOlot.color} />

@@ -29,9 +29,6 @@ export const AddPost = ({ navigation }) => {
     const profile = useSelector((state) => state.profile);
     const user = useSelector((state) => state.auth);
 
-    const width = Dimensions.get('window').width - 34
-    const height = width / 2
-
     //keyboard actions
 
     const buttonBar = new Animated.Value(0)
@@ -166,8 +163,8 @@ export const AddPost = ({ navigation }) => {
                 />
             </View>
             <Animated.View style={[styles.downContainer, { bottom: buttonBar }]}>
-                <FontAwesome name='image' size={24} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
-                <FontAwesome name='camera' size={24} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
+                <FontAwesome name='image' size={24} color={"#F4F4F4"} onPress={showImagePicker} style={{ paddingLeft: 24 }} />
+                <FontAwesome name='camera' size={24} color={"#F4F4F4"} onPress={openCamera} style={{ paddingLeft: 32 }} />
             </Animated.View>
         </MainContainer>
     )
@@ -193,7 +190,7 @@ const styling = (theme) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: "rgb(71,82,100)",
-        height: 32,
+        height: 48,
     },
     textArea: {
         color: "#849EB9",

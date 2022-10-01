@@ -1,7 +1,7 @@
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
 import { AvatarSmall } from '../../shared/components/ImageProfile'
 import { Caption } from '../../shared/components/Label'
@@ -115,12 +115,16 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
             <View style={[styles.timelineCtn, isHome && index === 0 && { marginTop: 56 }]}>
                 <View>
                     <View style={styles.profileHd}>
-                        <View style={{ flex: 1 }}>
-                            <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId, accType)} />
+                        <View style={{ flexDirection: 'row', alignItems: 'stretch', width: '90%', }}>
+                            <View style={{ flex: 1 }}>
+                                <AvatarSmall source={avatar} accId={accId} handleClick={() => handleClickName(postAccId, accType)} />
+                            </View>
+                            <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', flexDirection: 'row', alignSelf: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
+                                {/* conditioningnya */}
+                                <Image style={{ marginHorizontal: 4 }} source={require('../../../assets/images/Business-Badge.png')} />
+                                <Text style={styles.displayName}>{name}</Text>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
-                            <Text style={styles.displayName}>{name}</Text>
-                        </TouchableOpacity>
                         <View style={styles.optionBtn}>
                             <TouchableOpacity onPress={handleShare}>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color={styles.iconCOlot.color} />

@@ -56,7 +56,7 @@ export const CustomSwitch = ({ isActive = true, label = '', openHour = '00:00', 
                 <Text32 text={label} />
                 <Switch
                     trackColor={{ false: '#3B4046', true: '#FED154' }}
-                    thumbColor={enable ? '#849EB9' : '#475264'}
+                    thumbColor={enable ? '#849EB9' : '#849EB9'}
                     value={enable}
                     onValueChange={handleToggle} />
 

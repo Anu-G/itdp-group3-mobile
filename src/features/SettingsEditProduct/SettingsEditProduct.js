@@ -15,7 +15,7 @@ export const SettingsEditProduct = ({ navigation }) => {
     const theme = useTheme()
     const styles = styling(theme)
     const route = useRoute()
-    const {oParams} = route.params
+    const { oParams } = route.params
     const { productService, productImageService } = useDep()
     const [accountId, setAccountId] = useState()
     const [productName, setProductName] = useState(oParams.product_name)
@@ -35,7 +35,6 @@ export const SettingsEditProduct = ({ navigation }) => {
 
     useEffect(() => {
         getAccountId()
-        console.log(oParams);
     }, [])
 
     const getAccountId = async () => {
@@ -49,20 +48,22 @@ export const SettingsEditProduct = ({ navigation }) => {
 
     const showImagePicker = async () => {
         try {
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
-                allowsMultipleSelection: true,
-                selectionLimit: 4,
-                aspect: [1, 1],
-                quality: 1,
-            });
+            if (pickedImagePath.length < 15) {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.All,
+                    allowsMultipleSelection: true,
+                    selectionLimit: 4,
+                    aspect: [1, 1],
+                    quality: 1,
+                });
 
-            if (!result.cancelled) {
-                if (result.uri) {
-                    setPickedImagePath(prevState => [...prevState, result.uri])
-                    return
+                if (!result.cancelled) {
+                    if (result.uri) {
+                        setPickedImagePath(prevState => [...prevState, result.uri])
+                        return
+                    }
+                    setPickedImagePath(prevState => result.selected.map(res => res.uri))
                 }
-                setPickedImagePath(prevState => result.selected.map(res => res.uri))
             }
         } catch (err) {
             checkErr(err)
@@ -88,11 +89,30 @@ export const SettingsEditProduct = ({ navigation }) => {
                 console.log("success upload product data");
             }
         } catch (err) {
-            console.log(err);
             checkErr(err)
         } finally {
             setLoading(false)
         }
+    }
+
+    const renderItem = ({ item }) => {
+        return (
+            <View>
+                <View style={styles.itemCellCtn}>
+                    <TouchableOpacity onPress={() => handleClickDetailProduct(item.product_id)}>
+                        <View style={{ backgroundColor: '#3B4046', width: Dimensions.get('window').width * 0.39, height: Dimensions.get('window').height * 0.28, justifyContent: 'center', alignItems: 'center', borderRadius: 4 }}>
+                            <ImagesViewProfile link={item.detail_media_products[0]} />
+                            <View style={{ paddingRight: 12, paddingLeft: 12 }}>
+                                <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{ color: '#F4F4F4', fontSize: 16 }} />
+                            </View>
+                            <View style={{ paddingRight: 12, paddingLeft: 12, paddingBottom: 4 }}>
+                                <Caption text={`Rp ${item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`} style={{ color: '#F4F4F4' }} />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
     }
 
 
@@ -103,13 +123,13 @@ export const SettingsEditProduct = ({ navigation }) => {
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Price'} value={price} onChange={setPrice} placeholder={'0,00'} keyboard={'number-pad'} />
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Description'} value={description} onChange={setDescription} placeholder={'Your product description'} />
                 <TextProfile text={'Image'} />
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <ImageWithDeleteSign source={"plus-icon"} handleClick={showImagePicker} />
                     {pickedImagePath.length !== 0 && pickedImagePath.length === 1 ?
                         <ImageWithDeleteSign source={pickedImagePath[0]} handleClick={() => handleDeleteImage(0)} />
                         :
                         pickedImagePath.map((image, i) => <ImageWithDeleteSign source={image} handleClick={() => handleDeleteImage(i)} key={i} />)}
-                </ScrollView>
+                </View>
             </View>
         </MainContainer>
     )

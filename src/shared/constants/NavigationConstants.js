@@ -25,12 +25,12 @@ export const ROUTE = {
    SETTINGS_OPEN_HOUR: 'settingsOpenHour',
    SETTINGS_LINKS: 'settingsLinks',
    ADD_LINK: 'addLink',
-   STATIC_PAGE: 'staticPage',
    HELP_CENTER: 'help_center',
    DETAIL_PRODUCT: 'detailProduct',
    PROFILE_DETAIL_PRODUCT: 'profileDetailProduct',
 
-   HELP_CENTER_ANON: 'helpCenterAnon',
+   SUPPORT_ANON: 'supportAnon',
+   SUPPORT: 'supportAnon',
 
    EDIT_POST: 'edit-post',
    ADD_PRODUCT: 'add-product',

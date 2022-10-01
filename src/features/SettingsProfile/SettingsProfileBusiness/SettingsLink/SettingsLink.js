@@ -1,14 +1,15 @@
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Animated, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { ButtonComponent } from "../../../../shared/components/Button";
+import { ButtonMediumComponent } from "../../../../shared/components/ButtonMedium";
 import { Caption, CaptionColor, TextProfile } from "../../../../shared/components/Label";
 import { ROUTE } from "../../../../shared/constants/NavigationConstants";
 import { useTheme } from "../../../../shared/context/ThemeContext";
 
-export const SettingsLink = ({navigation}) => {
+export const SettingsLink = ({ navigation }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style)
     const route = useRoute()
@@ -17,16 +18,17 @@ export const SettingsLink = ({navigation}) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
-            headerRight: () => <TouchableOpacity onPress={saveResponse}><CaptionColor text={'Submit'} style={theme?.pallete?.lightBlue}/></TouchableOpacity>
+            // headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
+            // headerRight: () => <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Submit</Text></TouchableOpacity>
+            headerLeft: () => null
         })
     }, [navigation, link])
 
     useEffect(() => {
         if (route.params?.data) {
-            setLinks(route.params.data)                        
+            setLinks(route.params.data)
         } else if (route.params?.newLink) {
-            setLinks(prevState => [...prevState, route.params.newLink])            
+            setLinks(prevState => [...prevState, route.params.newLink])
         }
     }, [route.params])
 
@@ -47,26 +49,26 @@ export const SettingsLink = ({navigation}) => {
     const leftSwipe = (progress, dragX) => {
         const scale = dragX.interpolate({
             inputRange: [0, 128],
-            outputRange: [0,1],
+            outputRange: [0, 1],
             // extrapolateRight: 'clamp'
             // extrapolate: 'clamp'
         })
 
-        return(
+        return (
             // <TouchableOpacity onPress={onDelete}>
-                <View style={styles.swipeCtn}>
-                <Animated.View style={[  ]} >
-                    <View style={{flexDirection:'row', height: '100%'}}>
-                    <View style={[styles.swipButtonSize, styles.edit]}>
-                        <MaterialIcons name="edit" size={32} color='red' />
+            <View style={styles.swipeCtn}>
+                <Animated.View style={[]} >
+                    <View style={{ flexDirection: 'row', height: '100%' }}>
+                        <View style={[styles.swipButtonSize, styles.edit]}>
+                            <MaterialIcons name="edit" size={32} color='red' />
+                        </View>
+                        <View style={[styles.swipButtonSize, styles.delete]}>
+                            <MaterialIcons name="delete-forever" size={32} color='red' onPress={onDelete} />
+                        </View>
                     </View>
-                    <View style={[styles.swipButtonSize, styles.delete]}>
-                        <MaterialIcons name="delete-forever" size={32} color='red' onPress={onDelete}/>
-                    </View>
-                    </View>
-                    
+
                 </Animated.View>
-                </View>
+            </View>
             // </TouchableOpacity>
         )
     }
@@ -80,68 +82,74 @@ export const SettingsLink = ({navigation}) => {
 
     const saveResponse = () => {
         navigate.navigate(ROUTE.SETTINGS_BUSINESS, {
-            newBusinessLink : link
+            newBusinessLink: link
         })
     }
 
 
-    return(
-        <>
+    return (
+        <View style={{ flex: 1, padding: 16 }}>
 
-        {/* dummy button */}
-        <ButtonComponent label={'Add Link'}  onClick={goToAddLink}/>
-        {link.length===0 && 
-            <View style={styles.emptyContainer}>
-                <TextProfile text={'No Links'}/>
+            {/* dummy button */}
+            <View style={{ alignSelf: 'center' }}>
+                <ButtonComponent label={'Add Link'} onClick={goToAddLink} />
             </View>
-        }
+            {link.length === 0 &&
+                <View style={styles.emptyContainer}>
+                    <TextProfile text={'No Links'} />
+                </View>
+            }
 
-        {link.length > 0 && 
-            <View style={styles.container}>
-            {link.map((item, i)=>{
-                return(
-                    <View key={i}>
-                        <Swipeable 
-                            renderRightActions={leftSwipe}
-                            ref={ref => row[i] = ref}
-                            onSwipeableWillOpen={closeRow(i)}
-                        >
-                            <View style={styles.cellContainer}>
-                                <TextProfile text={item.label}/>
-                                <Caption text={item.link}/>
-                             </View>
-                        </Swipeable>
-                    </View>
-                )
-            })}
+            {link.length > 0 &&
+                <View style={styles.container}>
+                    {link.map((item, i) => {
+                        return (
+                            <View key={i}>
+                                <Swipeable
+                                    renderRightActions={leftSwipe}
+                                    ref={ref => row[i] = ref}
+                                    onSwipeableWillOpen={closeRow(i)}
+                                >
+                                    <View style={styles.cellContainer}>
+                                        <TextProfile text={item.label} />
+                                        <Caption text={item.link} />
+                                    </View>
+                                </Swipeable>
+                            </View>
+                        )
+                    })}
+                </View>
+            }
+
+
+            <Swipeable
+                renderLeftActions={leftSwipe}
+            />
+
+            <View style={{ alignSelf: 'flex-end' }}>
+                <ButtonMediumComponent label={'Save'} onClick={saveResponse} />
             </View>
-        }
-        
-        
-        <Swipeable 
-            renderLeftActions={leftSwipe} 
-        />
-        </>
+        </View>
     )
 
 }
 
 const styling = (theme) => StyleSheet.create({
-    emptyContainer:{
+    emptyContainer: {
         flex: 1,
         width: '100%',
         alignContent: "stretch",
         justifyContent: 'center',
         alignItems: 'center',
     },
-    container:{
-        flex:1,
+    container: {
+        flex: 1,
         width: '100%',
         alignContent: "stretch",
         padding: theme?.spacing?.m,
         backgroundColor: theme?.pallete?.dark
     },
-    cellContainer:{
+    cellContainer: {
         height: 64,
         width: '100%',
         alignContent: 'stretch',
@@ -150,7 +158,7 @@ const styling = (theme) => StyleSheet.create({
         padding: theme?.spacing?.m,
         justifyContent: 'center',
     },
-    swipButtonSize:{
+    swipButtonSize: {
         height: '100%',
         width: 64,
         justifyContent: 'center',

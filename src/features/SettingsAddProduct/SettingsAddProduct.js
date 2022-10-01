@@ -22,7 +22,6 @@ export const SettingsAddProduct = ({ navigation }) => {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState(0)
     const [pickedImagePath, setPickedImagePath] = useState([])
-    const [previewImagePath, setPreviewImagePath] = useState([])
     const [isCorrect, setIsCorrect] = useState(true)
     const [loading, setLoading] = useState(false)
     const user = useSelector((state) => state.auth);
@@ -38,13 +37,6 @@ export const SettingsAddProduct = ({ navigation }) => {
         getAccountId()
     }, [])
 
-    useEffect(() => {
-        setPreviewImagePath([])
-        pickedImagePath.map((image, i) => {
-            setPreviewImagePath(prevState => [...prevState, { url: image, name: `${i + 1}/${pickedImagePath.length}` }])
-        });
-    }, [pickedImagePath])
-
     const getAccountId = async () => {
         try {
             let id = user.accountId
@@ -56,21 +48,24 @@ export const SettingsAddProduct = ({ navigation }) => {
 
     const showImagePicker = async () => {
         try {
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
-                allowsMultipleSelection: true,
-                selectionLimit: 4,
-                aspect: [1, 1],
-                quality: 1,
-            });
+            if (pickedImagePath.length < 15) {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.All,
+                    allowsMultipleSelection: true,
+                    selectionLimit: 4,
+                    aspect: [1, 1],
+                    quality: 1,
+                });
 
-            if (!result.cancelled) {
-                if (result.uri) {
-                    setPickedImagePath(prevState => [...prevState, result.uri])
-                    return
+                if (!result.cancelled) {
+                    if (result.uri) {
+                        setPickedImagePath(prevState => [...prevState, result.uri])
+                        return
+                    }
+                    setPickedImagePath(prevState => [...prevState, ...result.selected.map(res => res.uri)])
                 }
-                setPickedImagePath(prevState => [...prevState, ...result.selected.map(res => res.uri)])
             }
+
         } catch (err) {
             checkErr(err)
         }
@@ -109,26 +104,13 @@ export const SettingsAddProduct = ({ navigation }) => {
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Price'} value={price} onChange={setPrice} placeholder={'0,00'} keyboard={'number-pad'} />
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Description'} value={description} onChange={setDescription} placeholder={'Your product description'} />
                 <TextProfile text={'Image'} />
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ flex: 1 }}
-                    style={{ flex: 1 }}
-                >
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <ImageWithDeleteSign source={"plus-icon"} handleClick={showImagePicker} />
                     {pickedImagePath.length !== 0 && pickedImagePath.length === 1 ?
                         <ImageWithDeleteSign source={pickedImagePath[0]} handleClick={() => handleDeleteImage(0)} />
                         :
                         pickedImagePath.map((image, i) => <ImageWithDeleteSign source={image} handleClick={() => handleDeleteImage(i)} key={i} />)}
-                </ScrollView>
-                <Swiper
-                    images={previewImagePath}
-                    swipeBottom={e => null}
-                    swipeTop={e => null}
-                    textSize={16}
-                    styleImage={{ borderRadius: 8 }}
-                    product={true}
-                />
+                </View>
             </View>
         </MainContainer>
     )

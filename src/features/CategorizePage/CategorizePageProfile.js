@@ -105,7 +105,10 @@ export const CategorizePageProfile = ({ bisID }) => {
         <TabBar
             {...props}
             indicatorStyle={{ backgroundColor: '#FED154' }}
-            style={{ backgroundColor: '#1E2329', color: '#FED154' }}
+            style={styles.backgroundColor}
+            activeColor={styles.textColor}
+            inactiveColor={styles.textColorInactive}
+            labelStyle={{ fontWeight: 'bold' }}
         />
     );
 
@@ -138,4 +141,13 @@ const styling = (theme) => StyleSheet.create({
     scene: {
         flex: 1,
     },
+    backgroundColor: {
+        backgroundColor: theme?.colors?.backgroundColor,
+        elevation: 0,
+        // fontWeight: 'bold',
+        // borderBottomColor: theme?.pallete?.lightBlue,
+        // borderBottomWidth: 1
+    },
+    textColor: theme?.pallete?.white,
+    textColorInactive: theme?.pallete?.mediumBlue
 })

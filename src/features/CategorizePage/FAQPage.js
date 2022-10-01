@@ -7,10 +7,10 @@ import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext';
 import { checkErr } from '../../utils/CommonUtils';
 
-export const FAQPage = ({bisID}) => {
+export const FAQPage = ({ bisID }) => {
     const theme = useTheme()
     const styles = styling(theme)
-    const {faqService} = useDep();
+    const { faqService } = useDep();
     const [faq, setFaq] = useState([]);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ export const FAQPage = ({bisID}) => {
             const response = await faqService.doGetFAQ({
                 "account_id": `${bisID}`
             })
-            if (response.data.data !==null){
+            if (response.data.data !== null) {
                 setFaq(response.data.data)
             }
         } catch (err) {
@@ -31,25 +31,25 @@ export const FAQPage = ({bisID}) => {
         }
     }
 
-  return (
-    <MainContainer>
-        {faq.length === 0 ?
-        <View style={styles.catalogCtnEmpty}>
-            <Title2 label={'No Question(s) Yet'}/>
-        </View>
-        :
-        <View style={styles.faqCtn}>
-            {
-                faq.map((item, faqi) => {
-                    return (<View key={faqi}>
-                        <QA num={faqi +1} question={item.question} answer={item.answer}/>
-                    </View>)
-                })
+    return (
+        <MainContainer>
+            {faq.length === 0 ?
+                <View style={styles.catalogCtnEmpty}>
+                    <Title2 label={'No Question(s) Yet'} />
+                </View>
+                :
+                <View style={styles.faqCtn}>
+                    {
+                        faq.map((item, faqi) => {
+                            return (<View key={faqi}>
+                                <QA num={faqi + 1} question={item.question} answer={item.answer} />
+                            </View>)
+                        })
+                    }
+                </View>
             }
-        </View>
-    }
-    </MainContainer>
-  )
+        </MainContainer>
+    )
 }
 
 const styling = (theme) => StyleSheet.create({
@@ -58,6 +58,7 @@ const styling = (theme) => StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         padding: 16,
+        alignSelf: 'stretch'
     },
     catalogCtnEmpty: {
         flex: 1,

@@ -1,13 +1,13 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect, useState } from "react";
-import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { InputTextNoError, InputTextWithError } from "../../../../../shared/components/CustomTextInput/CustomTextInput";
 import { CaptionColor } from "../../../../../shared/components/Label";
 import { ROUTE } from "../../../../../shared/constants/NavigationConstants";
 import { useTheme } from "../../../../../shared/context/ThemeContext"
 
-export const AddLink = ({navigation}) => {
+export const AddLink = ({ navigation }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style)
 
@@ -20,17 +20,17 @@ export const AddLink = ({navigation}) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
-            headerRight: () => <TouchableOpacity onPress={saveResponse}><CaptionColor text={'Save'} style={theme?.pallete?.lightBlue}/></TouchableOpacity>
+            headerRight: () => <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Save</Text></TouchableOpacity>
         })
     }, [navigation, link, label])
 
     const saveResponse = () => {
         navigate.navigate(ROUTE.SETTINGS_LINKS, {
-            newLink: {label: label, link: link}
+            newLink: { label: label, link: link }
         })
     }
 
-    return(
+    return (
         // <Modal
         //     animationType="slide"
         //     // visible={visible}
@@ -51,20 +51,20 @@ export const AddLink = ({navigation}) => {
                 onChange={setLabel}
                 text='Label'
                 value={label}
-                 />
+            />
 
-            <InputTextWithError 
+            <InputTextWithError
                 onChange={setLink}
                 value={link}
                 text='Link'
-                />
+            />
         </View>
         // </Modal>
     )
 }
 
 const styling = (theme) => StyleSheet.create({
-    container:{
+    container: {
         padding: theme?.spacing?.m,
         height: '50%',
         // marginTop: 72,

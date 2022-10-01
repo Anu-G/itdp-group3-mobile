@@ -59,7 +59,9 @@ export const SettingsOpenHour = () => {
                         )
                     })}
 
-                    <ButtonMediumComponent label={'Save'} onClick={saveChanges} />
+                    <View style={{ alignSelf: 'flex-end' }}>
+                        <ButtonMediumComponent label={'Save'} onClick={saveChanges} />
+                    </View>
 
                 </View>
             </ScrollView>
