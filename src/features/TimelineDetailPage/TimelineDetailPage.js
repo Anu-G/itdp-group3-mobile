@@ -107,30 +107,26 @@ export const TimelineDetailPage = ({ navigation }) => {
                                 let hour = (dt.getHours() < 10 ? '0' : '') + dt.getHours()
                                 let minutes = (dt.getMinutes() < 10 ? '0' : '') + dt.getMinutes()
                                 return (
-                                    <>
-                                        {isLoading ? <SkeletonDetailTimelineCard />
-                                            :
-                                            <TimelineDetailCard
-                                                key={i}
-                                                avatar={post.avatar}
-                                                caption={post.caption_post}
-                                                comments={post.detail_comment}
-                                                date={`${date}/${month}/${year}`}
-                                                links={post.detail_media_feed}
-                                                name={post.display_name}
-                                                place={post.place}
-                                                time={`${hour}:${minutes}`}
-                                                postLikes={post.total_like}
-                                                setRefresh={setRefresh}
-                                                accId={user.accountId}
-                                                postAccId={post.account_id}
-                                                handleClickName={handleClickName}
-                                                feedId={post.post_id}
-                                                handleComment={handleComment}
-                                                thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
-                                                accType={post.account_type}
-                                            />}
-                                    </>
+                                    <TimelineDetailCard
+                                        key={i}
+                                        avatar={post.avatar}
+                                        caption={post.caption_post}
+                                        comments={post.detail_comment}
+                                        date={`${date}/${month}/${year}`}
+                                        links={post.detail_media_feed}
+                                        name={post.display_name}
+                                        place={post.place}
+                                        time={`${hour}:${minutes}`}
+                                        postLikes={post.total_like}
+                                        setRefresh={setRefresh}
+                                        accId={user.accountId}
+                                        postAccId={post.account_id}
+                                        handleClickName={handleClickName}
+                                        feedId={post.post_id}
+                                        handleComment={handleComment}
+                                        thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
+                                        accType={post.account_type}
+                                    />
                                 )
                             })
                         }

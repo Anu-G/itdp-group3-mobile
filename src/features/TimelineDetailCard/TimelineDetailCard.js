@@ -1,6 +1,6 @@
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'

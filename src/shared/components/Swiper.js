@@ -5,7 +5,7 @@ import { StyleSheet, View, Image, ScrollView, Dimensions, Text, StatusBar, Platf
 
 const windowWidth = Dimensions.get('screen').width
 
-export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, swipeBottom, swipeTop, styleImage, orientation = true }) => {
+export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, swipeBottom, swipeTop, styleImage, orientation = true, product = false }) => {
     const width = Dimensions.get('window').width - 32
     const height = width * 0.75
     const handleClick = (e, item) => {
@@ -32,22 +32,24 @@ export const Swiper = ({ images, textSize, textColor, textBold, textUnderline, s
                                     slider={{ visible: false }}
                                     timeVisible={true}
                                     fullscreen={{ visible: false }}
-                                    style={{ height: height, width: width, videoBackgroundColor: '#1E2329' }}
+                                    style={{ height: product ? width : height, width: width, videoBackgroundColor: '#1E2329' }}
                                 />
                                 :
-                                <Image style={[{ height: height, width: width, backgroundColor: 'white', resizeMode: 'cover' }, styleImage]} source={{ uri: item.url }} resizeMode={'contain'} />
+                                <Image style={[{ height: product ? width : height, width: width, backgroundColor: 'white' }, styleImage]} source={{ uri: item.url }} resizeMode={'cover'} />
                             }
-                            <View style={styles.imageText}>
-                                <Text style={[
-                                    typeof textSize === 'number' && textSize > 0 && textSize <= 40 ? { fontSize: textSize } : { fontSize: 30 },
-                                    typeof textBold === 'boolean' && textBold && { fontWeight: 'bold' },
-                                    typeof textColor === 'string' && { color: textColor },
-                                    typeof textUnderline === 'boolean' && textUnderline && { textDecorationLine: 'underline' },
-                                    { backgroundColor: 'rgba(76, 74, 74, 0.1)', width: 30, borderRadius: 4, textAlign: 'center' }
-                                ]}>
-                                    {item.name && item.name}
-                                </Text>
-                            </View>
+                            {item.name &&
+                                <View style={styles.imageText}>
+                                    <Text style={[
+                                        typeof textSize === 'number' && textSize > 0 && textSize <= 40 ? { fontSize: textSize } : { fontSize: 30 },
+                                        typeof textBold === 'boolean' && textBold && { fontWeight: 'bold' },
+                                        typeof textColor === 'string' && { color: textColor },
+                                        typeof textUnderline === 'boolean' && textUnderline && { textDecorationLine: 'underline' },
+                                        { backgroundColor: 'rgba(76, 74, 74, 0.1)', width: 30, borderRadius: 4, textAlign: 'center' }
+                                    ]}>
+                                        {item.name}
+                                    </Text>
+                                </View>
+                            }
                         </ScrollView>
                         :
                         null

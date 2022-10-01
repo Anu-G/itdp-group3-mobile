@@ -27,6 +27,8 @@ export const ROUTE = {
    ADD_LINK: 'addLink',
    STATIC_PAGE: 'staticPage',
    HELP_CENTER: 'help_center',
+   DETAIL_PRODUCT: 'detailProduct',
+   PROFILE_DETAIL_PRODUCT: 'profileDetailProduct',
 
    HELP_CENTER_ANON: 'helpCenterAnon',
 
@@ -38,6 +40,5 @@ export const ROUTE = {
    EDIT_PRODUCT: 'edit-product',
    CATALOG: 'catalog',
    SEARCH_INITIAL: 'searchInitial',
-   DETAIL_PRODUCT: 'detailProduct',
    SPLASH_SCREEN: 'splashScreen'
 }

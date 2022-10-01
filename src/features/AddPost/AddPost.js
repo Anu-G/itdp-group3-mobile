@@ -2,7 +2,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Animated, Dimensions, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ImageHorizontalScroll } from '../../shared/components/ImageHorizontalScroll';
 import { TextTimeline } from '../../shared/components/Label';
@@ -159,8 +159,8 @@ export const AddPost = ({ navigation }) => {
             <View style={styles.previewContainer}>
                 <Swiper
                     images={previewImagePath}
-                    swipeBottom={e => console.log('swipe bottom: ', e)}
-                    swipeTop={e => console.log('swipe top: ', e)}
+                    swipeBottom={e => null}
+                    swipeTop={e => null}
                     textSize={16}
                     styleImage={{ borderRadius: 8 }}
                 />

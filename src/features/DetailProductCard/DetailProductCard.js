@@ -1,60 +1,101 @@
-import { FontAwesome } from '@expo/vector-icons'
-import React, { useState } from 'react'
-import { Image, StyleSheet } from 'react-native'
-import { Caption, TextProfile } from '../../shared/components/Label'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import React, { useEffect, useState } from 'react'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { AvatarSmall } from '../../shared/components/ImageProfile'
+import { Caption } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
+import { Swiper } from '../../shared/components/Swiper'
+import { ROUTE } from '../../shared/constants/NavigationConstants'
+import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
+import "intl";
+import "intl/locale-data/jsonp/en";
 
-export const DetailProductCard = ({ handleClick, product }) => {
+export const DetailProductCard = ({ handleClick }) => {
     const theme = useTheme()
-    const styles = styling(theme)
+    const styles = styling(theme?.state?.style)
     // state
-    const avatar = product.avatar
-    const name = product.profile_name
-    const productName = product.product_name
-    const productPrice = product.price
-    const caption = product.caption
-    const links = product.detail_media_products
+    const [avatar, setAvatar] = useState('');
+    const [name, setName] = useState('');
+    const [productName, setProductName] = useState('');
+    const [productPrice, setProductPrice] = useState('');
+    const [caption, setCaption] = useState('');
+    const [links, setLinks] = useState([]);
 
     const [readMore, setReadMore] = useState(true)
 
-    const handleReadMore = () => {
-        setReadMore(!readMore)
+    const navigate = useNavigation();
+    const route = useRoute();
+    const { productService, profileService } = useDep();
+    useEffect(_ => {
+        (async _ => {
+            try {
+                let responseProd = await productService.doGetProductByProduct({
+                    account_id: route.params?.data.accountId,
+                    product_id: `${route.params?.data.productId}`
+                })
+                let responseProfile = await profileService.doGetBusinessProfile({
+                    account_id: route.params?.data.accountId
+                })
+
+                if (responseProd.data.data !== null && responseProfile.data.data !== null) {
+                    setAvatar(responseProfile.data.data.business_profile.profile_image);
+                    setName(responseProfile.data.data.business_profile.display_name);
+                    setProductName(responseProd.data.data.product_name);
+                    setProductPrice(responseProd.data.data.price);
+                    setCaption(responseProd.data.data.description);
+                    setLinks(responseProd.data.data.detail_media_products.map((item, i) => {
+                        return { url: item, name: '' }
+                    }));
+                }
+
+            } catch (err) {
+                console.log(err.response.data);
+            }
+        })();
+    }, [route.params])
+
+    const handleClickName = (id) => {
+        navigate.navigate(ROUTE.BUSINESS_PROFILE, { openId: id })
     }
 
     return (
         <MainContainer>
-            <View style={styles.detailProductBg}>
-                <View style={styles.detailProductWrp}>
-                    <View style={styles.detailProductCtn}>
-                        <View>
-                            <View style={styles.productHd}>
-                                <Image source={{ uri: avatar }} style={{ width: 50, height: 50, borderRadius: 25 }} />
-                                <View style={styles.nameLocCtn}>
-                                    <TextProfile text={name} />
+            <View style={styles.tlBg}>
+                <View style={styles.tlLst}>
+                    <ScrollView>
+                        <View style={styles.timelineCtn}>
+                            <View>
+                                <View style={styles.profileHd}>
+                                    <View style={{ flex: 1 }}>
+                                        <AvatarSmall source={avatar}
+                                            handleClick={() => handleClickName(route.params?.data.accountId)}
+                                        />
+                                    </View>
+                                    <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }}
+                                        onPress={() => handleClickName(route.params?.data.accountId)}
+                                    >
+                                        <Text style={styles.displayName}>{name}</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                            <View style={styles.xBtn} onClick={handleClick}>
-                                <FontAwesome name='xmark' size={20} />
+                            <View style={styles.captionCtn}>
+                                <Text style={styles.productName}>{productName}</Text>
+                                <Caption text={price.format(productPrice)} />
+                            </View>
+                            <Swiper
+                                images={links}
+                                swipeBottom={e => { }}
+                                swipeTop={e => { }}
+                                textSize={16}
+                                styleImage={{ borderRadius: 8 }}
+                            />
+                            <View style={styles.captionCtn}>
+                                <Caption text={caption} />
                             </View>
                         </View>
 
-                        <View style={styles.foodHd}>
-                            <Caption text={productName} />
-                            {/* <Caption text={price.format(productPrice)}/> */}
-                            <Caption text={productPrice} />
-                        </View>
-
-                        <View style={styles.captionCtn}>
-                            <Caption text={caption} readMore={readMore} handleReadMore={handleReadMore} />
-                        </View>
-
-                        <View>
-                            <View style={styles.imgViewCtn}>
-                                {/* {Array.isArray(links) && links.length !== 1 ? <ImagesViewTimelineMany links={links}/> : <ImageViewTimeline link={links}/>} */}
-                            </View>
-                        </View>
-                    </View>
+                    </ScrollView>
                 </View>
             </View>
         </MainContainer>
@@ -62,39 +103,43 @@ export const DetailProductCard = ({ handleClick, product }) => {
 }
 
 const styling = (theme) => StyleSheet.create({
-    detailProductBg: {
-        position: 'fixed',
-        margin: 0,
-        backgroundColor: 'rgba(255,255,255, 0.2)',
+    tlBg: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
+        alignSelf: 'stretch',
     },
-    detailProductWrp: {
-        minWidth: 300,
-        minHeight: 200,
-        position: 'absolute',
-        backgroundColor: '#3B4046',
+    tlLst: {
+        flex: 1,
+        flexDirection: 'column',
         borderRadius: 20,
     },
-    detailProductCtn: {
-        minHeight: 150,
-        width: 200,
+    timelineCtn: {
         padding: 16,
+        alignSelf: 'stretch',
         flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
-    xBtn: {
-        marginLeft: 0,
-        // cursor:'pointer',
-        color: '#FE5454',
-        float: 'right',
+    profileHd: {
+        flex: 1,
+        flexDirection: 'row',
     },
-    imgViewCtn: {
-        minHeight: 300,
+    captionCtn: {
+        marginTop: 8,
+        marginBottom: 8,
+        marginRight: 0,
     },
-    foodHd: {
-        margin: '16,0,0,0',
+    displayName: {
+        fontFamily: 'Poppins-SemiBold',
+        color: theme?.pallete?.white,
+        fontSize: 16
+    },
+    productName: {
+        fontFamily: 'Poppins-SemiBold',
+        color: theme?.pallete?.white,
+        fontSize: 14
     },
 })
+
+export const price = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR'
+});

@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
@@ -38,6 +39,8 @@ export const CategorizePageProfile = ({ bisID }) => {
 
     // service
     const user = useSelector((state) => state.auth)
+    const route = useRoute();
+    const { openId } = route?.params === undefined ? {} : route.params;
 
     const FAQs = [
         {
@@ -88,11 +91,11 @@ export const CategorizePageProfile = ({ bisID }) => {
     const renderScene = ({ route }) => {
         switch (route.key) {
             case 'first':
-                return <TimelinePage byAccount={`${user.accountId}`} />;
+                return <TimelinePage byAccount={`${openId}`} />;
             case 'second':
-                return <CatalogPageAccount />
+                return <CatalogPageAccount byAccount={`${openId}`} />
             case 'third':
-                return <FAQPage bisID={`${user.accountId}`} />;
+                return <FAQPage bisID={`${openId}`} />;
             default:
                 return <Text>Cannot load any scene</Text>;
         }

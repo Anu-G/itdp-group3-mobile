@@ -1,7 +1,7 @@
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CommentExtActive } from '../../shared/components/CommentExtActive'
 import { AvatarSmall } from '../../shared/components/ImageProfile'
 import { Caption } from '../../shared/components/Label'

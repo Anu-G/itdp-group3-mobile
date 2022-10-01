@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { storage } from '../../apps/Storage';
 import { ImageWithDeleteSign } from '../../shared/components/ImageAddCatalog';
@@ -38,10 +38,10 @@ export const SettingsAddProduct = ({ navigation }) => {
         getAccountId()
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         setPreviewImagePath([])
-        pickedImagePath.map((image,i) => {
-            setPreviewImagePath(prevState=>[...prevState,{url:image, name: `${i + 1}/${pickedImagePath.length}`}])
+        pickedImagePath.map((image, i) => {
+            setPreviewImagePath(prevState => [...prevState, { url: image, name: `${i + 1}/${pickedImagePath.length}` }])
         });
     }, [pickedImagePath])
 
@@ -109,12 +109,12 @@ export const SettingsAddProduct = ({ navigation }) => {
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Price'} value={price} onChange={setPrice} placeholder={'0,00'} keyboard={'number-pad'} />
                 <InputTextActiveSmallSize isCorrect={isCorrect} text={'Description'} value={description} onChange={setDescription} placeholder={'Your product description'} />
                 <TextProfile text={'Image'} />
-                <ScrollView 
-                    horizontal 
-                    showsHorizontalScrollIndicator={false} 
-                    contentContainerStyle={{flex:1}}
-                    style={{flex:1}} 
-                    >
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ flex: 1 }}
+                    style={{ flex: 1 }}
+                >
                     <ImageWithDeleteSign source={"plus-icon"} handleClick={showImagePicker} />
                     {pickedImagePath.length !== 0 && pickedImagePath.length === 1 ?
                         <ImageWithDeleteSign source={pickedImagePath[0]} handleClick={() => handleDeleteImage(0)} />
@@ -123,10 +123,11 @@ export const SettingsAddProduct = ({ navigation }) => {
                 </ScrollView>
                 <Swiper
                     images={previewImagePath}
-                    swipeBottom={e => console.log('swipe bottom: ', e)}
-                    swipeTop={e => console.log('swipe top: ', e)}
+                    swipeBottom={e => null}
+                    swipeTop={e => null}
                     textSize={16}
-                    styleImage={{ borderRadius: 8}}
+                    styleImage={{ borderRadius: 8 }}
+                    product={true}
                 />
             </View>
         </MainContainer>

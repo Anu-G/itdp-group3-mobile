@@ -11,7 +11,7 @@ import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { checkErr } from '../../utils/CommonUtils'
 
-export const CatalogPageAccount = () => {
+export const CatalogPageAccount = ({ byAccount = null }) => {
     const theme = useTheme()
     const styles = styling(theme)
     const navigate = useNavigation()
@@ -30,16 +30,15 @@ export const CatalogPageAccount = () => {
     }, [])
 
     // service
-    const { settingAccountService} = useDep()
+    const { settingAccountService } = useDep()
     const user = useSelector((state) => state.auth)
 
-    const getProducts = async () =>{
+    const getProducts = async () => {
         try {
-            let id = user.accountId
-            setAccountId(id)
+            let id = byAccount !== null ? byAccount : user.accountId
 
             let response = await settingAccountService.doGetAccountProduct({
-                account_id:`${id}`
+                account_id: `${id}`
             })
 
             if (response.data.data !== null) {
@@ -56,7 +55,7 @@ export const CatalogPageAccount = () => {
 
     const handleClickDetailProduct = (i) => {
         navigate.navigate(ROUTE.DETAIL_PRODUCT, {
-            data: {accountId : accountId, productId : i }
+            data: { accountId: byAccount !== null ? byAccount : user.accountId, productId: i }
         })
     }
 
@@ -66,18 +65,18 @@ export const CatalogPageAccount = () => {
         return newStr
     }
 
-    const renderItem = ({item, i}) => {
+    const renderItem = ({ item, i }) => {
         return (
             <View>
                 <View style={styles.itemCellCtn}>
                     <TouchableOpacity onPress={() => handleClickDetailProduct(item.product_id)}>
-                        <View style={{backgroundColor:'#3B4046', width: Dimensions.get('window').width * 0.39, height: Dimensions.get('window').height * 0.28, justifyContent: 'center', alignItems:'center', borderRadius: 4}}>
-                            <ImagesViewProfile link={item.detail_media_products[0]}/>
-                            <View style={{paddingRight:12, paddingLeft:12}}>
-                                <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{color: '#F4F4F4', fontSize: 16}}/>
+                        <View style={{ backgroundColor: '#3B4046', width: Dimensions.get('window').width * 0.39, height: Dimensions.get('window').height * 0.28, justifyContent: 'center', alignItems: 'center', borderRadius: 4 }}>
+                            <ImagesViewProfile link={item.detail_media_products[0]} />
+                            <View style={{ paddingRight: 12, paddingLeft: 12 }}>
+                                <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{ color: '#F4F4F4', fontSize: 16 }} />
                             </View>
-                            <View style={{paddingRight:12, paddingLeft:12, paddingBottom: 4}}>
-                                    <Caption text={`Rp ${item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`} style={{color: '#F4F4F4'}}/>
+                            <View style={{ paddingRight: 12, paddingLeft: 12, paddingBottom: 4 }}>
+                                <Caption text={`Rp ${item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`} style={{ color: '#F4F4F4' }} />
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -86,28 +85,28 @@ export const CatalogPageAccount = () => {
         )
     }
 
-  return (
-    <MainContainer>
-        <View style={styles.container}>
-            {products.length == 0 ?
-            <View style={styles.catalogCtnEmpty}>
-                <Title1 label={'No Product Yet'}/>
-            </View> 
-            :
-            <FlatList 
-                data={products}
-                renderItem={renderItem}
-                numColumns={2} 
-                keyExtractor={item => item.product_id} 
-                showsVerticalScrollIndicator={false}
-                onRefresh={() => setRefresh(!refresh)}
-                refreshing={refresh}
-            />
-             }
-        </View>
-    </MainContainer>
-    
-  )
+    return (
+        <MainContainer>
+            <View style={styles.container}>
+                {products.length == 0 ?
+                    <View style={styles.catalogCtnEmpty}>
+                        <Title1 label={'No Product Yet'} />
+                    </View>
+                    :
+                    <FlatList
+                        data={products}
+                        renderItem={renderItem}
+                        numColumns={2}
+                        keyExtractor={item => item.product_id}
+                        showsVerticalScrollIndicator={false}
+                        onRefresh={() => setRefresh(!refresh)}
+                        refreshing={refresh}
+                    />
+                }
+            </View>
+        </MainContainer>
+
+    )
 }
 
 const styling = (theme) => StyleSheet.create({
@@ -119,13 +118,13 @@ const styling = (theme) => StyleSheet.create({
         marginRight: 16,
     },
     catalogCtnEmpty: {
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'center',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
     itemCellCtn: {
         flex: 1,
-        paddingRight: 16, 
+        paddingRight: 16,
         paddingVertical: 8,
     },
 })
