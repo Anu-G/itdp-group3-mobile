@@ -108,6 +108,7 @@ export const BusinessProfile = ({ navigation }) => {
         } else {
             useId = user.accountId
         }
+        console.log(openId);
         try {
             let response = await profileService.doGetBusinessProfile({
                 account_id: `${useId}`

@@ -10,6 +10,7 @@ import { TimelineCard } from '../TimelineCard/TimelineCard'
 import { Entypo } from '@expo/vector-icons';
 import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useSelector } from 'react-redux'
+import { LoginModalComponent } from '../../shared/components/LoginModal'
 
 export const TimelinePage = ({ byAccount = null }) => {
     const theme = useTheme()
@@ -19,6 +20,7 @@ export const TimelinePage = ({ byAccount = null }) => {
     const navigate = useNavigation()
     const [timelines, setTimelines] = useState([])
     const [isLoading, setLoading] = useState(false)
+    const [loginModal,setLoginModal] = useState(false)
     const navigation = useNavigation()
     const user = useSelector((state) => state.auth);
 
@@ -99,9 +101,18 @@ export const TimelinePage = ({ byAccount = null }) => {
         }
     }, [route])
 
+    const handleAddPost = () => {
+        if (user.accountId == 0) {
+            setLoginModal(prevState=>!prevState)
+        } else {
+            navigate.navigate(ROUTE.ADD_POST)
+        }
+    }
+
     return (
         <MainContainer>
             <View style={styles.tlBg}>
+                {loginModal && <LoginModalComponent handleNoLogin={handleAddPost}/>}
                 <View style={styles.tlLst}>
                     <ScrollView>
                         {isLoading
@@ -150,7 +161,7 @@ export const TimelinePage = ({ byAccount = null }) => {
                             </>
                         }
                     </ScrollView>
-                    <TouchableOpacity onPress={() => navigate.navigate(ROUTE.ADD_POST)} style={{ zIndex: 101, position: 'absolute', justifyContent: 'flex-end', right: 20, bottom: 16 }}>
+                    <TouchableOpacity onPress={() => handleAddPost()} style={{ zIndex: 101, position: 'absolute', justifyContent: 'flex-end', right: 20, bottom: 16 }}>
                         <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: '#FED154', justifyContent: 'center', alignItems: 'center' }}>
                             <Entypo name="plus" size={40} color="#849EB9" />
                         </View>

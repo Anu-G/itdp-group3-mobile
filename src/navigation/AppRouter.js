@@ -48,7 +48,7 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={initialRoute} >
+      <Stack.Navigator initialRouteName={ROUTE.MAIN} >
          <Stack.Group screenOptions={{ headerShown: false }} >
             <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
             <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />

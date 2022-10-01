@@ -11,6 +11,8 @@ import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { Swiper } from '../../shared/components/Swiper'
 import { useSelector } from 'react-redux'
+import { UserInterfaceIdiom } from 'expo-constants'
+import { LoginModalComponent } from '../../shared/components/LoginModal'
 
 export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes, accType }) => {
     const theme = useTheme()
@@ -19,11 +21,15 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     const maxLength = 280
     const [isLiked, setIsLiked] = useState(false)
     const [comment, setComment] = useState('')
+    const [wantLogin, setWantLogin] = useState(false)
+    const [wantText, setWantText] = useState('')
     const [isButtonSendActive, setIsButtonSendActive] = useState(false)
     const [readMore, setReadMore] = useState(true)
     const { timelineService } = useDep()
     const [images, setImages] = useState([])
     const profile = useSelector((state) => state.profile);
+
+    const user = useSelector(state=>state.auth)
 
     useEffect(() => {
         setIsLiked(thisAccountLikes)
@@ -50,35 +56,49 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     }
 
     const handleOnClickSend = () => {
-        handleComment({
-            feedId: feedId,
-            accountId: accId,
-            comment: comment
-        })
+        if (user.accountId != 0) {
+            handleComment({
+                feedId: feedId,
+                accountId: accId,
+                comment: comment
+            })   
+        } else {
+            handleLoginStatus()
+            setWantText('comment on this Post ?')
+        }
         setComment('')
         // console.log('ceritanya send')
     }
 
     const handleLike = async () => {
-        try {
-            if (isLiked) {
-                await timelineService.doDeleteTimelineLike({
-                    "account_id": `${accId}`,
-                    "feed_id": `${feedId}`
-                })
-                setIsLiked(prevState => false)
-                setRefresh(feedId)
-            } else {
-                await timelineService.doPostTimelineLike({
-                    "account_id": `${accId}`,
-                    "feed_id": `${feedId}`
-                })
-                setIsLiked(prevState => true)
-                setRefresh(feedId)
-            }
-        } catch (e) {
-            console.log(e);
+        if ( user.accountId != 0) {
+            try {
+                if (isLiked) {
+                    await timelineService.doDeleteTimelineLike({
+                        "account_id": `${accId}`,
+                        "feed_id": `${feedId}`
+                    })
+                    setIsLiked(prevState => false)
+                    setRefresh(feedId)
+                } else {
+                    await timelineService.doPostTimelineLike({
+                        "account_id": `${accId}`,
+                        "feed_id": `${feedId}`
+                    })
+                    setIsLiked(prevState => true)
+                    setRefresh(feedId)
+                }
+            } catch (e) {
+                console.log(e);
+            }   
+        } else {
+            handleLoginStatus()
+            setWantText('like this Post ?')
         }
+    }
+
+    const handleLoginStatus = () => {
+        setWantLogin(prevState=>!prevState)
     }
 
     const arrangeImagesFormat = () => {
@@ -90,6 +110,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     return (
         <MainContainer>
             <View style={styles.timelineCtn}>
+                {wantLogin && <LoginModalComponent handleNoLogin={handleLoginStatus} text={wantText}/>}
                 <View>
                     <View style={styles.profileHd}>
                         <View style={{ flex: 1 }}>

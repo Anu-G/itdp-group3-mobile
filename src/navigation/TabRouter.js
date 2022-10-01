@@ -4,7 +4,7 @@ import { Button, Dimensions, Image, StyleSheet, View } from "react-native";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useDep } from "../shared/context/DependencyContext";
 import { useTheme } from "../shared/context/ThemeContext";
@@ -28,6 +28,7 @@ import { Home } from "../features/Home/Home";
 import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
 import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
 import { Search } from "../features/Search/Search";
+import { P } from "@expo/html-elements";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -37,6 +38,7 @@ export const TabRouter = _ => {
    const user = useSelector((state) => state.auth);
    const profile = useSelector((state) => state.profile);
    const { profileService } = useDep();
+   const [loginStatus,setLoginStatus] = useState(false);
    const dispatch = useDispatch();
 
    useEffect(() => {
@@ -65,6 +67,15 @@ export const TabRouter = _ => {
          }
       })();
    }, [user.roleId !== 0]);
+
+   useEffect(()=>{
+      if (user.roleId == 0) {
+         setLoginStatus(false)
+      } else {
+         setLoginStatus(true)
+      }
+      console.log(user);
+   }, [user])
 
    return (
       <Tab.Navigator initialRouteName={ROUTE.MAIN} screenOptions={({ route }) => ({
@@ -100,7 +111,9 @@ export const TabRouter = _ => {
          <Tab.Group screenOptions={{ headerShown: false }} >
             <Tab.Screen name={ROUTE.HOME} component={TimelineStack} />
             <Tab.Screen name={ROUTE.SEARCH} component={Search} />
-            <Tab.Screen name={ROUTE.PROFILE} component={ProfileStack} />
+            {
+               loginStatus && <Tab.Screen name={ROUTE.PROFILE}  component={ ProfileStack  } />
+            }
          </Tab.Group >
       </Tab.Navigator >
    )
