@@ -185,15 +185,16 @@ export const BusinessProfile = ({ navigation }) => {
                     </View>
                     {isLoading ? <Animated.View style={{ opacity: colorChange }}>
                         <SkeletonTitle style={{ marginVertical: 4 }} />
-                    </Animated.View> : <View style={{ 
-                            alignContent: 'center',  
-                            flexDirection: 'row' , 
-                            alignItems: 'flex-start',
-                            marginVertical: 4 }} >
-                        <Image style={{marginHorizontal: 4}} source={require('../../../assets/images/Business-Badge.png')} />
+                    </Animated.View> : <View style={{
+                        alignContent: 'center',
+                        flexDirection: 'row',
+                        alignItems: 'flex-start',
+                        marginVertical: 4
+                    }} >
+                        <Image style={{ marginHorizontal: 4 }} source={require('../../../assets/images/Business-Badge.png')} />
 
                         <Title2 label={profile.DisplayName} />
-                        </View>}
+                    </View>}
                     {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}>
                         <SkeletonCategory style={{ marginVertical: 4 }} />
                     </Animated.View> : <Caption text={profile.CategoryName} />}
@@ -201,7 +202,7 @@ export const BusinessProfile = ({ navigation }) => {
                         {isLoading ? <Animated.View style={{ opacity: colorChange, width: "40%", height: 24 }}>
                             <SkeletonCategory style={{ marginVertical: 4 }} />
                         </Animated.View> : <>
-                                
+
                             {isOpen ? <Image source={require('../../../assets/images/Open.png')} /> : <Image source={require('../../../assets/images/Closed.png')} />}
                             <FontAwesome name='circle' size={5} color={"rgb(132,158,185)"} style={styles.circle} />
                             <Caption text={`${openHour} - ${closeHour}`} />
@@ -225,9 +226,10 @@ export const BusinessProfile = ({ navigation }) => {
                         {isLoading ? <Animated.View style={{ opacity: colorChange }}><SkeletonButton /></Animated.View> : <>{profile.GmapsLink !== '' && <ButtonComponent label={'Our Store'} onClick={handleClickGmaps} style={styles.profileButtonCtn} />}</>}
                     </View>
                 </View>
-                <View style={[{ flex: 1, alignSelf: 'stretch' ,
-                    
-                    }]}>
+                <View style={[{
+                    flex: 1, alignSelf: 'stretch',
+
+                }]}>
                     <CategorizePageProfile />
                 </View>
             </View>
@@ -273,7 +275,7 @@ const styling = (theme) => StyleSheet.create({
         margin: theme.spacing?.s,
         marginLeft: 0
     },
-    categorize:{
+    categorize: {
         borderBottomColor: theme?.pallete?.mediumBlue,
         borderBottomWidth: 2,
     }

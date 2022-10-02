@@ -5,6 +5,7 @@ import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { MainContainer } from "../../shared/components/MainContainer"
 import { SettingItemComponent } from "../../shared/components/SettingItem";
+import { DARKMODE, LIGHTMODE } from "../../shared/constants/ActionConstant";
 import { ROUTE } from "../../shared/constants/NavigationConstants";
 import { useTheme } from "../../shared/context/ThemeContext"
 
@@ -20,6 +21,14 @@ export const EditProfile = ({ navigation }) => {
         })
     }, [navigation])
 
+    const onThemeSwitch = _ => {
+        if (theme.state.darkMode) {
+            theme.dispatch({ type: LIGHTMODE });
+        } else {
+            theme.dispatch({ type: DARKMODE });
+        }
+    }
+
     return (
         <MainContainer>
             <View style={styles.container}>
@@ -27,6 +36,7 @@ export const EditProfile = ({ navigation }) => {
                 {user.roleId === 2 && <SettingItemComponent label="Catalog" handlePress={() => navigator.navigate(ROUTE.MANAGE_PRODUCT)} iconName={'book'} iconStatus={true} />}
                 {user.roleId === 2 && <SettingItemComponent label="FAQ" handlePress={() => navigator.navigate(ROUTE.ADD_FAQ)} iconName={'help-outline'} iconStatus={true} />}
                 <SettingItemComponent label="Support" handlePress={() => navigator.navigate(ROUTE.SUPPORT)} iconName={'information'} iconStatus={true} />
+                <SettingItemComponent label={`Switch Theme (current: ${theme.state.darkMode ? 'Dark' : 'Light'})`} handlePress={onThemeSwitch} style={styles.btnCtn} iconStatus={false} />
             </View>
         </MainContainer>
     )

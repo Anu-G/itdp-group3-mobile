@@ -14,7 +14,7 @@ import { FeedPage } from './FeedPage'
 
 export const CategorizePageProfile = ({ bisID }) => {
     const theme = useTheme()
-    const styles = styling(theme)
+    const styles = styling(theme?.state?.style)
     // state
     const [isActive, setIsActive] = useState([false, false, false])
     const [accountId, setAccountId] = useState()

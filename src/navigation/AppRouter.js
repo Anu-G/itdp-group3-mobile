@@ -24,6 +24,8 @@ import { StaticPage } from "../features/StaticPage/StaticPage";
 import { HelpCenter } from "../features/StaticPage/HelpCenter/HelpCenter";
 import { SplashScreen } from "../features/SplashScreen/SplashScreen";
 import { useTheme } from "../shared/context/ThemeContext";
+import { storage } from "../apps/Storage";
+import { KEY } from "../shared/constants/StoreConstants";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -49,85 +51,89 @@ export const AppRouter = _ => {
    }, []);
 
    return (
-      <Stack.Navigator initialRouteName={initialRoute} >
-         <Stack.Group screenOptions={{ headerShown: false }} >
-            <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
-            <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
-            <Stack.Screen name={ROUTE.WELCOME_STORY_2} component={WelcomeStory2} />
-            <Stack.Screen name={ROUTE.WELCOME_STORY_3} component={WelcomeStory3} />
-            <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
-            <Stack.Screen name={ROUTE.LOGIN} component={Login} />
-            <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
-         </Stack.Group >
+      <>
+         {initialRoute &&
+            <Stack.Navigator initialRouteName={initialRoute} >
+               <Stack.Group screenOptions={{ headerShown: false }} >
+                  <Stack.Screen name={ROUTE.LOGIN} component={Login} />
+                  <Stack.Screen name={ROUTE.WELCOME_PAGE} component={WelcomePage} />
+                  <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
+                  <Stack.Screen name={ROUTE.WELCOME_STORY_2} component={WelcomeStory2} />
+                  <Stack.Screen name={ROUTE.WELCOME_STORY_3} component={WelcomeStory3} />
+                  <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
+                  <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
+               </Stack.Group >
 
-         <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({
-            headerTitle: 'Edit Profile',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
-         })} />
-         <Stack.Screen name={ROUTE.DETAIL_TIMELINE} component={TimelineDetailPage} options={({ navigator }) => ({
-            headerTitle: 'Post',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-            headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
-         })} />
-         <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
-            headerTitle: 'Add Post',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-            headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
-         })} />
-         <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} options={({ navigation }) => ({
-            headerTitle: 'Edit Profile',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
-         })} />
-         <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} options={({ navigation }) => ({
-            headerTitle: 'Manage Business Hours',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
-         })} />
-         <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} options={({ navigation }) => ({
-            headerTitle: 'Manage Business Links',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
-         })} />
-         <Stack.Group screenOptions={{ presentation: "modal", }}>
-            <Stack.Screen name={ROUTE.ADD_LINK} component={AddLink} options={({ navigation }) => ({
-               headerTitle: 'Add Link',
-               headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
-            })}
-            />
-         </Stack.Group>
+               <Stack.Screen name={ROUTE.SETTINGS_NON_BUSINESS} component={SettingsProfileNonBusiness} options={({ navigation }) => ({
+                  headerTitle: 'Edit Profile',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
+               })} />
+               <Stack.Screen name={ROUTE.DETAIL_TIMELINE} component={TimelineDetailPage} options={({ navigator }) => ({
+                  headerTitle: 'Post',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               })} />
+               <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
+                  headerTitle: 'Add Post',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               })} />
+               <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} options={({ navigation }) => ({
+                  headerTitle: 'Edit Profile',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
+               })} />
+               <Stack.Screen name={ROUTE.SETTINGS_OPEN_HOUR} component={SettingsOpenHour} options={({ navigation }) => ({
+                  headerTitle: 'Manage Business Hours',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
+               })} />
+               <Stack.Screen name={ROUTE.SETTINGS_LINKS} component={SettingsLink} options={({ navigation }) => ({
+                  headerTitle: 'Manage Business Links',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
+               })} />
+               <Stack.Group screenOptions={{ presentation: "modal", }}>
+                  <Stack.Screen name={ROUTE.ADD_LINK} component={AddLink} options={({ navigation }) => ({
+                     headerTitle: 'Add Link',
+                     headerTitleAlign: "center",
+                     headerTitleStyle: { color: theme?.state?.style?.colors?.headerTrpTabTitle },
+                  })}
+                  />
+               </Stack.Group>
 
-         {/* ===================================================================================== */}
+               {/* ===================================================================================== */}
 
-         <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({ navigation }) => ({
-            headerTitle: 'Add',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-            headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
-         })} />
-         <Stack.Screen name={ROUTE.EDIT_POST} component={EditPost} options={({ navigation }) => ({
-            headerTitle: 'Edit Post',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-            headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground },
-         })} />
+               <Stack.Screen name={ROUTE.ADD_PRODUCT} component={SettingsAddProduct} options={({ navigation }) => ({
+                  headerTitle: 'Add',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               })} />
+               <Stack.Screen name={ROUTE.EDIT_POST} component={EditPost} options={({ navigation }) => ({
+                  headerTitle: 'Edit Post',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground },
+               })} />
 
-         <Stack.Screen name={ROUTE.DETAIL_PRODUCT} component={DetailProductCard} options={({ navigation }) => ({
-            headerTitle: 'Detail Product',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-            headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground },
-         })} />
-         <Stack.Screen name={ROUTE.SEARCH} component={Search} options={({ navigation }) => ({
-            headerTitle: 'Search',
-            headerTitleAlign: "center",
-            headerTitleStyle: { color: "white" },
-            headerStyle: { backgroundColor: "rgb(71,82,100)" },
-         })} />
-      </Stack.Navigator>
+               <Stack.Screen name={ROUTE.DETAIL_PRODUCT} component={DetailProductCard} options={({ navigation }) => ({
+                  headerTitle: 'Detail Product',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground },
+               })} />
+               <Stack.Screen name={ROUTE.SEARCH} component={Search} options={({ navigation }) => ({
+                  headerTitle: 'Search',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: "white" },
+                  headerStyle: { backgroundColor: "rgb(71,82,100)" },
+               })} />
+            </Stack.Navigator>
+         }
+      </>
    )
 }

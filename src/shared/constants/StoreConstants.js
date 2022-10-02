@@ -5,5 +5,6 @@ export const KEY = {
    TOKEN: 'token',
    EXPIRED: 'expiredAt',
    EMAIL: 'email',
-   PASSWORD: 'password'
+   PASSWORD: 'password',
+   THEME: 'theme'
 }
