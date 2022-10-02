@@ -36,10 +36,6 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
     }, [thisAccountLikes])
 
     useEffect(() => {
-        arrangeImagesFormat()
-    }, [])
-
-    useEffect(() => {
         if (comment.length == 0) {
             setIsButtonSendActive(false)
         } else {
@@ -72,7 +68,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
         // console.log('ceritanya send')
     }
 
-    
+
     const handleLike = async () => {
         try {
             if (isLiked) {
@@ -95,14 +91,8 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
         }
     }
 
-    const arrangeImagesFormat = () => {
-        setImages(links.map((item, i) => {
-            return { url: item, name: `${i + 1}/${links.length}` }
-        }))
-    }
-
     const onOptionClick = () => {
-        setPostData({post:postIn})
+        setPostData({ post: postIn })
         handleOptionShow()
     }
 
@@ -122,7 +112,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                             </TouchableOpacity>
                         </View>
                         <View style={styles.optionBtn}>
-                            <TouchableOpacity onPress={()=>onOptionClick()}>
+                            <TouchableOpacity onPress={() => onOptionClick()}>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color={styles.iconCOlot.color} />
                             </TouchableOpacity>
                         </View>
@@ -137,7 +127,9 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
 
                 <View>
                     <Swiper
-                        images={images}
+                        images={links.map((item, i) => {
+                            return { url: item, name: `${i + 1}/${links.length}` }
+                        })}
                         swipeBottom={e => { }}
                         swipeTop={e => { }}
                         textSize={16}

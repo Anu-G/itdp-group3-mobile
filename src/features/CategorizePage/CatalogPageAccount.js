@@ -70,14 +70,10 @@ export const CatalogPageAccount = ({ byAccount = null }) => {
             <View>
                 <View style={styles.itemCellCtn}>
                     <TouchableOpacity onPress={() => handleClickDetailProduct(item.product_id)}>
-                        <View style={{ backgroundColor: '#3B4046', width: Dimensions.get('window').width * 0.39, height: Dimensions.get('window').height * 0.28, justifyContent: 'center', alignItems: 'center', borderRadius: 4 }}>
+                        <View style={{ width: (Dimensions.get('window').width - 48) / 2, height: (Dimensions.get('window').width - 32) / 2, justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}>
                             <ImagesViewProfile link={item.detail_media_products[0]} />
-                            <View style={{ paddingRight: 12, paddingLeft: 12 }}>
-                                <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{ color: '#F4F4F4', fontSize: 16 }} />
-                            </View>
-                            <View style={{ paddingRight: 12, paddingLeft: 12, paddingBottom: 4 }}>
-                                <Caption text={`Rp ${item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`} style={{ color: '#F4F4F4' }} />
-                            </View>
+                            <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{ fontSize: 16 }} />
+                            <Caption text={`Rp ${item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`} />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -101,6 +97,7 @@ export const CatalogPageAccount = ({ byAccount = null }) => {
                         showsVerticalScrollIndicator={false}
                         onRefresh={() => setRefresh(!refresh)}
                         refreshing={refresh}
+                        columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 16 }}
                     />
                 }
             </View>
@@ -112,10 +109,9 @@ export const CatalogPageAccount = ({ byAccount = null }) => {
 const styling = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 16,
-        marginBottom: 16,
         marginLeft: 16,
         marginRight: 16,
+        alignSelf: 'stretch'
     },
     catalogCtnEmpty: {
         flex: 1,
@@ -124,7 +120,5 @@ const styling = (theme) => StyleSheet.create({
     },
     itemCellCtn: {
         flex: 1,
-        paddingRight: 16,
-        paddingVertical: 8,
     },
 })

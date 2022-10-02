@@ -13,21 +13,19 @@ import { SearchDetail } from './SearchDetail'
 
 export const Search = () => {
     const theme = useTheme()
-    const styles = styling(theme)
+    const styles = styling(theme?.state?.style)
 
     // state
     const [value, setValue] = useState('');
-    const [products, setProducts] = useState([])
-    const [isActive, setIsActive] = useState(false)
-    const [post, setPost] = useState([])
+    const [products, setProducts] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [catSelected, setCatSelected] = useState('1')
-    const [keyword, setKeyword] = useState('')
+    const [timelines, setTimelines] = useState(null)
 
     const data = [
-        {key: '1', value:'Food & Beverage'},
-        {key: '2', value:'Place'},
-        {key: '3', value:'Wholesale'},
+        { key: '1', value: 'Food & Beverage' },
+        { key: '2', value: 'Place' },
+        { key: '3', value: 'Wholesale' },
     ]
 
     const handleChange = (text) => {
@@ -37,19 +35,18 @@ export const Search = () => {
     // service
     const { productService, timelineService } = useDep();
 
-    const handleSearchClick = async (event) => {
+    const handleSearchClickProduct = async (event) => {
         event.preventDefault()
         try {
             setIsLoading(true)
             const response = await productService.doGetProductSearch({
                 "keyword": value
             })
-            setProducts(response.data.data)
-            console.log(response.data.data[0].category_id);
-
-            console.log(value);
-
-            setKeyword(value)
+            if (response.data.data !== null) {
+                setProducts(response.data.data)
+            } else {
+                setProducts([]);
+            }
         } catch (err) {
             console.log(err);
             checkErr(err)
@@ -58,36 +55,62 @@ export const Search = () => {
         }
     }
 
+    const handleSearchClickPost = async (event) => {
+        event.preventDefault()
+        try {
+            setIsLoading(true)
+            const response = await timelineService.doGetTimelineByKeyword({
+                page: 1,
+                page_lim: 200,
+                keyword: value
+            })
+            if (response.data.data !== null) {
+                setTimelines(response.data.data)
+            } else {
+                setTimelines([]);
+            }
+        } catch (err) {
+            checkErr(err)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     // TAB VIEW
-    const initialLayout = {width: Dimensions.get('window').width}
+    const initialLayout = { width: Dimensions.get('window').width }
 
     const [index, setIndex] = useState(0)
     const [routes] = useState([
-        {key: 'first', title: 'Post'},
-        {key: 'second', title: 'Product'},
+        { key: 'first', title: 'Post' },
+        { key: 'second', title: 'Product' },
     ])
 
     const renderScene = ({ route }) => {
         switch (route.key) {
             case 'first':
-                return <TimelinePageSearch byKeyword={keyword}/>
+                return (
+                    <>
+                        {timelines !== null && <TimelinePageSearch searchTimelines={timelines} />}
+                    </>
+                )
             case 'second':
                 return (
                     <>
-                        <View style={{paddingTop: 16, paddingRight: 16, paddingLeft: 16, width: 200}}>
-                            <SelectList 
+                        <View style={{ alignSelf: 'stretch', position: 'absolute', zIndex: 10, width: "100%", paddingTop: 8 }}>
+                            <SelectList
                                 placeholder='Category'
-                                setSelected={setCatSelected} 
-                                data={data} 
-                                search={false} 
-                                arrowicon={<FontAwesome name='chevron-down' size={12} color='white' style={{paddingTop: 4}}/>}
-                                dropdownTextStyles={{color: 'white'}}
-                                inputStyles={{color:'white'}}
-                                defaultOption={{key: '1', value:'Food & Beverage'}}
-                                onSelect={() => console.log(products.filter(product => product.category_id === catSelected))}
+                                setSelected={setCatSelected}
+                                data={data}
+                                search={false}
+                                arrowicon={<FontAwesome name='chevron-down' size={12} color={styles.textColor} style={{ paddingTop: 4 }} />}
+                                dropdownTextStyles={{ color: styles.textColor }}
+                                inputStyles={{ color: styles.textColor }}
+                                defaultOption={{ key: '1', value: 'Food & Beverage' }}
+                                boxStyles={{ backgroundColor: styles.dropDownFilter, borderWidth: 0, borderBottomWidth: 1, borderTopWidth: 1, borderRadius: 0 }}
+                                dropdownStyles={{ backgroundColor: styles.dropDownFilter }}
                             />
                         </View>
-                        <SearchDetail catalogItems={products.filter(product => product.category_id === catSelected)}/>
+                        {products !== null && <SearchDetail catalogItems={products.filter(product => product.category_id === catSelected)} />}
                     </>
                 );
             default:
@@ -97,9 +120,12 @@ export const Search = () => {
 
     const renderTabBar = props => (
         <TabBar
-          {...props}
-          indicatorStyle={{ backgroundColor: '#FED154' }}
-          style={{ backgroundColor: '#1E2329', color: '#FED154', borderBottomWidth: 1, borderBottomColor: '#475264'}}
+            {...props}
+            indicatorStyle={{ backgroundColor: '#FED154' }}
+            style={styles.backgroundColor}
+            activeColor={styles.textColor}
+            inactiveColor={styles.textColorInactive}
+            labelStyle={{ fontWeight: 'bold' }}
         />
     );
 
@@ -108,21 +134,15 @@ export const Search = () => {
             <View style={styles.categorizePageSearch}>
                 <View style={styles.categorizePageList}>
                     <View style={styles.searchHd}>
-                        <TextInput style={styles.input} placeholder="Search" value={value} onChangeText={handleChange}/>
-                        <TouchableOpacity style={styles.btnSearch} onPress={handleSearchClick}>
+                        <TextInput style={styles.input} placeholder="Search" value={value} onChangeText={handleChange} />
+                        <TouchableOpacity style={styles.btnSearch} onPress={index === 1 ? handleSearchClickProduct : handleSearchClickPost}>
                             <Foundation name='magnifying-glass' size={20} color={'#1E2329'} />
                         </TouchableOpacity>
                     </View>
 
                     <View style={styles.searchCtnt}>
-                        {/* <View style={styles.searchLabelCtg}>
-                            <CategoryLabelActive label={'Products'} />
-                        </View> */}
-                        {/* <View style={styles.searchRs}>
-                            <SearchDetail catalogItems={products} handleFormOpen={handleFormOpen} />
-                        </View> */}
-                        <TabView 
-                            navigationState={{index, routes}}
+                        <TabView
+                            navigationState={{ index, routes }}
                             renderScene={renderScene}
                             onIndexChange={setIndex}
                             initialLayout={initialLayout}
@@ -137,8 +157,10 @@ export const Search = () => {
 
 const styling = (theme) => StyleSheet.create({
     categorizePageSearch: {
-        padding: 16,
+        paddingTop: 16,
         flex: 1,
+        alignSelf: 'stretch',
+        // borderRa
     },
 
     categorizePageList: {
@@ -159,8 +181,8 @@ const styling = (theme) => StyleSheet.create({
 
     searchCtnt: {
         flex: 1,
-        alignSelf:'stretch',
-        margin: 16,
+        alignSelf: 'stretch',
+        marginTop: 16,
     },
 
     searchLabelCtg: {
@@ -188,11 +210,11 @@ const styling = (theme) => StyleSheet.create({
     scene: {
         flex: 1,
     },
-
-
-    // searchRs: {
-    //     minHeight: 300,
-    //     minWidth: 200,
-    //     backgroundColor: '#3B4046'
-    // }
+    backgroundColor: {
+        backgroundColor: theme?.colors?.backgroundColor,
+        elevation: 0,
+    },
+    textColor: theme?.pallete?.white,
+    textColorInactive: theme?.pallete?.mediumBlue,
+    dropDownFilter: theme?.pallete?.dark
 })
