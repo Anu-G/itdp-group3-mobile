@@ -110,6 +110,11 @@ export const Login = _ => {
 
    }
 
+   const goToMain = () => {
+      navigation.replace(ROUTE.MAIN)
+
+   }
+
    const handleEmailChange = (text) => {
       setEmail(prevState => ({ ...prevState, text }));
       checkEmail(text);
@@ -148,6 +153,11 @@ export const Login = _ => {
                   <AuthExtLabel text1={`Doesn't have an account?`} text2={'Sign Up'} />
                </Pressable>
             </View>
+            <View style={styles.noAuth}>
+               <Pressable onPress={goToMain}>
+                  <AuthExtLabel text1={`Or`} text2={'Continue anonymously!'} />
+               </Pressable>
+            </View>
          </View>
 
          {viewState.error !== null && !visible ? setVisible(true) : null}
@@ -176,5 +186,8 @@ const styling = (theme) => StyleSheet.create({
    },
    addAuth: {
       padding: theme?.spacing?.m,
+   },
+   noAuth: {
+      padding: theme?.spacing?.xs,
    }
 })
