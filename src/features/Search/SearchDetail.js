@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { ImagesViewSearchDetail } from '../../shared/components/ImageViewSearchDetail'
+import { ImagesViewSearchDetail } from '../../shared/components/ImagesViewSearchDetail'
 import { Caption, Title1 } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { ROUTE } from '../../shared/constants/NavigationConstants'

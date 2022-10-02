@@ -49,6 +49,7 @@ export const Search = () => {
                 "keyword": value
             })
             setProducts(response.data.data)
+            console.log(response.data.data[0].category_id);
 
             console.log(value);
             const responsePost = await timelineService.doGetTimelineByKeyword({
@@ -91,6 +92,7 @@ export const Search = () => {
                                 dropdownTextStyles={{color: 'white'}}
                                 inputStyles={{color:'white'}}
                                 defaultOption={{key: '1', value:'Food & Beverage'}}
+                                onSelect={() => console.log(products.filter(product => product.category_id === catSelected))}
                             />
                         </View>
                         <SearchDetail catalogItems={products.filter(product => product.category_id === catSelected)}/>
