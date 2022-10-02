@@ -1,14 +1,18 @@
 import { FontAwesome, Foundation } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
+import { TabBar, TabView } from 'react-native-tab-view'
 import { CategoryLabelActive } from '../../shared/components/CategoryLabel'
 import { InputOnly, InputTextActiveSmallSize, SearchBar } from '../../shared/components/Input'
+import { TextProfile } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
+import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { checkErr } from '../../utils/CommonUtils'
 import { DetailProductCard } from '../DetailProductCard/DetailProductCard'
+import { TimelinePage } from '../TimelinePage/TimelinePage'
 import { SearchDetail } from './SearchDetail'
 
 export const Search = () => {
@@ -17,46 +21,93 @@ export const Search = () => {
 
     // state
     const [value, setValue] = useState('');
-    const [product, setProduct] = useState({})
     const [products, setProducts] = useState([])
     const [isActive, setIsActive] = useState(false)
-
-    const handleFormClose = () => {
-        setIsActive(prevState => false)
-        setProduct(prevState => { })
-    }
-
-    const handleFormOpen = (value) => {
-        setIsActive(prevState => true)
-        setProduct(prevState => value)
-    }
+    const [post, setPost] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleChange = (text) => {
         setValue(text)
     }
 
     // service
-    const { productService } = useDep();
+    const { productService, timelineService } = useDep();
 
     const handleSearchClick = async (event) => {
         event.preventDefault()
         try {
+            setIsLoading(true)
             const response = await productService.doGetProductSearch({
                 "keyword": value
             })
-            setProducts(prevstate => response.data.data)
+            setProducts(response.data.data)
+
+            console.log(value);
+            const responsePost = await timelineService.doGetTimelineByKeyword({
+                page: 1,
+                page_lim: 200,
+                keyword: value
+            })
+            setPost(responsePost.data.data)
         } catch (err) {
+            console.log(err);
             checkErr(err)
+        } finally {
+            setIsLoading(false)
         }
     }
+
+    // TAB VIEW
+    const initialLayout = {width: Dimensions.get('window').width}
+
+    const [index, setIndex] = useState(0)
+    const [routes] = useState([
+        {key: 'first', title: 'Post'},
+        {key: 'second', title: 'Product'},
+    ])
+
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+            case 'first':
+                if (value !== '') {
+                    return (
+                        <View>
+                            {isLoading ?
+                                <>
+                                    <View style={{ marginTop: 48 }}>
+                                        <SkeletonTimelineCard />
+                                    </View>
+                                    <SkeletonTimelineCard />
+                                    <SkeletonTimelineCard />
+                                </>     
+                            :                       
+                                <TimelinePage byKeyword={post}/>
+                            }
+                        </View>
+                    )
+                }
+                return <View/>;
+            case 'second':
+                return <SearchDetail catalogItems={products}/>;
+            default:
+                return <Text>Cannot load any scene</Text>;
+        }
+    };
+
+    const renderTabBar = props => (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: '#FED154' }}
+          style={{ backgroundColor: '#1E2329', color: '#FED154', borderBottomWidth: 1, borderBottomColor: '#475264'}}
+        />
+    );
 
     return (
         <MainContainer>
             <View style={styles.categorizePageSearch}>
-                {isActive && <DetailProductCard handleClick={handleFormClose} product={product} />}
                 <View style={styles.categorizePageList}>
                     <View style={styles.searchHd}>
-                        <TextInput style={styles.input} placeholder="Search" value={value} onChangeText={handleChange} />
+                        <TextInput style={styles.input} placeholder="Search" value={value} onChangeText={handleChange}/>
                         <TouchableOpacity style={styles.btnSearch} onPress={handleSearchClick}>
                             <Foundation name='magnifying-glass' size={20} color={'#1E2329'} />
                         </TouchableOpacity>
@@ -66,9 +117,16 @@ export const Search = () => {
                         {/* <View style={styles.searchLabelCtg}>
                             <CategoryLabelActive label={'Products'} />
                         </View> */}
-                        <View style={styles.searchRs}>
+                        {/* <View style={styles.searchRs}>
                             <SearchDetail catalogItems={products} handleFormOpen={handleFormOpen} />
-                        </View>
+                        </View> */}
+                        <TabView 
+                            navigationState={{index, routes}}
+                            renderScene={renderScene}
+                            onIndexChange={setIndex}
+                            initialLayout={initialLayout}
+                            renderTabBar={renderTabBar}
+                        />
                     </View>
                 </View>
             </View>
@@ -100,11 +158,8 @@ const styling = (theme) => StyleSheet.create({
 
     searchCtnt: {
         flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
+        alignSelf:'stretch',
         margin: 16,
-        width: 200,
-        height: 80,
     },
 
     searchLabelCtg: {
@@ -116,6 +171,7 @@ const styling = (theme) => StyleSheet.create({
         fontSize: 14,
         marginLeft: 10,
         width: "90%",
+        color: 'white',
     },
     searchHd: {
         padding: 10,
@@ -128,6 +184,10 @@ const styling = (theme) => StyleSheet.create({
         justifyContent: "space-evenly",
         color: "#F4F4F4",
     },
+    scene: {
+        flex: 1,
+    },
+
 
     // searchRs: {
     //     minHeight: 300,
