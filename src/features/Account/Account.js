@@ -31,8 +31,8 @@ export const Account = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />,
-            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={loading} onPress={() => onClickEdit()} ><Text style={{ color: "#FED154", fontSize: 16 }}>Edit</Text></TouchableOpacity>)
+            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={styles.iconColor.color} />,
+            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={loading} onPress={() => onClickEdit()} ><Text style={{ color: theme?.state?.style?.pallete?.yellow, fontSize: 16 }}>Edit</Text></TouchableOpacity>)
         })
     }, [navigation])
 
@@ -134,5 +134,8 @@ const styling = (theme) => StyleSheet.create({
         alignSelf: 'stretch',
         width: 'auto',
         paddingLeft: 0
+    },
+    iconColor: {
+        color: theme?.pallete?.lightBlue
     }
 })

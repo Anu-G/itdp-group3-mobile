@@ -88,7 +88,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
     }
 
     const onOptionClick = () => {
-        setPostData({post:postIn})
+        setPostData({ post: postIn })
         handleOptionShow()
     }
 
@@ -103,13 +103,13 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                             </View>
                             <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', flexDirection: 'row', alignSelf: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
                                 {/* conditioningnya */}
-                                <Image style={{ marginHorizontal: 4 }} source={require('../../../assets/images/Business-Badge.png')} />
+                                {accType === 2 && <Image style={{ marginHorizontal: 4 }} source={require('../../../assets/images/Business-Badge.png')} />}
                                 <Text style={styles.displayName}>{name}</Text>
                             </TouchableOpacity>
                         </View>
 
                         <View style={styles.optionBtn}>
-                            <TouchableOpacity onPress={()=>onOptionClick()}>
+                            <TouchableOpacity onPress={() => onOptionClick()}>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color={styles.iconCOlot.color} />
                             </TouchableOpacity>
                         </View>

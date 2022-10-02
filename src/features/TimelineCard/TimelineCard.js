@@ -107,7 +107,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                             </View>
                             <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', flexDirection: 'row', alignSelf: 'center' }} onPress={() => handleClickName(postAccId, accType)}>
                                 {/* conditioningnya */}
-                                <Image style={{ marginHorizontal: 4 }} source={require('../../../assets/images/Business-Badge.png')} />
+                                {accType === 2 && <Image style={{ marginHorizontal: 4 }} source={require('../../../assets/images/Business-Badge.png')} />}
                                 <Text style={styles.displayName}>{name}</Text>
                             </TouchableOpacity>
                         </View>

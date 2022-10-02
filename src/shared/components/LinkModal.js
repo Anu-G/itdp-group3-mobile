@@ -34,11 +34,11 @@ export const LinkModal = ({ linksIn, handleClickLinks }) => {
             transparent={true}>
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Ionicons name="ios-chevron-back-outline" size={24} color={theme.state?.style?.colors.inputBorderInactive} onPress={handleClickLinks} />
+                    <Ionicons name="ios-chevron-back-outline" size={24} color={theme.state?.style?.colors.white} onPress={handleClickLinks} />
                     <View style={styles.headerTitle}>
                         <TextProfile text="LINKS" />
                     </View>
-                    <Ionicons name="ios-chevron-back-outline" size={24} color={theme.state?.style?.colors.navbarBackground} />
+                    <Ionicons name="ios-chevron-back-outline" size={24} color={theme.state?.style?.colors.linkModal} />
                 </View>
                 <View style={styles.linkContainer}>
                     {links}
@@ -51,7 +51,7 @@ export const LinkModal = ({ linksIn, handleClickLinks }) => {
 const styling = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.navbarBackground,
+        backgroundColor: theme.colors.linkModal,
         marginTop: Dimensions.get('window').height - 350,
         borderRadius: theme.radius.xl
     },
@@ -64,7 +64,7 @@ const styling = (theme) => StyleSheet.create({
     headerTitle: {
         flex: 1,
         position: "relative",
-        backgroundColor: theme.colors.navbarBackground,
+        backgroundColor: theme.colors.linkModal,
         alignItems: "center",
         alignSelf: "baseline",
         justifyContent: "center",

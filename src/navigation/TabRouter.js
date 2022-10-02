@@ -1,6 +1,6 @@
-import { AntDesign, Entypo, Foundation } from "@expo/vector-icons";
+import { AntDesign, Entypo, Foundation, Octicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Button, Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,9 @@ import { Home } from "../features/Home/Home";
 import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
 import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
 import { Search } from "../features/Search/Search";
+import { TutorialToBusinessAccount } from "../features/TutorialPage/TutorialToBusinessAccount/TutorialToBusinessAccount";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -149,6 +152,7 @@ const TitleLogo = () => {
 const TimelineStack = _ => {
    const theme = useTheme();
    const style = styling(theme.state.style);
+   const navigation = useNavigation()
    return (
       <Stack.Navigator initialRouteName={ROUTE.TIMELINE} >
          <Stack.Group screenOptions={{
@@ -174,7 +178,19 @@ const TimelineStack = _ => {
 
                      }}>TokTok</Text> */}
                   <TitleLogo />
-               </View>
+               </View>,
+               headerRight: ()=>{
+                  return(<>
+                  <TouchableOpacity style={{marginRight:16}}
+                     onPress={()=>navigation.navigate(ROUTE.TUTORIAL)}
+                  >
+                     <Octicons name="question" color={'#FED154'} size={28} />
+                  </TouchableOpacity>
+                  {/* <Pressable > */}
+                     {/* <Octicons name="question" color={'#FED154'} size={24} /> */}
+                  {/* </Pressable> */}
+                  </>)
+               }
          }
 
          }>
@@ -194,53 +210,58 @@ const ProfileStack = _ => {
          <Stack.Group>
             <Stack.Screen name={ROUTE.PROFILE_BUSINESS} component={BusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 56 },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground,
+                  // height: 56
+                },
+                headerShown: false
+               
             })} />
             <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={NonBusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground, height: 56 }
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground, height: 56 },
+               headerShown: false
             })} />
             <Stack.Screen name={ROUTE.SETTINGS_ACCOUNT} component={EditProfile} options={({ navigator }) => ({
                headerTitle: 'Settings',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
             <Stack.Screen name={ROUTE.EDIT_ACCOUNT} component={Account} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
             <Stack.Screen name={ROUTE.CHANGE_PASSWORD} component={ChangePassword} options={({ navigator }) => ({
                headerTitle: 'Account',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
             <Stack.Screen name={ROUTE.SUPPORT} component={StaticPage} options={({ navigator }) => ({
                headerTitle: 'Support',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
             <Stack.Screen name={ROUTE.HELP_CENTER} component={HelpCenter} options={({ navigation }) => ({
                headerTitle: 'Help Center',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
             <Stack.Screen name={ROUTE.MANAGE_PRODUCT} component={ManageProductComponent} options={({ navigation }) => ({
                headerTitle: 'Manage Product',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
             <Stack.Screen name={ROUTE.ADD_FAQ} component={SettingsAddFAQ} options={({ navigation }) => ({
                headerTitle: 'Add',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
             <Stack.Screen name={ROUTE.EDIT_PROFILE} component={user.roleId === 2 ? SettingsProfileBusiness : SettingsProfileNonBusiness} options={({ navigation }) => ({
                headerTitle: 'Edit Profile',
@@ -252,8 +273,8 @@ const ProfileStack = _ => {
             <Stack.Screen name={ROUTE.EDIT_PRODUCT} component={SettingsEditProduct} options={({ navigation }) => ({
                headerTitle: 'Edit Product',
                headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
             })} />
          </Stack.Group>
       </Stack.Navigator>
@@ -311,9 +332,9 @@ const styling = (theme) => StyleSheet.create({
    },
    headerBackground: {
       backgroundColor: theme?.colors?.headerColor,
-      alignItems: "center",
+      // alignItems: "center",
       justifyContent: "center",
       // opacity: 0.8,
-
+      paddingLeft: 16,
    }
 })

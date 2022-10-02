@@ -134,8 +134,8 @@ export const EditPost = ({ navigation }) => {
                 </View>
             </View>
             <View style={styles.downContainer}>
-                <FontAwesome name='image' size={32} color={"#849EB9"} onPress={showImagePicker} style={{ paddingLeft: 16 }} />
-                <FontAwesome name='camera' size={32} color={"#849EB9"} onPress={openCamera} style={{ paddingLeft: 16 }} />
+                <FontAwesome name='image' size={24} color={"#F4F4F4"} onPress={showImagePicker} style={{ paddingLeft: 24 }} />
+                <FontAwesome name='camera' size={24} color={"#F4F4F4"} onPress={openCamera} style={{ paddingLeft: 32 }} />
             </View>
         </MainContainer>
     )

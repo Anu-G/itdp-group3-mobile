@@ -74,21 +74,25 @@ const styling = (theme) => StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(59, 64, 70, 0.5)'
+        backgroundColor: theme.colors.headerColor
     },
     mainCtn: {
-        backgroundColor: theme?.colors?.navbarBackground,
+        backgroundColor: theme?.pallete?.dark,
         width: 229,
         height: 150,
+        // padding: 12,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
         position: "absolute",
         padding: theme?.spacing?.m,
-        borderRadius: theme?.radius?.m
+        borderRadius: theme?.radius?.m,
+        borderWidth: 1,
+        borderColor: theme?.pallete?.yellow
     },
     textCtn: {
         flex: 2,
+        alignItems: "center"
     },
     caption: {
         textAlign: "center"
@@ -102,11 +106,12 @@ const styling = (theme) => StyleSheet.create({
     },
     btn: {
         margin: 0,
-        alignSelf: 'auto'
+        alignSelf: 'auto',
+        fontSize: 10
     },
     cancel: {
-        fontSize: 8,
+        fontSize: 10,
         fontFamily: 'Poppins-Regular',
-        color: theme.colors.white
+        color: theme.pallete.lightBlue
     }
 })

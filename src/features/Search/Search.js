@@ -202,7 +202,7 @@ const styling = (theme) => StyleSheet.create({
         borderRadius: 20,
         flexDirection: "row",
         width: "95%",
-        backgroundColor: "#3B4046",
+        backgroundColor: theme?.colors?.searchBackground,
         alignItems: "center",
         justifyContent: "space-evenly",
         color: "#F4F4F4",

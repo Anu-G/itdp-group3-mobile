@@ -76,10 +76,12 @@ export const CategorizePageProfile = ({ bisID }) => {
     const initialLayout = { width: Dimensions.get('window').width }
 
     const [index, setIndex] = useState(0)
-    const [routes] = useState([
+    const [routes] = user.roleId === 2 ? useState([
         { key: 'first', title: 'Post' },
         { key: 'second', title: 'Catalog' },
         { key: 'third', title: 'FAQ' },
+    ]) : useState([
+        { key: 'first', title: 'Post' },
     ])
 
     // const renderScene = SceneMap({

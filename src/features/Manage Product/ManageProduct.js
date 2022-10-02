@@ -1,5 +1,6 @@
 import { Entypo, FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { style } from "deprecated-react-native-prop-types/DeprecatedImagePropType";
 import { useLayoutEffect } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -22,8 +23,8 @@ export const ManageProductComponent = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />,
-            headerRight: () => <TouchableOpacity style={{marginRight:theme.state.style.spacing.m}} onPress={handleAddProduct}><Entypo size={24} name='plus' color={'#F4F4F4'} /></TouchableOpacity>
+            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={styles.iconColor.color} />,
+            headerRight: () => <TouchableOpacity style={{marginRight:theme.state.style.spacing.m}} onPress={handleAddProduct}><Entypo size={24} name='plus' color={theme?.state?.style?.pallete?.yellow} /></TouchableOpacity>
         })
     }, [navigation])
 
@@ -65,13 +66,15 @@ export const ManageProductComponent = ({ navigation }) => {
                         <View style={styles.productContainer}>
                             <ImageProfile source={links[0]} style={styles.imageLink} />
                             <View style={styles.textContainer}>
-                                <Text32 text={product.product_name.length < 20 ? product.product_name : product.product_name.slice(0, 15).concat('', '...')} style={styles.text} />
+                                <Text32 text={product.product_name.length < 20 ? product.product_name : product.product_name.slice(0, 15).concat('', '...')} 
+                                // style={styles.text} 
+                                />
                                 <Text32Yellow text={toPrice(product.price)} style={styles.text} />
                             </View>
                         </View>
                         <View style={styles.buttonContainer}>
                             <View>
-                                <MaterialCommunityIcons name="delete" style={styles.button} onPress={() => handleDelete(product.product_id)} />
+                                <MaterialCommunityIcons name="delete" style={[styles.button, styles.red]} onPress={() => handleDelete(product.product_id)} />
                             </View>
                             <View>
                                 <MaterialIcons name="edit" style={styles.button} onPress={() => navigate.navigate(ROUTE.EDIT_PRODUCT, { oParams: product })} />
@@ -108,14 +111,20 @@ const styling = (theme) => StyleSheet.create({
         marginLeft: 8
     },
     text: {
-
+        color: theme?.pallete?.lightBlue
     },
     buttonContainer: {
         flexDirection: "row",
     },
     button: {
-        color: theme?.colors?.inputBorder,
+        color: theme?.pallete?.yellow,
         fontSize: 30,
         marginHorizontal: 4
+    },
+    iconColor: {
+        color: theme?.pallete?.lightBlue
+    },
+    red:{
+        color: theme?.pallete?.red
     }
 })

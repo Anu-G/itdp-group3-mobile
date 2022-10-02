@@ -12,7 +12,7 @@ export const InputSearchComponent = ({ value, onChange, placeholder, keyboard = 
 
 const styling = (theme) => StyleSheet.create({
     inputSearch:{
-        backgroundColor:theme?.colors?.searchBackground,
+        backgroundColor:theme?.pallete?.mediumBlue,
         alignSelf:'stretch',
         textAlign:'center',
         height: theme?.spacing?.xxl,

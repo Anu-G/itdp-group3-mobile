@@ -49,6 +49,7 @@ export const themeDark = {
       headerColor: 'rgba(30, 35, 41, 0.8)',
       headerTabTitle: pallete.white,
       headerTrpTabTitle: pallete.white,
+      linkModal: pallete.darkBlue
    },
    pallete: { ...pallete },
    spacing: { ...spacing },
@@ -161,7 +162,7 @@ export const themeLight = {
       inputBorder: pallete.yellow,
       inputBorderInactive: pallete.lightBlue,
       searchPlaceholder: pallete.lightBlue,
-      searchBackground: pallete.darkBlue,
+      searchBackground: '#dcdcdc',
       navbarItem: pallete.mediumBlue,
       navbarBackground: pallete.darkBlue,
       settingItemBorder: pallete.darkBlue,
@@ -173,6 +174,7 @@ export const themeLight = {
       headerColor: 'rgba(244, 244, 244, 0.8)',
       headerTabTitle: pallete.white,
       headerTrpTabTitle: pallete.dark,
+      linkModal: pallete.lightBlue
    },
    pallete: {
       yellow: '#E5BC4C',
@@ -205,7 +207,7 @@ export const themeLight = {
          fontFamily: 'Poppins-Bold'
       },
       buttonText: {
-         fontSize: 8,
+         fontSize: 10,
          color: pallete.mediumBlue,
          fontFamily: 'Poppins-Bold'
       },

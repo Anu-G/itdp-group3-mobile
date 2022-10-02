@@ -28,8 +28,8 @@ export const SettingsAddProduct = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <Text style={{ color: "#F4F4F4", fontSize: 16 }}>Cancel</Text>,
-            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} onPress={saveResponse} disabled={loading}><Text style={{ color: "#FED154", fontSize: 16 }}>Send</Text></TouchableOpacity>)
+            headerBackImage: () => <Text style={{ color: styles.iconColor.color, fontSize: 16 }}>Cancel</Text>,
+            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} onPress={saveResponse} disabled={loading}><Text style={{ color: theme?.state?.style?.pallete?.yellow, fontSize: 16, fontWeight: 'bold' }}>Send</Text></TouchableOpacity>)
         })
     }, [navigation, accountId, productName, description, price, pickedImagePath, loading])
 
@@ -125,4 +125,7 @@ const styling = (theme) => StyleSheet.create({
         marginRight: 16,
         alignSelf: 'stretch',
     },
+    iconColor: {
+        color: theme?.pallete?.lightBlue
+    }
 })

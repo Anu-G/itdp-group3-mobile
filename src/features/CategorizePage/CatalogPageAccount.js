@@ -13,7 +13,7 @@ import { checkErr } from '../../utils/CommonUtils'
 
 export const CatalogPageAccount = ({ byAccount = null }) => {
     const theme = useTheme()
-    const styles = styling(theme)
+    const styles = styling(theme.state.style)
     const navigate = useNavigation()
 
     // state
@@ -70,10 +70,27 @@ export const CatalogPageAccount = ({ byAccount = null }) => {
             <View>
                 <View style={styles.itemCellCtn}>
                     <TouchableOpacity onPress={() => handleClickDetailProduct(item.product_id)}>
-                        <View style={{ width: (Dimensions.get('window').width - 48) / 2, height: (Dimensions.get('window').width - 32) / 2, justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}>
+                        <View style={[{
+                            // backgroundColor: theme?.state?.style?.colors?.searchBackground,
+                            width: Dimensions.get('window').width * 0.39, minHeight: Dimensions.get('window').height * 0.28,
+                            justifyContent: 'center',
+                            //  alignItems: 'center', 
+                            borderRadius: 4
+                        },
+                        styles.border]}>
                             <ImagesViewProfile link={item.detail_media_products[0]} />
-                            <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{ fontSize: 16 }} />
-                            <Caption text={`Rp ${item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`} />
+                            <View
+                                style={
+                                    { paddingRight: 12, paddingLeft: 12 }}
+                            >
+                                <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{ color: theme?.state?.style?.pallete?.white, fontSize: 16, fontWeight: 'bold' }} />
+                            </View>
+                            <View style={{
+                                paddingRight: 12, paddingLeft: 12,
+                                paddingBottom: 4
+                            }}>
+                                <Caption text={`Rp ${item.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`} style={{ color: theme?.state?.style?.pallete?.lightBlue }} />
+                            </View>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -121,4 +138,8 @@ const styling = (theme) => StyleSheet.create({
     itemCellCtn: {
         flex: 1,
     },
+    border: {
+        borderWidth: 1,
+        borderColor: theme?.pallete?.mediumBlue
+    }
 })

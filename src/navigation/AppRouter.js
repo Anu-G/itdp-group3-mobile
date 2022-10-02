@@ -26,6 +26,8 @@ import { SplashScreen } from "../features/SplashScreen/SplashScreen";
 import { useTheme } from "../shared/context/ThemeContext";
 import { storage } from "../apps/Storage";
 import { KEY } from "../shared/constants/StoreConstants";
+import { TutorialPage } from "../features/TutorialPage/TutorialPage";
+import { TutorialToBusinessAccount } from "../features/TutorialPage/TutorialToBusinessAccount/TutorialToBusinessAccount";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -60,6 +62,7 @@ export const AppRouter = _ => {
                   <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
                   <Stack.Screen name={ROUTE.WELCOME_STORY_2} component={WelcomeStory2} />
                   <Stack.Screen name={ROUTE.WELCOME_STORY_3} component={WelcomeStory3} />
+                  <Stack.Screen name={ROUTE.TUTORIAL} component={TutorialPage} />
                   <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
                   <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
                </Stack.Group >
@@ -78,8 +81,8 @@ export const AppRouter = _ => {
                <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
                   headerTitle: 'Add Post',
                   headerTitleAlign: "center",
-                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+                  headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
                })} />
                <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} options={({ navigation }) => ({
                   headerTitle: 'Edit Profile',
@@ -132,6 +135,7 @@ export const AppRouter = _ => {
                   headerTitleStyle: { color: "white" },
                   headerStyle: { backgroundColor: "rgb(71,82,100)" },
                })} />
+               <Stack.Screen name={ROUTE.TUTORIAL_TO_BUSINESS} component={TutorialToBusinessAccount} />
             </Stack.Navigator>
          }
       </>

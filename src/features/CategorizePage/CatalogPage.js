@@ -78,7 +78,7 @@ export const CatalogPage = ({ navigation }) => {
             <View>
                 <View style={styles.itemCellCtn}>
                     <TouchableOpacity onPress={() => handleClickDetailProduct(item.product_id)}>
-                        <View style={{backgroundColor:'#3B4046', flex: 1, justifyContent: 'center', alignItems:'center', borderRadius: 4}}>
+                        <View style={{backgroundColor:theme?.state?.style?.colors?.searchBackround, flex: 1, justifyContent: 'center', alignItems:'center', borderRadius: 4}}>
                             <ImagesViewProfile link={item.detail_media_products[0]}/>
                             <View style={{paddingRight:12, paddingLeft:12}}>
                                 <Caption text={item.product_name.length < 15 ? item.product_name : item.product_name.slice(0, 15).concat('', '...')} style={{color: '#F4F4F4', fontSize: 16}}/>
