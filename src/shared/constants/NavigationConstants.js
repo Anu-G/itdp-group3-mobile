@@ -40,5 +40,8 @@ export const ROUTE = {
    EDIT_PRODUCT: 'edit-product',
    CATALOG: 'catalog',
    SEARCH_INITIAL: 'searchInitial',
-   SPLASH_SCREEN: 'splashScreen'
+   SPLASH_SCREEN: 'splashScreen',
+   TUTORIAL: 'tutorial',
+   TUTORIAL_TO_BUSINESS : 'addToBusiness'
+
 }

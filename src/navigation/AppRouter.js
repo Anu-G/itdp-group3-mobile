@@ -26,6 +26,8 @@ import { SplashScreen } from "../features/SplashScreen/SplashScreen";
 import { useTheme } from "../shared/context/ThemeContext";
 import { storage } from "../apps/Storage";
 import { KEY } from "../shared/constants/StoreConstants";
+import { TutorialPage } from "../features/TutorialPage/TutorialPage";
+import { TutorialToBusinessAccount } from "../features/TutorialPage/TutorialToBusinessAccount/TutorialToBusinessAccount";
 
 const Stack = createStackNavigator();
 export const AppRouter = _ => {
@@ -60,6 +62,7 @@ export const AppRouter = _ => {
                   <Stack.Screen name={ROUTE.WELCOME_STORY_1} component={WelcomeStory1} />
                   <Stack.Screen name={ROUTE.WELCOME_STORY_2} component={WelcomeStory2} />
                   <Stack.Screen name={ROUTE.WELCOME_STORY_3} component={WelcomeStory3} />
+                  <Stack.Screen name={ROUTE.TUTORIAL} component={TutorialPage} />
                   <Stack.Screen name={ROUTE.SIGNUP} component={SignUp} />
                   <Stack.Screen name={ROUTE.MAIN} component={MainPage} />
                </Stack.Group >

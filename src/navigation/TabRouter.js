@@ -1,6 +1,6 @@
-import { AntDesign, Entypo, Foundation } from "@expo/vector-icons";
+import { AntDesign, Entypo, Foundation, Octicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Button, Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,9 @@ import { Home } from "../features/Home/Home";
 import { SettingsProfileNonBusiness } from "../features/SettingsProfile/SettingsProfileNonBusiness/SettingsProfileNonBusiness";
 import { SettingsProfileBusiness } from "../features/SettingsProfile/SettingsProfileBusiness/SettingsProfileBusiness";
 import { Search } from "../features/Search/Search";
+import { TutorialToBusinessAccount } from "../features/TutorialPage/TutorialToBusinessAccount/TutorialToBusinessAccount";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -149,6 +152,7 @@ const TitleLogo = () => {
 const TimelineStack = _ => {
    const theme = useTheme();
    const style = styling(theme.state.style);
+   const navigation = useNavigation()
    return (
       <Stack.Navigator initialRouteName={ROUTE.TIMELINE} >
          <Stack.Group screenOptions={{
@@ -174,7 +178,19 @@ const TimelineStack = _ => {
 
                      }}>TokTok</Text> */}
                   <TitleLogo />
-               </View>
+               </View>,
+               headerRight: ()=>{
+                  return(<>
+                  <TouchableOpacity style={{marginRight:16}}
+                     onPress={()=>navigation.navigate(ROUTE.TUTORIAL)}
+                  >
+                     <Octicons name="question" color={'#FED154'} size={28} />
+                  </TouchableOpacity>
+                  {/* <Pressable > */}
+                     {/* <Octicons name="question" color={'#FED154'} size={24} /> */}
+                  {/* </Pressable> */}
+                  </>)
+               }
          }
 
          }>
@@ -316,9 +332,9 @@ const styling = (theme) => StyleSheet.create({
    },
    headerBackground: {
       backgroundColor: theme?.colors?.headerColor,
-      alignItems: "center",
+      // alignItems: "center",
       justifyContent: "center",
       // opacity: 0.8,
-
+      paddingLeft: 16,
    }
 })
