@@ -11,8 +11,9 @@ import { useTheme } from '../../shared/context/ThemeContext'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { Swiper } from '../../shared/components/Swiper'
 import { checkErr } from '../../utils/CommonUtils'
+import { PostModal } from '../../shared/components/PostModal'
 
-export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes, accType, index, isHome }) => {
+export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, handleOptionShow, setPostData, postLikes, setRefresh, accId, postAccId, postIn, handleClickName, thisAccountLikes, accType, index, isHome }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
 
@@ -71,6 +72,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
         // console.log('ceritanya send')
     }
 
+    
     const handleLike = async () => {
         try {
             if (isLiked) {
@@ -93,21 +95,15 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
         }
     }
 
-    const handleShare = async () => {
-        try {
-            await Share.share({
-                message: 'Check this post on TokTok App! https://itdp-group3-frontend-git-staging-anu-g.vercel.app/feeds'
-            })
-        } catch (err) {
-            console.log(err);
-            checkErr(err)
-        }
-    }
-
     const arrangeImagesFormat = () => {
         setImages(links.map((item, i) => {
             return { url: item, name: `${i + 1}/${links.length}` }
         }))
+    }
+
+    const onOptionClick = () => {
+        setPostData({post:postIn})
+        handleOptionShow()
     }
 
     return (
@@ -126,7 +122,7 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
                             </TouchableOpacity>
                         </View>
                         <View style={styles.optionBtn}>
-                            <TouchableOpacity onPress={handleShare}>
+                            <TouchableOpacity onPress={()=>onOptionClick()}>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color={styles.iconCOlot.color} />
                             </TouchableOpacity>
                         </View>

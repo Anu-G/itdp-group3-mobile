@@ -10,6 +10,7 @@ import { TimelineCard } from '../TimelineCard/TimelineCard'
 import { Entypo } from '@expo/vector-icons';
 import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useSelector } from 'react-redux'
+import { PostModal } from '../../shared/components/PostModal'
 
 export const TimelinePage = ({ byAccount = null }) => {
     const theme = useTheme()
@@ -18,6 +19,8 @@ export const TimelinePage = ({ byAccount = null }) => {
     const route = useRoute()
     const navigate = useNavigation()
     const [timelines, setTimelines] = useState([])
+    const [optionShow, setOptionShow] = useState(false)
+    const [postData, setPostData] = useState({post:{}})
     const [isLoading, setLoading] = useState(false)
     const navigation = useNavigation()
     const user = useSelector((state) => state.auth);
@@ -98,6 +101,10 @@ export const TimelinePage = ({ byAccount = null }) => {
         }
     }
 
+    const handleOptionShow = () => {
+        setOptionShow(prevState=>!prevState)
+    }
+
     const [isTimeline, setIsTimeline] = useState(false)
     useEffect(_ => {
         if (route.name === ROUTE.TIMELINE) {
@@ -109,6 +116,7 @@ export const TimelinePage = ({ byAccount = null }) => {
         <MainContainer>
             <View style={styles.tlBg}>
                 <View style={styles.tlLst}>
+                    {optionShow && <PostModal post={postData.post} handleClose={handleOptionShow}/>}
                     <ScrollView>
                         {isLoading
                             ?
@@ -148,6 +156,9 @@ export const TimelinePage = ({ byAccount = null }) => {
                                             handleClickName={handleClickName}
                                             feedId={post.post_id}
                                             handleComment={handleComment}
+                                            handleOptionShow={handleOptionShow}
+                                            setPostData={setPostData}
+                                            postIn={post}
                                             thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
                                             accType={post.account_type}
                                         />

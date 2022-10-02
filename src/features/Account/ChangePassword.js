@@ -14,7 +14,7 @@ import { useTheme } from "../../shared/context/ThemeContext"
 import { useViewState } from "../../shared/hooks/ViewState";
 import { checkErr } from "../../utils/CommonUtils";
 
-export const ChangePassword = ({navigation}) => {
+export const ChangePassword = ({ navigation }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     const [password, setPassword] = useState('');
@@ -22,7 +22,7 @@ export const ChangePassword = ({navigation}) => {
     const [passwordCr, setPasswordCr] = useState('');
     const [passwordCekCr, setPasswordCekCr] = useState('');
     const [loading, setLoading] = useState(false);
-    const [saveStatus,setSaveStatus] = useState(false);
+    const [saveStatus, setSaveStatus] = useState(false);
 
     const checkPassword = (text) => {
         if (text.length < 8) {
@@ -38,11 +38,10 @@ export const ChangePassword = ({navigation}) => {
         } else {
             setPasswordCekCr('')
         }
-    } 
+    }
 
     const handlePasswordChange = (text) => {
         setPassword(text);
-        console.log(text);
         checkPassword(text);
     }
 
@@ -59,9 +58,9 @@ export const ChangePassword = ({navigation}) => {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         handleSaveStatus()
-    },[loading,password,passwordCek,passwordCekCr,passwordCr])
+    }, [loading, password, passwordCek, passwordCekCr, passwordCr])
 
     //navigation ==================================================================================
     const navigator = useNavigation()
@@ -69,7 +68,7 @@ export const ChangePassword = ({navigation}) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerBackImage: () => <Text style={{ color: "#F4F4F4", fontSize: 16 }}>Cancel</Text>,
-            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={saveStatus} onPress={()=>handleSavePress()} ><Text style={{ color: theme.state.style.colors.button, fontSize: 16 }}>Save</Text></TouchableOpacity>)
+            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={saveStatus} onPress={() => handleSavePress()} ><Text style={{ color: theme.state.style.colors.button, fontSize: 16 }}>Save</Text></TouchableOpacity>)
         })
     }, [navigation, saveStatus])
 
@@ -83,9 +82,9 @@ export const ChangePassword = ({navigation}) => {
     }
 
     //service =====================================================================================
-    const {settingAccountService} = useDep()
-    const user = useSelector(state=>state.auth)
-    const {viewState,setError} = useViewState();
+    const { settingAccountService } = useDep()
+    const user = useSelector(state => state.auth)
+    const { viewState, setError } = useViewState();
     const [visible, setVisible] = useState(false)
 
     const onDismissSnackBar = _ => {
@@ -99,12 +98,12 @@ export const ChangePassword = ({navigation}) => {
         setLoading(true)
         try {
             const response = await settingAccountService.doUpdate({
-                "account_id":user.accountId,
-                "user_name":`${user.userName}`,
-                "password":password
+                "account_id": user.accountId,
+                "user_name": `${user.userName}`,
+                "password": password
             })
             if (response) {
-                navigator.navigate(ROUTE.ACCOUNT,{refreshP: Date.now})   
+                navigator.navigate(ROUTE.ACCOUNT, { refreshP: Date.now })
             }
         } catch (e) {
             console.log(e);
@@ -113,7 +112,7 @@ export const ChangePassword = ({navigation}) => {
         }
     }
 
-    return(
+    return (
         <MainContainer>
             <View style={styles.mainCtn}>
                 <InputTextPassword
@@ -121,13 +120,13 @@ export const ChangePassword = ({navigation}) => {
                     value={password}
                     onChange={handlePasswordChange}
                     style={styles.inputCtn}
-                    error={passwordCr}/>
+                    error={passwordCr} />
                 <InputTextPassword
                     text={'Confirm New Password'}
                     value={passwordCek}
                     onChange={handlePasswordCekChange}
                     style={styles.inputCtn}
-                    error={passwordCekCr}/>   
+                    error={passwordCekCr} />
             </View>
             {viewState.error !== null && !visible ? setVisible(true) : null}
             {viewState.error !== null && <Snackbar visible={visible} onDismiss={onDismissSnackBar} duration={3000}>{viewState.error}</Snackbar>}
@@ -136,13 +135,13 @@ export const ChangePassword = ({navigation}) => {
 }
 
 const styling = (theme) => StyleSheet.create({
-    mainCtn:{
-        flex:1,
-        flexDirection:'column',
-        margin:theme?.spacing?.m,
-        alignSelf:'stretch',
+    mainCtn: {
+        flex: 1,
+        flexDirection: 'column',
+        margin: theme?.spacing?.m,
+        alignSelf: 'stretch',
     },
-    inputCtn:{
-        marginBottom:theme?.spacing?.m,
+    inputCtn: {
+        marginBottom: theme?.spacing?.m,
     },
 })

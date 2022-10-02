@@ -11,23 +11,23 @@ import { ROUTE } from "../../shared/constants/NavigationConstants";
 import { useDep } from "../../shared/context/DependencyContext";
 import { useTheme } from "../../shared/context/ThemeContext"
 
-export const EditAccount = ({navigation}) => {
+export const EditAccount = ({ navigation }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     const [email, setEmail] = useState({});
     const [phoneNumber, setPhoneNumber] = useState({});
-    const [emailCr,setEmailCr] = useState('');
+    const [emailCr, setEmailCr] = useState('');
     const [phoneNumberCr, setPhoneNumberCr] = useState('');
     const [loading, setLoading] = useState(false);
-    const [saveStatus,setSaveStatus] = useState(false);
+    const [saveStatus, setSaveStatus] = useState(false);
 
     const checkEmail = (text) => {
         const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  
+
         const mail = String(text)
-  
+
         const result = mail.toLowerCase().match(re);
-  
+
         if (!result) {
             setEmailCr('E-mail is invalid!');
         } else {
@@ -51,7 +51,7 @@ export const EditAccount = ({navigation}) => {
     }
 
     const handlePhoneNumberChange = (text) => {
-        setPhoneNumber(prevState => ({ ...prevState, text}));
+        setPhoneNumber(prevState => ({ ...prevState, text }));
         checkPhoneNumber(text);
     }
 
@@ -63,9 +63,9 @@ export const EditAccount = ({navigation}) => {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         handleSaveStatus()
-    },[loading,phoneNumber,email,phoneNumberCr, emailCr])
+    }, [loading, phoneNumber, email, phoneNumberCr, emailCr])
 
     //navigation ==================================================================================
     const navigator = useNavigation()
@@ -73,7 +73,7 @@ export const EditAccount = ({navigation}) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />,
-            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={saveStatus} onPress={()=>handleSavePress()} ><Text style={{ color: theme.state.style.colors.button, fontSize: 16 }}>Save</Text></TouchableOpacity>)
+            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={saveStatus} onPress={() => handleSavePress()} ><Text style={{ color: theme.state.style.colors.button, fontSize: 16 }}>Save</Text></TouchableOpacity>)
         })
     }, [navigation, saveStatus])
 
@@ -82,21 +82,20 @@ export const EditAccount = ({navigation}) => {
     }
 
     //service =====================================================================================
-    const {settingAccountService} = useDep()
-    const user = useSelector(state=>state.auth)
+    const { settingAccountService } = useDep()
+    const user = useSelector(state => state.auth)
 
     const saveData = async () => {
         setLoading(true)
         try {
             const response = await settingAccountService.doUpdate({
-                "account_id":user.accountId,
-                "user_name":`${user.userName}`,
+                "account_id": user.accountId,
+                "user_name": `${user.userName}`,
                 "email": `${email.text}`,
                 "phone_number": `${phoneNumber.text}`
             })
-            console.log(response.data);
             if (response) {
-                navigator.navigate(ROUTE.ACCOUNT,{refresh: Date.now})   
+                navigator.navigate(ROUTE.ACCOUNT, { refresh: Date.now })
             }
         } catch (e) {
             console.log(e);
@@ -105,7 +104,7 @@ export const EditAccount = ({navigation}) => {
         }
     }
 
-    return(
+    return (
         <MainContainer>
             <View style={styles.mainCtn}>
                 <InputTextWithError
@@ -113,26 +112,26 @@ export const EditAccount = ({navigation}) => {
                     value={email}
                     onChange={handleEmailChange}
                     style={styles.inputCtn}
-                    error={emailCr}/>
+                    error={emailCr} />
                 <InputTextWithError
                     text={'Phone Number'}
                     value={phoneNumber}
                     onChange={handlePhoneNumberChange}
                     style={styles.inputCtn}
-                    error={phoneNumberCr}/>    
+                    error={phoneNumberCr} />
             </View>
         </MainContainer>
     )
 }
 
 const styling = (theme) => StyleSheet.create({
-    mainCtn:{
-        flex:1,
-        flexDirection:'column',
-        margin:theme?.spacing?.m,
-        alignSelf:'stretch',
+    mainCtn: {
+        flex: 1,
+        flexDirection: 'column',
+        margin: theme?.spacing?.m,
+        alignSelf: 'stretch',
     },
-    inputCtn:{
-        marginBottom:theme?.spacing?.m,
+    inputCtn: {
+        marginBottom: theme?.spacing?.m,
     },
 })
