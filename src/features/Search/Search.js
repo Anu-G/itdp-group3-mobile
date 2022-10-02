@@ -1,20 +1,15 @@
 import { FontAwesome, Foundation } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native'
+import SelectList from 'react-native-dropdown-select-list'
 import { TextInput } from 'react-native-gesture-handler'
 import { TabBar, TabView } from 'react-native-tab-view'
-import { CategoryLabelActive } from '../../shared/components/CategoryLabel'
-import { InputOnly, InputTextActiveSmallSize, SearchBar } from '../../shared/components/Input'
-import { Caption, TextProfile } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
-import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useDep } from '../../shared/context/DependencyContext'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { checkErr } from '../../utils/CommonUtils'
-import { DetailProductCard } from '../DetailProductCard/DetailProductCard'
-import { TimelinePage } from '../TimelinePage/TimelinePage'
+import { TimelinePageSearch } from '../TimelinePageSearch/TimelinePageSearch'
 import { SearchDetail } from './SearchDetail'
-import SelectList from 'react-native-dropdown-select-list'
 
 export const Search = () => {
     const theme = useTheme()
@@ -27,6 +22,7 @@ export const Search = () => {
     const [post, setPost] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [catSelected, setCatSelected] = useState('1')
+    const [keyword, setKeyword] = useState('')
 
     const data = [
         {key: '1', value:'Food & Beverage'},
@@ -52,12 +48,8 @@ export const Search = () => {
             console.log(response.data.data[0].category_id);
 
             console.log(value);
-            const responsePost = await timelineService.doGetTimelineByKeyword({
-                page: 1,
-                page_lim: 200,
-                keyword: value
-            })
-            setPost(responsePost.data.data)
+
+            setKeyword(value)
         } catch (err) {
             console.log(err);
             checkErr(err)
@@ -78,7 +70,7 @@ export const Search = () => {
     const renderScene = ({ route }) => {
         switch (route.key) {
             case 'first':
-                return <TextProfile text={'Post not found'}/>;
+                return <TimelinePageSearch byKeyword={keyword}/>
             case 'second':
                 return (
                     <>
