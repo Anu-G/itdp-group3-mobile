@@ -21,6 +21,7 @@ export const DetailProductCard = ({ handleClick }) => {
     const [productPrice, setProductPrice] = useState('');
     const [caption, setCaption] = useState('');
     const [links, setLinks] = useState([]);
+    const [isLoading, setLoading] = useState(false);
 
     const [readMore, setReadMore] = useState(true)
 
@@ -30,6 +31,7 @@ export const DetailProductCard = ({ handleClick }) => {
     useEffect(_ => {
         (async _ => {
             try {
+                setLoading(true);
                 let responseProd = await productService.doGetProductByProduct({
                     account_id: route.params?.data.accountId,
                     product_id: `${route.params?.data.productId}`
@@ -51,6 +53,8 @@ export const DetailProductCard = ({ handleClick }) => {
 
             } catch (err) {
                 console.log(err.response.data);
+            } finally {
+                setLoading(false);
             }
         })();
     }, [route.params])
@@ -61,43 +65,45 @@ export const DetailProductCard = ({ handleClick }) => {
 
     return (
         <MainContainer>
-            <View style={styles.tlBg}>
-                <View style={styles.tlLst}>
-                    <ScrollView>
-                        <View style={styles.timelineCtn}>
-                            <View>
-                                <View style={styles.profileHd}>
-                                    <View style={{ flex: 1 }}>
-                                        <AvatarSmall source={avatar}
-                                            handleClick={() => handleClickName(route.params?.data.accountId)}
-                                        />
+            {!isLoading &&
+                <View style={styles.tlBg}>
+                    <View style={styles.tlLst}>
+                        <ScrollView>
+                            <View style={styles.timelineCtn}>
+                                <View>
+                                    <View style={styles.profileHd}>
+                                        <View style={{ flex: 1 }}>
+                                            <AvatarSmall source={avatar}
+                                                handleClick={() => handleClickName(route.params?.data.accountId)}
+                                            />
+                                        </View>
+                                        <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }}
+                                            onPress={() => handleClickName(route.params?.data.accountId)}
+                                        >
+                                            <Text style={styles.displayName}>{name}</Text>
+                                        </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity style={{ flex: 6, alignContent: 'flex-start', justifyContent: 'center' }}
-                                        onPress={() => handleClickName(route.params?.data.accountId)}
-                                    >
-                                        <Text style={styles.displayName}>{name}</Text>
-                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.captionCtn}>
+                                    <Text style={styles.productName}>{productName}</Text>
+                                    <Caption text={price.format(productPrice)} />
+                                </View>
+                                <Swiper
+                                    images={links}
+                                    swipeBottom={e => { }}
+                                    swipeTop={e => { }}
+                                    textSize={16}
+                                    styleImage={{ borderRadius: 8 }}
+                                />
+                                <View style={styles.captionCtn}>
+                                    <Caption text={caption} />
                                 </View>
                             </View>
-                            <View style={styles.captionCtn}>
-                                <Text style={styles.productName}>{productName}</Text>
-                                <Caption text={price.format(productPrice)} />
-                            </View>
-                            <Swiper
-                                images={links}
-                                swipeBottom={e => { }}
-                                swipeTop={e => { }}
-                                textSize={16}
-                                styleImage={{ borderRadius: 8 }}
-                            />
-                            <View style={styles.captionCtn}>
-                                <Caption text={caption} />
-                            </View>
-                        </View>
 
-                    </ScrollView>
+                        </ScrollView>
+                    </View>
                 </View>
-            </View>
+            }
         </MainContainer>
     )
 }

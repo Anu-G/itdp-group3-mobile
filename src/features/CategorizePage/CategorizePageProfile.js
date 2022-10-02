@@ -5,6 +5,7 @@ import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
 import { useSelector } from 'react-redux'
 import { CategoryLabelActive, CategoryLabelInactive } from '../../shared/components/CategoryLabel'
 import { MainContainer } from '../../shared/components/MainContainer'
+import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { useTheme } from '../../shared/context/ThemeContext'
 import { TimelinePage } from '../TimelinePage/TimelinePage'
 import { CatalogPage } from './CatalogPage'
@@ -76,7 +77,7 @@ export const CategorizePageProfile = ({ bisID }) => {
     const initialLayout = { width: Dimensions.get('window').width }
 
     const [index, setIndex] = useState(0)
-    const [routes] = user.roleId === 2 ? useState([
+    const [routes] = route.name === ROUTE.BUSINESS_PROFILE || route.name === ROUTE.PROFILE_BUSINESS ? useState([
         { key: 'first', title: 'Post' },
         { key: 'second', title: 'Catalog' },
         { key: 'third', title: 'FAQ' },

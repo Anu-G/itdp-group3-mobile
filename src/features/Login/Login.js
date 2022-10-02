@@ -149,7 +149,7 @@ export const Login = _ => {
                </Pressable>
             </View>
          </View>
-         <Text32 text={'Tips: use your account from BE Server or your BE localhost'} />
+
          {viewState.error !== null && !visible ? setVisible(true) : null}
          {viewState.error !== null && <Snackbar visible={visible} onDismiss={onDismissSnackBar} duration={3000}>{viewState.error}</Snackbar>}
       </MainContainer>

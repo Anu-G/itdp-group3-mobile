@@ -2,6 +2,7 @@ import { Feather, FontAwesome } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import { useLayoutEffect } from "react"
 import { Pressable, StyleSheet, View } from "react-native"
+import { useSelector } from "react-redux"
 import { Caption, Text14SemiBoldWhite, Text32, TextSettingProfile } from "../../shared/components/Label"
 import { ROUTE } from "../../shared/constants/NavigationConstants"
 import { useTheme } from "../../shared/context/ThemeContext"
@@ -11,9 +12,14 @@ export const StaticPage = () => {
     const theme = useTheme();
     const styles = styling(theme.state.style)
 
+    const user = useSelector(state => state.auth)
     const navigation = useNavigation();
     const toHelpCenterClick = () => {
         navigation.navigate(ROUTE.HELP_CENTER)
+    }
+
+    const toSignUp = () => {
+        navigation.navigate(ROUTE.SIGNUP)
     }
 
     useLayoutEffect(() => {
@@ -60,6 +66,19 @@ export const StaticPage = () => {
                         color={styles.goToOtherPage.color}
                     />
                 </View>
+
+                {user.roleId === 0 &&
+                    <Pressable onPress={toSignUp}>
+                        <View style={styles.goToOtherPage}>
+                            <Text14SemiBoldWhite text={'Sign Up'} />
+                            <Feather
+                                name="chevron-right"
+                                size={20}
+                                color={styles.goToOtherPage.color}
+                            />
+                        </View>
+                    </Pressable>
+                }
             </View>
         </>
     )

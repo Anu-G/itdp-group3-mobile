@@ -1,10 +1,10 @@
-import { AntDesign, Entypo, Foundation, Octicons } from "@expo/vector-icons";
+import { AntDesign, Entypo, Feather, Foundation, Octicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Button, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BusinessProfile } from "../features/Profile/BusinessProfile";
 import { getProfile } from "../features/Profile/Slice/ProfileSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ROUTE } from "../shared/constants/NavigationConstants";
 import { useDep } from "../shared/context/DependencyContext";
 import { useTheme } from "../shared/context/ThemeContext";
@@ -31,6 +31,7 @@ import { Search } from "../features/Search/Search";
 import { TutorialToBusinessAccount } from "../features/TutorialPage/TutorialToBusinessAccount/TutorialToBusinessAccount";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { useNavigation } from "@react-navigation/native";
+import { P } from "@expo/html-elements";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -94,7 +95,7 @@ export const TabRouter = _ => {
                case ROUTE.SUPPORT_ANON:
                   return (
                      <View style={style.iconCtn}>
-                        <Entypo name='help-with-circle' size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
+                        <Feather name='info' size={style.tabIcon.size} color={color} style={focused ? style.textShadow : ''} />
                      </View>
                   )
                default:
@@ -179,18 +180,18 @@ const TimelineStack = _ => {
                      }}>TokTok</Text> */}
                   <TitleLogo />
                </View>,
-               headerRight: ()=>{
-                  return(<>
-                  <TouchableOpacity style={{marginRight:16}}
-                     onPress={()=>navigation.navigate(ROUTE.TUTORIAL)}
+            headerRight: () => {
+               return (<>
+                  <TouchableOpacity style={{ marginRight: 16 }}
+                     onPress={() => navigation.navigate(ROUTE.TUTORIAL)}
                   >
                      <Octicons name="question" color={'#FED154'} size={28} />
                   </TouchableOpacity>
                   {/* <Pressable > */}
-                     {/* <Octicons name="question" color={'#FED154'} size={24} /> */}
+                  {/* <Octicons name="question" color={'#FED154'} size={24} /> */}
                   {/* </Pressable> */}
-                  </>)
-               }
+               </>)
+            }
          }
 
          }>
@@ -210,11 +211,12 @@ const ProfileStack = _ => {
          <Stack.Group>
             <Stack.Screen name={ROUTE.PROFILE_BUSINESS} component={BusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground,
+               headerStyle: {
+                  backgroundColor: theme?.state?.style?.colors?.headerBackground,
                   // height: 56
-                },
-                headerShown: false
-               
+               },
+               headerShown: false
+
             })} />
             <Stack.Screen name={ROUTE.PROFILE_NON_BUSINESS} component={NonBusinessProfile} initialParams={{ openId: user.accountId }} options={({ navigator }) => ({
                headerTitle: '',
@@ -241,12 +243,6 @@ const ProfileStack = _ => {
             })} />
             <Stack.Screen name={ROUTE.SUPPORT} component={StaticPage} options={({ navigator }) => ({
                headerTitle: 'Support',
-               headerTitleAlign: "center",
-               headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
-               headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
-            })} />
-            <Stack.Screen name={ROUTE.HELP_CENTER} component={HelpCenter} options={({ navigation }) => ({
-               headerTitle: 'Help Center',
                headerTitleAlign: "center",
                headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
                headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }

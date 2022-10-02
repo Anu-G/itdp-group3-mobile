@@ -135,6 +135,12 @@ export const AppRouter = _ => {
                   headerTitleStyle: { color: "white" },
                   headerStyle: { backgroundColor: "rgb(71,82,100)" },
                })} />
+               <Stack.Screen name={ROUTE.HELP_CENTER} component={HelpCenter} options={({ navigation }) => ({
+                  headerTitle: 'Help Center',
+                  headerTitleAlign: "center",
+                  headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
+               })} />
                <Stack.Screen name={ROUTE.TUTORIAL_TO_BUSINESS} component={TutorialToBusinessAccount} />
             </Stack.Navigator>
          }

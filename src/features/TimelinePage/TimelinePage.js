@@ -11,6 +11,7 @@ import { Entypo } from '@expo/vector-icons';
 import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useSelector } from 'react-redux'
 import { PostModal } from '../../shared/components/PostModal'
+import { LoginModalComponent } from '../../shared/components/LoginModal'
 
 export const TimelinePage = ({ byAccount = null }) => {
     const theme = useTheme()
@@ -20,8 +21,9 @@ export const TimelinePage = ({ byAccount = null }) => {
     const navigate = useNavigation()
     const [timelines, setTimelines] = useState([])
     const [optionShow, setOptionShow] = useState(false)
-    const [postData, setPostData] = useState({post:{}})
+    const [postData, setPostData] = useState({ post: {} })
     const [isLoading, setLoading] = useState(false)
+    const [loginModal, setLoginModal] = useState(false)
     const navigation = useNavigation()
     const user = useSelector((state) => state.auth);
 
@@ -102,7 +104,7 @@ export const TimelinePage = ({ byAccount = null }) => {
     }
 
     const handleOptionShow = () => {
-        setOptionShow(prevState=>!prevState)
+        setOptionShow(prevState => !prevState)
     }
 
     const [isTimeline, setIsTimeline] = useState(false)
@@ -112,11 +114,16 @@ export const TimelinePage = ({ byAccount = null }) => {
         }
     }, [route])
 
+    const handleAddPost = () => {
+        navigate.navigate(ROUTE.ADD_POST)
+    }
+
     return (
         <MainContainer>
             <View style={styles.tlBg}>
+                {loginModal && <LoginModalComponent handleNoLogin={handleAddPost} />}
                 <View style={styles.tlLst}>
-                    {optionShow && <PostModal post={postData.post} handleClose={handleOptionShow}/>}
+                    {optionShow && <PostModal post={postData.post} handleClose={handleOptionShow} />}
                     <ScrollView>
                         {isLoading
                             ?
@@ -167,11 +174,12 @@ export const TimelinePage = ({ byAccount = null }) => {
                             </>
                         }
                     </ScrollView>
-                    <TouchableOpacity onPress={() => navigate.navigate(ROUTE.ADD_POST)} style={{ zIndex: 101, position: 'absolute', justifyContent: 'flex-end', right: 20, bottom: 16 }}>
-                        <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: '#FED154', justifyContent: 'center', alignItems: 'center' }}>
-                            <Entypo name="plus" size={40} color="#849EB9" />
-                        </View>
-                    </TouchableOpacity>
+                    {user.roleId !== 0 &&
+                        <TouchableOpacity onPress={() => handleAddPost()} style={{ zIndex: 101, position: 'absolute', justifyContent: 'flex-end', right: 20, bottom: 16 }}>
+                            <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: '#FED154', justifyContent: 'center', alignItems: 'center' }}>
+                                <Entypo name="plus" size={40} color="#849EB9" />
+                            </View>
+                        </TouchableOpacity>}
                 </View>
             </View>
         </MainContainer >

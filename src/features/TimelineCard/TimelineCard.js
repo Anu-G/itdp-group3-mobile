@@ -12,6 +12,8 @@ import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { Swiper } from '../../shared/components/Swiper'
 import { checkErr } from '../../utils/CommonUtils'
 import { PostModal } from '../../shared/components/PostModal'
+import { LoginModalComponent } from '../../shared/components/LoginModal'
+import { useSelector } from 'react-redux'
 
 export const TimelineCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, handleOptionShow, setPostData, postLikes, setRefresh, accId, postAccId, postIn, handleClickName, thisAccountLikes, accType, index, isHome }) => {
     const theme = useTheme()
@@ -20,12 +22,15 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
     const maxLength = 280
     const navigation = useNavigation()
     const [isActive, setIsActive] = useState(false)
+    const [wantLogin, setWantLogin] = useState(false)
+    const [wantText, setWantText] = useState('')
     const [isLiked, setIsLiked] = useState(false)
     const [comment, setComment] = useState('')
     const [isButtonSendActive, setIsButtonSendActive] = useState(false)
     const [images, setImages] = useState([])
     const [readMore, setReadMore] = useState(true)
     const { timelineService } = useDep()
+    const user = useSelector(state => state.auth)
     const post = {
         caption_post: caption,
         detail_media_feed: links
@@ -70,24 +75,29 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
 
 
     const handleLike = async () => {
-        try {
-            if (isLiked) {
-                await timelineService.doDeleteTimelineLike({
-                    "account_id": `${accId}`,
-                    "feed_id": `${feedId}`
-                })
-                setIsLiked(prevState => false)
-                setRefresh(feedId)
-            } else {
-                await timelineService.doPostTimelineLike({
-                    "account_id": `${accId}`,
-                    "feed_id": `${feedId}`
-                })
-                setIsLiked(prevState => true)
-                setRefresh(feedId)
+        if (user.accountId != 0) {
+            try {
+                if (isLiked) {
+                    await timelineService.doDeleteTimelineLike({
+                        "account_id": `${accId}`,
+                        "feed_id": `${feedId}`
+                    })
+                    setIsLiked(prevState => false)
+                    setRefresh(feedId)
+                } else {
+                    await timelineService.doPostTimelineLike({
+                        "account_id": `${accId}`,
+                        "feed_id": `${feedId}`
+                    })
+                    setIsLiked(prevState => true)
+                    setRefresh(feedId)
+                }
+            } catch (e) {
+                console.log(e);
             }
-        } catch (e) {
-            console.log(e);
+        } else {
+            handleLoginStatus()
+            setWantText(prevState => 'like this Post ?')
         }
     }
 
@@ -96,9 +106,36 @@ export const TimelineCard = ({ avatar, name, place, caption, links, time, date, 
         handleOptionShow()
     }
 
+    const handleLoginStatus = () => {
+        setWantLogin(prevState => !prevState)
+    }
+
+    const handleShare = async () => {
+        if (user.accountId != 0) {
+            try {
+                await Share.share({
+                    message: 'Check this post on TokTok App! https://itdp-group3-frontend-git-staging-anu-g.vercel.app/feeds'
+                })
+            } catch (err) {
+                console.log(err);
+                checkErr(err)
+            }
+        } else {
+            handleLoginStatus()
+            setWantText(prevState => 'share this Post ?')
+        }
+    }
+
+    const arrangeImagesFormat = () => {
+        setImages(links.map((item, i) => {
+            return { url: item, name: `${i + 1}/${links.length}` }
+        }))
+    }
+
     return (
         <MainContainer>
             <View style={[styles.timelineCtn, isHome && index === 0 && { marginTop: 56 }]}>
+                {wantLogin && <LoginModalComponent handleNoLogin={handleLoginStatus} text={wantText} />}
                 <View>
                     <View style={styles.profileHd}>
                         <View style={{ flexDirection: 'row', alignItems: 'stretch', width: '90%', }}>

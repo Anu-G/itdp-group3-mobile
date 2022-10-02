@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect } from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ButtonMediumComponent } from '../../shared/components/ButtonMedium'
 import { Caption, TextProfile } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
@@ -22,6 +22,12 @@ export const WelcomeStory3 = () => {
                     <TextProfile text={'Share your experience'} style={styles.textProfile} />
                     <Caption text={`Share your experience regarding some product/store! Let other's know what's on your mind!`} style={styles.caption1} />
                     <ButtonMediumComponent label={'Start post'} style={styles.button} onClick={() => navigation.navigate(ROUTE.SIGNUP)} />
+                    <TouchableOpacity style={{ marginTop: 8 }} onPress={() => navigation.navigate(ROUTE.MAIN)}>
+                        <View style={{ alignItems: 'center', marginTop: 8 }}>
+                            <Text style={styles.textComment}>{"Doesn't have an account?"}</Text>
+                            <Text style={styles.text13regYellow}>{"Continue anonymously!"}</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
         </MainContainer>
@@ -70,5 +76,15 @@ const styling = (theme) => StyleSheet.create({
     },
     button: {
         marginTop: 46,
-    }
+    },
+    textComment: {
+        fontSize: 12,
+        color: '#1E2329',
+        fontFamily: 'Poppins-Regular'
+    },
+    text13regYellow: {
+        fontSize: 13,
+        color: '#FED154',
+        fontFamily: 'Poppins-SemiBold'
+    },
 })

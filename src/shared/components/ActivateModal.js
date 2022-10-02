@@ -34,7 +34,7 @@ export const ActivateModalComponent = ({ handleShowActivate }) => {
 
     return (
         <Modal
-            animationType="slide"
+            animationType="none"
             transparent={true}
         >
             <View style={styles.modalCtn}>

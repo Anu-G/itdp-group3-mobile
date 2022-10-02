@@ -25,11 +25,12 @@ export const ROUTE = {
    SETTINGS_OPEN_HOUR: 'settingsOpenHour',
    SETTINGS_LINKS: 'settingsLinks',
    ADD_LINK: 'addLink',
-   HELP_CENTER: 'help_center',
    DETAIL_PRODUCT: 'detailProduct',
    PROFILE_DETAIL_PRODUCT: 'profileDetailProduct',
 
+   HELP_CENTER_ANON: 'help_center_anon',
    SUPPORT_ANON: 'supportAnon',
+   HELP_CENTER: 'help_center',
    SUPPORT: 'supportAnon',
 
    EDIT_POST: 'edit-post',
@@ -42,6 +43,6 @@ export const ROUTE = {
    SEARCH_INITIAL: 'searchInitial',
    SPLASH_SCREEN: 'splashScreen',
    TUTORIAL: 'tutorial',
-   TUTORIAL_TO_BUSINESS : 'addToBusiness'
+   TUTORIAL_TO_BUSINESS: 'addToBusiness'
 
 }

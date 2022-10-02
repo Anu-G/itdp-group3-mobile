@@ -112,7 +112,7 @@ export const BusinessProfile = ({ navigation }) => {
             let response = await profileService.doGetBusinessProfile({
                 account_id: `${useId}`
             })
-
+            console.log(response.data.data)
             setProfile(prevState => ({
                 ...prevState,
                 Address: response.data.data.business_profile.address,
