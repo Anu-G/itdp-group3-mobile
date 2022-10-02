@@ -12,7 +12,7 @@ import { useTheme } from '../../shared/context/ThemeContext'
 import { Swiper } from '../../shared/components/Swiper'
 import { useSelector } from 'react-redux'
 
-export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes, accType }) => {
+export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, date, comments, feedId, handleComment, postLikes, setRefresh, accId, postAccId, handleClickName, thisAccountLikes, accType, handleOptionShow, setPostData, postIn }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
 
@@ -87,6 +87,11 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
         }))
     }
 
+    const onOptionClick = () => {
+        setPostData({post:postIn})
+        handleOptionShow()
+    }
+
     return (
         <MainContainer>
             <View style={styles.timelineCtn}>
@@ -99,7 +104,7 @@ export const TimelineDetailCard = ({ avatar, name, place, caption, links, time, 
                             <Text style={styles.displayName}>{name}</Text>
                         </TouchableOpacity>
                         <View style={styles.optionBtn}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=>onOptionClick()}>
                                 <Ionicons name="ios-ellipsis-horizontal" size={24} color={styles.iconCOlot.color} />
                             </TouchableOpacity>
                         </View>

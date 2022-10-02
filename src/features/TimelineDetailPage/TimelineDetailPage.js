@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { store } from '../../apps/Storage'
 import { MainContainer } from '../../shared/components/MainContainer'
+import { PostModal } from '../../shared/components/PostModal'
 import { SkeletonDetailTimelineCard } from '../../shared/components/Skeleton/SkeletonDetailTimelineCard'
 import { ROUTE } from '../../shared/constants/NavigationConstants'
 import { KEY } from '../../shared/constants/StoreConstants'
@@ -20,6 +21,8 @@ export const TimelineDetailPage = ({ navigation }) => {
 
     const navigate = useNavigation();
     const [timelines, setTimelines] = useState([])
+    const [optionShow, setOptionShow] = useState(false)
+    const [postData, setPostData] = useState({post:{}})
     const [accountId, setAccountId] = useState()
     const [isLoading, setLoading] = useState(false)
     const user = useSelector((state) => state.auth);
@@ -89,6 +92,10 @@ export const TimelineDetailPage = ({ navigation }) => {
         }
     }
 
+    const handleOptionShow = () => {
+        setOptionShow(prevState=>!prevState)
+    }
+
     const handleClickName = (id, accType) => {
         accType === 2 ? navigate.navigate(ROUTE.BUSINESS_PROFILE, { openId: id }) : navigate.navigate(ROUTE.NON_BUSINESS_PROFILE, { openId: id })
     }
@@ -97,6 +104,7 @@ export const TimelineDetailPage = ({ navigation }) => {
         <MainContainer>
             <View style={styles.tlBg}>
                 <View style={styles.tlLst}>
+                    {optionShow && <PostModal post={postData.post} handleClose={handleOptionShow}/>}
                     <ScrollView>
                         {isLoading ? <SkeletonDetailTimelineCard /> :
                             timelines.map((post, i) => {
@@ -125,6 +133,9 @@ export const TimelineDetailPage = ({ navigation }) => {
                                                 accId={user.accountId}
                                                 postAccId={post.account_id}
                                                 handleClickName={handleClickName}
+                                                handleOptionShow={handleOptionShow}
+                                                setPostData={setPostData}
+                                                postIn={post}
                                                 feedId={post.post_id}
                                                 handleComment={handleComment}
                                                 thisAccountLikes={post.detail_like.findIndex(like => like.account_id == user.accountId) != -1 ? true : false}
