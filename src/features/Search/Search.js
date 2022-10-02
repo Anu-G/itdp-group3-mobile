@@ -5,7 +5,7 @@ import { TextInput } from 'react-native-gesture-handler'
 import { TabBar, TabView } from 'react-native-tab-view'
 import { CategoryLabelActive } from '../../shared/components/CategoryLabel'
 import { InputOnly, InputTextActiveSmallSize, SearchBar } from '../../shared/components/Input'
-import { TextProfile } from '../../shared/components/Label'
+import { Caption, TextProfile } from '../../shared/components/Label'
 import { MainContainer } from '../../shared/components/MainContainer'
 import { SkeletonTimelineCard } from '../../shared/components/Skeleton/SkeletonTimelineCard'
 import { useDep } from '../../shared/context/DependencyContext'
@@ -14,6 +14,7 @@ import { checkErr } from '../../utils/CommonUtils'
 import { DetailProductCard } from '../DetailProductCard/DetailProductCard'
 import { TimelinePage } from '../TimelinePage/TimelinePage'
 import { SearchDetail } from './SearchDetail'
+import SelectList from 'react-native-dropdown-select-list'
 
 export const Search = () => {
     const theme = useTheme()
@@ -25,6 +26,13 @@ export const Search = () => {
     const [isActive, setIsActive] = useState(false)
     const [post, setPost] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [catSelected, setCatSelected] = useState('1')
+
+    const data = [
+        {key: '1', value:'Food & Beverage'},
+        {key: '2', value:'Place'},
+        {key: '3', value:'Wholesale'},
+    ]
 
     const handleChange = (text) => {
         setValue(text)
@@ -69,26 +77,25 @@ export const Search = () => {
     const renderScene = ({ route }) => {
         switch (route.key) {
             case 'first':
-                if (value !== '') {
-                    return (
-                        <View>
-                            {isLoading ?
-                                <>
-                                    <View style={{ marginTop: 48 }}>
-                                        <SkeletonTimelineCard />
-                                    </View>
-                                    <SkeletonTimelineCard />
-                                    <SkeletonTimelineCard />
-                                </>     
-                            :                       
-                                <TimelinePage byKeyword={post}/>
-                            }
-                        </View>
-                    )
-                }
-                return <View/>;
+                return <TextProfile text={'Post not found'}/>;
             case 'second':
-                return <SearchDetail catalogItems={products}/>;
+                return (
+                    <>
+                        <View style={{paddingTop: 16, paddingRight: 16, paddingLeft: 16, width: 200}}>
+                            <SelectList 
+                                placeholder='Category'
+                                setSelected={setCatSelected} 
+                                data={data} 
+                                search={false} 
+                                arrowicon={<FontAwesome name='chevron-down' size={12} color='white' style={{paddingTop: 4}}/>}
+                                dropdownTextStyles={{color: 'white'}}
+                                inputStyles={{color:'white'}}
+                                defaultOption={{key: '1', value:'Food & Beverage'}}
+                            />
+                        </View>
+                        <SearchDetail catalogItems={products.filter(product => product.category_id === catSelected)}/>
+                    </>
+                );
             default:
                 return <Text>Cannot load any scene</Text>;
         }
