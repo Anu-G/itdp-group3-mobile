@@ -14,7 +14,7 @@ export const ButtonComponent = ({ label, onClick, style = {}, icon = null }) => 
 
 const styling = (theme) => StyleSheet.create({
    button: {
-      width: 80,
+      width: 100,
       height: 24,
       alignItems: 'center',
       backgroundColor: theme?.colors?.button,
