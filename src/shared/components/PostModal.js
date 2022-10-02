@@ -55,13 +55,25 @@ export const PostModal = ({ post, handleClose}) => {
             >
                 <View style={styles.container}>
                     <View style={styles.header}>
-                        <AntDesign name="sharealt" size={30} color="black" onPress={()=>handleShare()} style={styles.button}/>
-                        <AntDesign name="link" size={30} color="black" onPress={()=>handleShare()} style={styles.button}/>
+                        <View style={styles.buttonContainer}>
+                            <AntDesign name="sharealt" size={30} color="black" onPress={()=>handleShare()} style={styles.button}/>
+                            <TextProfile text={"Share"} style={styles.text}/>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <AntDesign name="link" size={30} color="black" onPress={()=>handleShare()} style={styles.button}/>
+                            <TextProfile text={"Link"} style={styles.text}/>
+                        </View>
                         {user.accountId == post.account_id
                             &&
                             <>
-                            <Octicons name="gear" size={30} color="black" onPress={()=>handleEdit()} style={styles.button}/>
-                            <AntDesign name="delete" size={30} color="black" onPress={()=>handleDelete()} style={styles.button}/>
+                            <View style={styles.buttonContainer}>
+                                <Octicons name="gear" size={30} color="black" onPress={()=>handleEdit()} style={styles.button}/>
+                                <TextProfile text={"Edit"} style={styles.text}/>
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <AntDesign name="delete" size={30} color="black" onPress={()=>handleDelete()} style={styles.button}/>
+                                <TextProfile text={"Delete"} style={styles.text}/>
+                            </View>
                             </>}
                     </View>
                 </View>
@@ -73,7 +85,7 @@ const styling = (theme) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.background,
-        marginTop: Dimensions.get('window').height - 150,
+        marginTop: Dimensions.get('window').height - 200,
         borderTopLeftRadius: theme.radius.xl,
         borderTopRightRadius: theme.radius.xl
     },
@@ -89,4 +101,12 @@ const styling = (theme) => StyleSheet.create({
         padding:theme?.spacing?.m,
         borderRadius:theme?.radius.cl
     },
+    buttonContainer: {
+        flexDirection:'column',
+        alignItems:'center'
+    },
+    text: {
+        color: theme?.colors?.white,
+        marginTop: theme?.spacing?.s
+    }
 })
