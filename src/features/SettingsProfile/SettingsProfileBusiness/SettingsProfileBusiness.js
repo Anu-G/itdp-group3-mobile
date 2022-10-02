@@ -48,7 +48,7 @@ export const SettingsProfileBusiness = ({ navigation }) => {
             ),
             headerRight: () => (
                 // <View style={{margin: 16}}>
-                <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Send</Text></TouchableOpacity>
+                <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: theme?.state?.style?.pallete?.yellow, fontSize: 16, fontWeight: "bold" }}>Send</Text></TouchableOpacity>
                 // </View>
             )
         })

@@ -12,7 +12,7 @@ export const HelpCenter = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={'#F4F4F4'} />
+            headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={styles.iconColor.color} />
         })
     }, [navigation])
 
@@ -76,5 +76,8 @@ const styling = (theme) => StyleSheet.create({
     container: {
         padding: theme?.spacing?.s,
         flex: 1,
+    },
+    iconColor: {
+        color: theme?.pallete?.lightBlue
     }
 })

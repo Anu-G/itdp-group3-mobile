@@ -68,8 +68,8 @@ export const ChangePassword = ({navigation}) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerBackImage: () => <Text style={{ color: "#F4F4F4", fontSize: 16 }}>Cancel</Text>,
-            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={saveStatus} onPress={()=>handleSavePress()} ><Text style={{ color: theme.state.style.colors.button, fontSize: 16 }}>Save</Text></TouchableOpacity>)
+            headerBackImage: () => <Text style={{ color: styles.iconColor.color, fontSize: 16 }}>Cancel</Text>,
+            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={saveStatus} onPress={()=>handleSavePress()} ><Text style={{ color: theme.state.style.pallete.yellow, fontSize: 16, fontWeight: 'bold' }}>Save</Text></TouchableOpacity>)
         })
     }, [navigation, saveStatus])
 
@@ -145,4 +145,7 @@ const styling = (theme) => StyleSheet.create({
     inputCtn:{
         marginBottom:theme?.spacing?.m,
     },
+    iconColor: {
+        color: theme?.pallete?.lightBlue
+    }
 })

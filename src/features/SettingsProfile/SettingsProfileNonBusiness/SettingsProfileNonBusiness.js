@@ -35,13 +35,13 @@ export const SettingsProfileNonBusiness = ({ navigation }) => {
         navigation.setOptions({
             headerLeft: () => (
                 <TouchableOpacity style={{ margin: 16 }} onPress={() => { firstTime ? navigate.replace(ROUTE.WELCOME_PAGE) : navigation.goBack() }}>
-                    <Text style={{ color: '#f4f4f4', fontSize: 16 }}>Cancel</Text>
+                    <Text style={{ color: theme?.state?.style?.text?.caption?.color, fontSize: 16 }}>Cancel</Text>
                 </TouchableOpacity>
 
             ),
             headerRight: () => (
                 <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}>
-                    <Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Send</Text>
+                    <Text style={{ color: theme?.state?.style?.pallete?.yellow, fontSize: 16, fontWeight: "bold" }}>Send</Text>
                 </TouchableOpacity>
             )
         })

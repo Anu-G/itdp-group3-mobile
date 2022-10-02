@@ -27,10 +27,10 @@ export const ImagesViewProfile = ({ link, handleClick }) => {
 const styling = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 12,
+        marginTop: 4,
         marginBottom: 8,
-        marginLeft: 12,
-        marginRight: 12,
+        marginLeft: 10,
+        marginRight: 10,
         alignSelf: 'stretch',
     },
     imgVwCtn: {

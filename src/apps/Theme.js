@@ -161,7 +161,7 @@ export const themeLight = {
       inputBorder: pallete.yellow,
       inputBorderInactive: pallete.lightBlue,
       searchPlaceholder: pallete.lightBlue,
-      searchBackground: pallete.darkBlue,
+      searchBackground:'#dcdcdc',
       navbarItem: pallete.mediumBlue,
       navbarBackground: pallete.darkBlue,
       settingItemBorder: pallete.darkBlue,

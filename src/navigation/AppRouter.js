@@ -78,8 +78,8 @@ export const AppRouter = _ => {
                <Stack.Screen name={ROUTE.ADD_POST} component={AddPost} options={({ navigation }) => ({
                   headerTitle: 'Add Post',
                   headerTitleAlign: "center",
-                  headerTitleStyle: { color: theme?.state?.style?.colors?.headerTabTitle },
-                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.tabBackground }
+                  headerTitleStyle: { color: theme?.state?.style?.pallete?.white },
+                  headerStyle: { backgroundColor: theme?.state?.style?.colors?.headerBackground }
                })} />
                <Stack.Screen name={ROUTE.SETTINGS_BUSINESS} component={SettingsProfileBusiness} options={({ navigation }) => ({
                   headerTitle: 'Edit Profile',

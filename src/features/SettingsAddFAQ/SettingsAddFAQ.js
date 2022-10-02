@@ -21,8 +21,8 @@ export const SettingsAddFAQ = ({ navigation }) => {
 
     useLayoutEffect(()=>{
         navigation.setOptions({
-            headerBackImage: () => <Text style={{ color: "#F4F4F4", fontSize: 16 }}>Cancel</Text>,
-            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} onPress={saveResponse} disabled={loading}><Text style={{ color: "#FED154", fontSize: 16 }}>Add</Text></TouchableOpacity>),
+            headerBackImage: () => <Text style={{ color: styles.iconColor.color, fontSize: 16 }}>Cancel</Text>,
+            headerRight: () => (<TouchableOpacity style={{ margin: 16 }} onPress={saveResponse} disabled={loading}><Text style={{ color: theme?.state?.style?.pallete?.yellow, fontSize: 16, fontWeight: "bold" }}>Add</Text></TouchableOpacity>),
         })
     },[loading])
 
@@ -61,5 +61,8 @@ const styling = (theme) => StyleSheet.create({
     content:{
         marginTop:theme.spacing.m,
         marginHorizontal:theme.spacing.m,
+    },
+    iconColor: {
+        color: theme?.pallete?.lightBlue
     }
 })
