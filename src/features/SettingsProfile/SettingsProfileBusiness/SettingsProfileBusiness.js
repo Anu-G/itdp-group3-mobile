@@ -3,7 +3,9 @@ import { useRoute } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 import { store } from '../../../apps/Storage';
+import { ActivateModalComponent } from "../../../shared/components/ActivateModal";
 import { CustomPicker } from "../../../shared/components/CustomPicker/CustomPicker";
 import { InputTextNoError } from "../../../shared/components/CustomTextInput/CustomTextInput";
 import { SettingsImageProfile } from "../../../shared/components/ImageProfile";
@@ -95,11 +97,12 @@ export const SettingsProfileBusiness = ({ navigation }) => {
 
     // service
     const { profileService, profileImageService, categoryService } = useDep()
+    const user = useSelector(state => state.auth)
 
     const getProfileAndCategories = async () => {
         try {
-            const accId = await store.getData(KEY.ACCOUNT_ID)
-            setAccountId(accId)
+            // const accId = await store.getData(KEY.ACCOUNT_ID)
+            setAccountId(user.accountId)
 
             const responseCategories = await categoryService.doGetCategories()
             if (responseCategories.status === 200) {
@@ -156,6 +159,8 @@ export const SettingsProfileBusiness = ({ navigation }) => {
         setCategoryName(allCategories[allCategories.findIndex(cat => cat.category_id === value)].category_names)
     }
 
+    const [needLogout, setLogout] = useState(false);
+
     const saveResponse = async () => {
         try {
             let responseImage = ''
@@ -164,7 +169,7 @@ export const SettingsProfileBusiness = ({ navigation }) => {
             } else {
                 responseImage = profileImage
             }
-            if (existing) {
+            if (existing || route?.params?.firstTime) {
                 const response = await profileService.updateBusinessProfile({
                     account_id: `${accountId}`,
                     category_id: `${categoryId}`,
@@ -177,7 +182,11 @@ export const SettingsProfileBusiness = ({ navigation }) => {
                     business_links: businessLinks
                 })
                 if (response.status === 200) {
-                    navigation.navigate(ROUTE.MAIN)
+                    if (route?.params?.firstTime) {
+                        setLogout(true);
+                    } else {
+                        navigation.navigate(ROUTE.MAIN)
+                    }
                 }
             } else {
                 const response = await profileService.addBusinessProfile({
@@ -192,7 +201,11 @@ export const SettingsProfileBusiness = ({ navigation }) => {
                     business_links: businessLinks
                 })
                 if (response.status === 200) {
-                    navigation.navigate(ROUTE.MAIN)
+                    if (route?.params?.firstTime) {
+                        setLogout(true);
+                    } else {
+                        navigation.navigate(ROUTE.MAIN)
+                    }
                 }
             }
         } catch (err) {
@@ -202,6 +215,7 @@ export const SettingsProfileBusiness = ({ navigation }) => {
 
     return (
         <MainContainer>
+            {needLogout && <ActivateModalComponent logout={needLogout} />}
             <ScrollView style={{ width: '100%' }}>
                 <View style={styles.changeProfileCtn}>
                     <SettingsImageProfile source={profileImage} />

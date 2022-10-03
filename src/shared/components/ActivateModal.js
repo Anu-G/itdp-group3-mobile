@@ -1,15 +1,20 @@
+import { useNavigation } from "@react-navigation/native"
 import { useState } from "react"
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { useSelector } from "react-redux"
+import { ROUTE } from "../constants/NavigationConstants"
+import { useAuth } from "../context/AuthContext"
 import { useDep } from "../context/DependencyContext"
 import { useTheme } from "../context/ThemeContext"
 import { ButtonComponent } from "./Button"
 import { Caption, TextTimeline } from "./Label"
 
-export const ActivateModalComponent = ({ handleShowActivate }) => {
+export const ActivateModalComponent = ({ handleShowActivate, logout = false }) => {
     const theme = useTheme()
     const styles = styling(theme.state.style)
-    const [logoutReq, setLogoutReq] = useState(false)
+    const [logoutReq, setLogoutReq] = useState(logout)
+    const navigation = useNavigation();
+    const { onLogout } = useAuth()
 
     // services ========================================================================================
     const { settingAccountService } = useDep();
@@ -21,7 +26,10 @@ export const ActivateModalComponent = ({ handleShowActivate }) => {
                 "account_id": user.accountId
             })
             if (response.status == 200) {
-                setLogoutReq(true)
+                handleShowActivate();
+                navigation.navigate(ROUTE.SETTINGS_BUSINESS, {
+                    firstTime: true
+                })
             }
         } catch (e) {
             console.log(e);
@@ -30,6 +38,16 @@ export const ActivateModalComponent = ({ handleShowActivate }) => {
 
     const handleOnActivate = () => {
         onActivate()
+    }
+
+    const doLogout = async _ => {
+        try {
+            if (await onLogout()) {
+                navigation.replace(ROUTE.LOGIN);
+            };
+        } catch (e) {
+            setError(checkErr(e));
+        }
     }
 
     return (
@@ -46,7 +64,7 @@ export const ActivateModalComponent = ({ handleShowActivate }) => {
                                 <Caption text={"Please Log Out your account to complete this step"} style={styles.caption} />
                             </View>
                             <View style={styles.buttonCtn}>
-                                <ButtonComponent label={"Okey"} onClick={() => handleShowActivate()} style={styles.btn} />
+                                <ButtonComponent label={"Okey"} onClick={doLogout} style={styles.btn} />
                             </View>
                         </>
                         :
