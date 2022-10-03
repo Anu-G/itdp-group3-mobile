@@ -34,7 +34,7 @@ export default
       web: {
         favicon: "./assets/images/favicon.png"
       },
-      owner: "mnugrohofitrianto",
+      owner: "ihdiannaja",
       extra: {
         baseURL: process.env.BASE_URL,
         eas: {

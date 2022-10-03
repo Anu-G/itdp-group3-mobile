@@ -1,8 +1,9 @@
 import { Feather } from "@expo/vector-icons";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 import { store } from '../../../apps/Storage';
 import { CustomPicker } from "../../../shared/components/CustomPicker/CustomPicker";
 import { InputTextNoError } from "../../../shared/components/CustomTextInput/CustomTextInput";
@@ -14,6 +15,8 @@ import { KEY } from "../../../shared/constants/StoreConstants";
 import { useDep } from "../../../shared/context/DependencyContext";
 import { useTheme } from "../../../shared/context/ThemeContext";
 import { checkErr } from '../../../utils/CommonUtils';
+import { SettingsLink } from "./SettingsLink/SettingsLink";
+import { SettingsOpenHour } from "./SettingsOpenHour/SettingsOpenHour";
 
 export const SettingsProfileBusiness = ({ navigation }) => {
     const theme = useTheme();
@@ -37,6 +40,9 @@ export const SettingsProfileBusiness = ({ navigation }) => {
 
     const [allCategories, setAllCategories] = useState([])
     const [existing, setExisting] = useState(false)
+    const [openOH, setOpenOH] = useState(false)
+    const [openLink, setOpenLink] = useState(false)
+    const navigate = useNavigation()
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -55,25 +61,29 @@ export const SettingsProfileBusiness = ({ navigation }) => {
     })
 
     useEffect(() => {
+        console.log("MASUK BUSINESS PROFILE");
         getProfileAndCategories()
     }, [])
 
     useEffect(() => {
-        if (route.params?.openHour) {
-            let object = []
-            for (let i = 0; i < route.params?.openHour.length; i++) {
-                object.push({
-                    day: `${route.params?.openHour[i].id}`,
-                    open_hour: route.params?.openHour[i].openTime,
-                    close_hour: route.params?.openHour[i].closeTime
-                })
-            }
+        // if (route.params?.openHour) {
+        //     let object = []
+        //     for (let i = 0; i < route.params?.openHour.length; i++) {
+        //         object.push({
+        //             day: `${route.params?.openHour[i].id}`,
+        //             open_hour: route.params?.openHour[i].openTime,
+        //             close_hour: route.params?.openHour[i].closeTime
+        //         })
+        //     }
 
-            setBusinessHoursSubmit(object)
-            setBusinessHoursView(route.params.openHour)
-        } else if (route.params?.newBusinessLink) {
-            setBusinessLinks(route.params.newBusinessLink)
-        }
+        //     setBusinessHoursSubmit(object)
+        //     setBusinessHoursView(route.params.openHour)
+        // } else if (route.params?.newBusinessLink) {
+        //     setBusinessLinks(route.params.newBusinessLink)
+        // }
+        // if (route.params?.newBusinessLink) {
+        //     setBusinessLinks(route.params.newBusinessLink)
+        // }
     }, [route.params])
 
     const showImagePicker = async () => {
@@ -95,13 +105,15 @@ export const SettingsProfileBusiness = ({ navigation }) => {
 
     // service
     const { profileService, profileImageService, categoryService } = useDep()
+    const user = useSelector(state => state.auth)
 
     const getProfileAndCategories = async () => {
         try {
-            const accId = await store.getData(KEY.ACCOUNT_ID)
+            const accId = user.accountId
             setAccountId(accId)
 
             const responseCategories = await categoryService.doGetCategories()
+            console.log("categories",responseCategories.data.data);
             if (responseCategories.status === 200) {
                 setAllCategories(responseCategories.data.data)
             }
@@ -109,6 +121,8 @@ export const SettingsProfileBusiness = ({ navigation }) => {
             const response = await profileService.doGetBusinessProfile({
                 account_id: `${accId}`
             })
+
+            console.log("BUSINESS_PROFILE => ",response.data.data);
 
             let data = response.data.data
             if (data.business_profile.display_name != "") {
@@ -135,21 +149,42 @@ export const SettingsProfileBusiness = ({ navigation }) => {
                 setBusinessHoursView(newBusinessHours)
             }
         } catch (err) {
+            console.log(err);
             checkErr(err)
         }
     }
 
-    const handleToOpenHourSettingsClick = () => {
-        navigation.navigate(ROUTE.SETTINGS_OPEN_HOUR, {
-            data: adjustTime(businessHoursSubmit)
-        })
+    const handleChangeOpenHour = ({openHour}) => {
+        let object = []
+        for (let i = 0; i < route.params?.openHour.length; i++) {
+            object.push({
+                day: `${route.params?.openHour[i].id}`,
+                open_hour: route.params?.openHour[i].openTime,
+                close_hour: route.params?.openHour[i].closeTime
+            })
+        }
+
+        setBusinessHoursSubmit(object)
+        setBusinessHoursView(openHour)
     }
 
-    const handleToLinkSettingsClick = () => {
-        navigation.navigate(ROUTE.SETTINGS_LINKS, {
-            data: businessLinks
-        })
+    const handleChangeOpenOH = (val) => {
+        setOpenOH(val)
     }
+
+    const handleChangeLinks = ({newBusinessLink}) => {
+        setBusinessLinks(newBusinessLink)
+    }
+
+    const handleChangeOpenLink = (val) => {
+        setOpenLink(val)
+    }
+
+    // const handleToLinkSettingsClick = () => {
+    //     navigation.navigate(ROUTE.SETTINGS_LINKS, {
+    //         data: businessLinks
+    //     })
+    // }
 
     const handleChangeCategory = (value) => {
         setCategoryId(value)
@@ -177,7 +212,7 @@ export const SettingsProfileBusiness = ({ navigation }) => {
                     business_links: businessLinks
                 })
                 if (response.status === 200) {
-                    navigation.navigate(ROUTE.MAIN)
+                    navigate.navigate(ROUTE.PROFILE_BUSINESS)
                 }
             } else {
                 const response = await profileService.addBusinessProfile({
@@ -196,12 +231,15 @@ export const SettingsProfileBusiness = ({ navigation }) => {
                 }
             }
         } catch (err) {
+            console.log(err.response.data);
             checkErr(err)
         }
     }
 
     return (
         <MainContainer>
+            {openOH && <SettingsOpenHour handleChangeOpenHour={handleChangeOpenHour} data={adjustTime(businessHoursSubmit)} open={handleChangeOpenOH}/>}
+            {openLink && <SettingsLink handleChangeLink={handleChangeLinks} data={businessLinks} openLink={handleChangeOpenLink}/>}
             <ScrollView style={{ width: '100%' }}>
                 <View style={styles.changeProfileCtn}>
                     <SettingsImageProfile source={profileImage} />
@@ -260,7 +298,7 @@ export const SettingsProfileBusiness = ({ navigation }) => {
 
 
 
-                        <Pressable onPress={handleToOpenHourSettingsClick}>
+                        <Pressable onPress={() => setOpenOH(true)}>
                             <View style={styles.goToOtherPage}>
                                 <Text32 text={'Edit Open Hours'} />
 
@@ -286,7 +324,7 @@ export const SettingsProfileBusiness = ({ navigation }) => {
                             )
                         })}
 
-                        <Pressable onPress={handleToLinkSettingsClick}>
+                        <Pressable onPress={() => setOpenLink(true)}>
                             <View style={styles.goToOtherPage}>
                                 <Text32 text={'Edit Links'} />
 
