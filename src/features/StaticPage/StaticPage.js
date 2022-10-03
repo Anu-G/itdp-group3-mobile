@@ -50,7 +50,7 @@ export const StaticPage = () => {
                 </Pressable>
 
                 <View style={styles.goToOtherPage}>
-                    <Text14SemiBoldWhite text={'About Us Us'} />
+                    <Text14SemiBoldWhite text={'About Us'} />
                     <Feather
                         name="chevron-right"
                         size={20}

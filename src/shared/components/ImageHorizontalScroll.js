@@ -1,16 +1,17 @@
 import React from 'react'
 import { Image, ScrollView, StyleSheet } from 'react-native'
+import { ImageWithDeleteSign } from './ImageAddCatalog'
 
-export const ImageHorizontalScroll = ({images = null}) => {
+export const ImageHorizontalScroll = ({images = null, handleDeleteImage}) => {
     const styles = styling()
     return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {
                 images !== null && 
                     images.length > 1 ? 
-                        images.map((link, i) => <Image source={{uri: link}} style={styles.image} key={i}/>)
+                        images.map((link, i) => <ImageWithDeleteSign source={link} handleClick={() => handleDeleteImage(i)} key={i} />)
                     :
-                        <Image source={{uri: images[0]}} style={styles.image}/>
+                        <ImageWithDeleteSign source={images[0]} handleClick={() => handleDeleteImage(0)} />
             }
         </ScrollView> 
     )

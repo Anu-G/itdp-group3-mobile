@@ -31,6 +31,7 @@ export const PostModal = ({ post, handleClose }) => {
     }
 
     const handleEdit = () => {
+        handleClose()
         navigation.navigate(ROUTE.EDIT_POST, { post: post, accId: user.accountId })
     }
 
