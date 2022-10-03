@@ -1,36 +1,42 @@
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Animated, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { ButtonComponent } from "../../../../shared/components/Button";
 import { ButtonMediumComponent } from "../../../../shared/components/ButtonMedium";
 import { Caption, CaptionColor, TextProfile } from "../../../../shared/components/Label";
 import { ROUTE } from "../../../../shared/constants/NavigationConstants";
 import { useTheme } from "../../../../shared/context/ThemeContext";
+import { AddLink } from "./AddLink/AddLink";
 
-export const SettingsLink = ({ navigation }) => {
+export const SettingsLink = ({ navigation, data, handleChangeLink, openLink }) => {
     const theme = useTheme();
     const styles = styling(theme.state.style)
     const route = useRoute()
 
     const [link, setLinks] = useState([])
+    const [open, setOpen] = useState(false)
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            // headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
-            // headerRight: () => <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Submit</Text></TouchableOpacity>
-            headerLeft: () => null
-        })
-    }, [navigation, link])
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         // headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
+    //         // headerRight: () => <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Submit</Text></TouchableOpacity>
+    //         headerLeft: () => null
+    //     })
+    // }, [navigation, link])
+
+    // useEffect(() => {
+    //     if (route.params?.newLink) {
+    //         setLinks(prevState => [...prevState, route.params.newLink])
+    //     }
+    // }, [route.params])
 
     useEffect(() => {
-        if (route.params?.data) {
-            setLinks(route.params.data)
-        } else if (route.params?.newLink) {
-            setLinks(prevState => [...prevState, route.params.newLink])
+        if (data != null) {
+            setLinks(data)
         }
-    }, [route.params])
+    }, [data])
 
     const row = []
     let prevOpenedRow;
@@ -81,18 +87,33 @@ export const SettingsLink = ({ navigation }) => {
     }
 
     const saveResponse = () => {
-        navigate.navigate(ROUTE.SETTINGS_BUSINESS, {
-            newBusinessLink: link
-        })
+        handleChangeLink({newBusinessLink: link})
+        openLink(false)
+        // navigate.navigate(ROUTE.SETTINGS_BUSINESS, {
+        //     newBusinessLink: link
+        // })
     }
 
+    const handleChangeAddLink = (newLink) => {
+        console.log(newLink);
+        setLinks(prevState => [...prevState, newLink.newLink])
+    }
 
+    const handleOpen = (val) => {
+        setOpen(val)
+    }
+    
     return (
-        <View style={{ flex: 1, padding: 16 }}>
+        <Modal
+            animationType="none"
+            transparent={false}
+        >
+            {open && <AddLink handleChange={handleChangeAddLink} open={handleOpen}/>}
+        <View style={{ flex: 1, padding: 16, backgroundColor: '#1E2329' }}>
 
             {/* dummy button */}
             <View style={{ alignSelf: 'center' }}>
-                <ButtonComponent label={'Add Link'} onClick={goToAddLink} />
+                <ButtonComponent label={'Add Link'} onClick={() => setOpen(true)} />
             </View>
             {link.length === 0 &&
                 <View style={styles.emptyContainer}>
@@ -130,6 +151,7 @@ export const SettingsLink = ({ navigation }) => {
                 <ButtonMediumComponent label={'Save'} onClick={saveResponse} />
             </View>
         </View>
+        </Modal>
     )
 
 }

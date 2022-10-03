@@ -1,12 +1,12 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Modal, ScrollView, StyleSheet, View } from "react-native";
 import { ButtonMediumComponent } from "../../../../shared/components/ButtonMedium";
 import { CustomSwitch } from "../../../../shared/components/CustomSwitch/CustomSwitch";
 import { ROUTE } from "../../../../shared/constants/NavigationConstants";
 import { useTheme } from "../../../../shared/context/ThemeContext";
 
-export const SettingsOpenHour = () => {
+export const SettingsOpenHour = ({handleChangeOpenHour, data, open}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style);
     const navigation = useNavigation()
@@ -14,9 +14,13 @@ export const SettingsOpenHour = () => {
 
     const [openHour, setOpenHour] = useState([])
 
+    // useEffect(() => {
+    //     setOpenHour(route.params.data)
+    // }, [route.params?.data])
+
     useEffect(() => {
-        setOpenHour(route.params.data)
-    }, [route.params?.data])
+        setOpenHour(data)
+    }, [data])
 
     const handleChange = (i, open, close, active) => {
         const newOpenHour = [...openHour];
@@ -28,13 +32,18 @@ export const SettingsOpenHour = () => {
     }
 
     const saveChanges = () => {
-        navigation.replace(ROUTE.SETTINGS_BUSINESS, {
-            openHour: openHour.filter(item => item.active === true)
-        })
+        // navigation.replace(ROUTE.SETTINGS_BUSINESS, {
+        //     openHour: openHour.filter(item => item.active === true)
+        // })
+        handleChangeOpenHour({openHour: openHour.filter(item => item.active === true)})
+        open(false)
     }
 
     return (
-        <>
+        <Modal
+            animationType="none"
+            transparent={false}
+        >
             <ScrollView style={styles.container}>
                 <View style={styles.inside}>
                     {/* <CustomSwitch label={'Monday'} 
@@ -65,7 +74,7 @@ export const SettingsOpenHour = () => {
 
                 </View>
             </ScrollView>
-        </>
+        </Modal>
     )
 }
 
@@ -73,6 +82,7 @@ const styling = (theme) => StyleSheet.create({
     container: {
         // margin: theme?.spacing?.m,
         width: '100%',
+        backgroundColor: theme?.pallete?.dark
     },
     inside: {
         margin: theme?.spacing?.m,

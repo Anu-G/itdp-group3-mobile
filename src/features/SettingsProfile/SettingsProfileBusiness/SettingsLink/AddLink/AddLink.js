@@ -2,12 +2,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ButtonComponent } from "../../../../../shared/components/Button";
 import { InputTextNoError, InputTextWithError } from "../../../../../shared/components/CustomTextInput/CustomTextInput";
 import { CaptionColor } from "../../../../../shared/components/Label";
 import { ROUTE } from "../../../../../shared/constants/NavigationConstants";
 import { useTheme } from "../../../../../shared/context/ThemeContext"
 
-export const AddLink = ({ navigation }) => {
+export const AddLink = ({ handleChange , open}) => {
     const theme = useTheme();
     const styles = styling(theme.state.style)
 
@@ -17,17 +18,19 @@ export const AddLink = ({ navigation }) => {
 
     const navigate = useNavigation()
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
-            headerRight: () => <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Save</Text></TouchableOpacity>
-        })
-    }, [navigation, link, label])
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         headerBackImage: () => <FontAwesome size={24} name={'chevron-left'} color={'#f4f4f4'} />,
+    //         headerRight: () => <TouchableOpacity style={{ padding: 16 }} onPress={saveResponse}><Text style={{ color: "#FED154", fontSize: 16, fontFamily: 'Poppins-Medium' }}>Save</Text></TouchableOpacity>
+    //     })
+    // }, [navigation, link, label])
 
     const saveResponse = () => {
-        navigate.navigate(ROUTE.SETTINGS_LINKS, {
-            newLink: { label: label, link: link }
-        })
+        handleChange({newLink: { label: label, link: link }})
+        open(false)
+        // navigate.navigate(ROUTE.SETTINGS_LINKS, {
+        //     newLink: { label: label, link: link }
+        // })
     }
 
     return (
@@ -39,7 +42,10 @@ export const AddLink = ({ navigation }) => {
         //     >
 
 
-
+        <Modal
+            animationType="none"
+            transparent={false}
+        >
         <View style={styles.container}>
             {/* <TouchableOpacity onPress={()=> {
                 setVisible(false)
@@ -58,15 +64,18 @@ export const AddLink = ({ navigation }) => {
                 value={link}
                 text='Link'
             />
+            <ButtonComponent label={'Save'} onClick={saveResponse}/>
         </View>
-        // </Modal>
+        </Modal>
     )
 }
 
 const styling = (theme) => StyleSheet.create({
     container: {
         padding: theme?.spacing?.m,
-        height: '50%',
+        height: '100%',
+        backgroundColor: theme?.pallete?.dark,
+        alignSelf:'stretch'
         // marginTop: 72,
     }
 })
