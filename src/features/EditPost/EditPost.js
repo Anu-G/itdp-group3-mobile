@@ -119,6 +119,10 @@ export const EditPost = ({ navigation }) => {
         }
     }
 
+    const handleDeleteImage = (index) => {
+        setPickedImagePath(prevState => pickedImagePath.filter((_, i) => i !== index))
+    }
+
     return (
         <MainContainer>
             <View style={styles.upContainer}>
@@ -130,7 +134,7 @@ export const EditPost = ({ navigation }) => {
                     <View style={styles.charLength}>
                         <TextTimeline text={`${charLength}/${maxLength}`} style={{ color: '#849EB9' }} />
                     </View>
-                    <ImageHorizontalScroll images={pickedImagePath} />
+                    <ImageHorizontalScroll images={pickedImagePath} handleDeleteImage={handleDeleteImage} />
                 </View>
             </View>
             <View style={styles.downContainer}>

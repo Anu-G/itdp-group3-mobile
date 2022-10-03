@@ -23,6 +23,7 @@ export const Account = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [loading, setLoading] = useState(false)
+    const [refresh, setRefresh] = useState(true)
     const [showActivate, setShowActivate] = useState(false)
 
     // navigation=====================================================================================================
@@ -34,10 +35,10 @@ export const Account = ({ navigation }) => {
             headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={styles.iconColor.color} />,
             headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={loading} onPress={() => onClickEdit()} ><Text style={{ color: theme?.state?.style?.pallete?.yellow, fontSize: 16 }}>Edit</Text></TouchableOpacity>)
         })
-    }, [navigation])
+    }, [navigation,email,phoneNumber])
 
     const onClickEdit = () => {
-        navigator.navigate(ROUTE.EDIT_ACCOUNT)
+        saveData()
     }
 
     const onChangePassword = () => {
@@ -65,7 +66,7 @@ export const Account = ({ navigation }) => {
 
     useEffect(() => {
         getData()
-    }, [route, navigation])
+    }, [route, navigation, refresh])
 
     const getData = async () => {
         setLoading(true)
@@ -82,6 +83,26 @@ export const Account = ({ navigation }) => {
         }
     }
 
+    const saveData = async () => {
+        setLoading(true)
+        try {
+            const response = await settingAccountService.doUpdate({
+                "account_id": user.accountId,
+                "user_name": `${user.userName}`,
+                "email": `${email}`,
+                "phone_number": `${phoneNumber}`
+            })
+            if (response) {
+                navigator.navigate(ROUTE.ACCOUNT, { refresh: Date.now })
+            }
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setLoading(false)
+            setRefresh(prevState=>!prevState)
+        }
+    }
+
     const doLogout = async _ => {
         try {
             if (await onLogout()) {
@@ -92,6 +113,10 @@ export const Account = ({ navigation }) => {
         }
     }
 
+    useEffect(()=>{
+        console.log(email,phoneNumber);
+    },[email,phoneNumber])
+
     return (
         <MainContainer>
             <View style={styles.mainCtn}>
@@ -100,14 +125,14 @@ export const Account = ({ navigation }) => {
                     editable={false}
                     text="E-mail"
                     value={email}
-                    onChange={(e) => { }}
+                    onChange={setEmail}
                     placeholder="sulistyo224@gmail.com"
                     style={styles.inputCtn} />
                 <InputTextOnly
                     editable={false}
                     text="Phone Number"
                     value={phoneNumber}
-                    onChange={(e) => { }}
+                    onChange={setPhoneNumber}
                     placeholder="085xxxx"
                     style={styles.inputCtn} />
                 <SettingItemComponent label="Change your password" handlePress={() => onChangePassword()} style={styles.btnCtn} iconStatus={false} />
