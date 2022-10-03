@@ -35,7 +35,7 @@ export const Account = ({ navigation }) => {
             headerBackImage: () => <FontAwesome size={24} name='chevron-left' color={styles.iconColor.color} />,
             headerRight: () => (<TouchableOpacity style={{ margin: 16 }} disabled={loading} onPress={() => onClickEdit()} ><Text style={{ color: theme?.state?.style?.pallete?.yellow, fontSize: 16 }}>Edit</Text></TouchableOpacity>)
         })
-    }, [navigation,email,phoneNumber])
+    }, [navigation, email, phoneNumber])
 
     const onClickEdit = () => {
         saveData()
@@ -99,7 +99,7 @@ export const Account = ({ navigation }) => {
             console.log(e);
         } finally {
             setLoading(false)
-            setRefresh(prevState=>!prevState)
+            setRefresh(prevState => !prevState)
         }
     }
 
@@ -113,9 +113,8 @@ export const Account = ({ navigation }) => {
         }
     }
 
-    useEffect(()=>{
-        console.log(email,phoneNumber);
-    },[email,phoneNumber])
+    useEffect(() => {
+    }, [email, phoneNumber])
 
     return (
         <MainContainer>
